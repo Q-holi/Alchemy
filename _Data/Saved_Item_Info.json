@@ -1,0 +1,23 @@
+[
+  {
+    "keyvalue": 1001,
+    "name": "pickax",
+    "rating": "Rare",
+    "texture2DImage": "",
+    "count": 3
+  },
+  {
+    "keyvalue": 1002,
+    "name": "homi",
+    "rating": "Epic",
+    "texture2DImage": "",
+    "count": 1
+  },
+  {
+    "keyvalue": 1003,
+    "name": "Legend_Recovery_Potion",
+    "rating": "Legend",
+    "texture2DImage": "LegendaryBowTexture.png",
+    "count": 2
+  }
+]
