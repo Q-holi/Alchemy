@@ -1,0 +1,22 @@
+[
+  {
+    "keyvalue": 1001,
+    "name": "pickax",
+    "rating": "Rare",
+    "texture2DImagePath": "",
+    "count": 3,
+    "red_Option": 3,
+    "black_Option": 3,
+    "blue_Option": 3
+  },
+  {
+    "keyvalue": 1002,
+    "name": "homi",
+    "rating": "Epic",
+    "texture2DImagePath": "",
+    "count": 1,
+    "red_Option": 2,
+    "black_Option": 7,
+    "blue_Option": 9
+  }
+]

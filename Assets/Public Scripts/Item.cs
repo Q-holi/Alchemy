@@ -1,25 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public enum Rating
 {
-    Nomarl,
+    Normal,
     Rare,
     Epic,
     Legend
 }
-public class Item : MonoBehaviour
+[Serializable]
+public class Item 
 {
+    //public int inventoryIndexNumber;
+    //public int InventoryIndexNumber { get => inventoryIndexNumber; set => inventoryIndexNumber = value; }
 
     public int keyvalue;
-    public string name;
-    public Rating rating;
-    public string texture2DImagePath;
-    public int count;
+    //public int Keyvalue { get => keyvalue; set => keyvalue = value; }
 
-    private void Awake()
-    {
-    }
+    public string name;
+    //public string Name { get => name; set => name = value; }
+
+     public Rating rating;
+    //public Rating Rating { get => rating; set => rating = value; }
+
+    public string texture2DImagePath;
+    //public string Texture2DImagePath { get => texture2DImagePath; set => texture2DImagePath = value; }
+
+    public int count;
+    //public int Count { get => count; set => count = value; }
+
 }
