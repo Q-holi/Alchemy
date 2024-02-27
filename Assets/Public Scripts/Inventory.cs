@@ -22,5 +22,22 @@ public class Inventory : MonoBehaviour
             // JSON 문자열을 Deserialize하여 List에 추가
             items.AddRange(JsonConvert.DeserializeObject<List<Item>>(jsonText));
         }
+
+        ShowItemList();
+    }
+
+    private void ShowItemList()
+    {
+        GameObject viewport = GameObject.Find("Content");
+        GameObject slot = Resources.Load<GameObject>("IngredientSlot");
+
+        foreach (Item ingredient in items)
+        {
+            if (ingredient.keyvalue > 2000)
+            {
+                slot.GetComponent<InventorySlot>().itemInit(ingredient);
+                Instantiate(slot, viewport.transform);
+            }
+        }
     }
 }
