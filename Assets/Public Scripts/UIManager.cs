@@ -15,14 +15,14 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private InventoryData itemData;    // 인벤토리 아이템 데이터
 
     private GameObject tempImage;   // 복사될 오브젝트
-    [SerializeField] private Item selectItem;        // 선택된 아이템
+    [SerializeField] private Collection selectItem;        // 선택된 아이템
 
     private void Awake()
     {
         ShowItemList();
     }
 
-    public Item SelectItem
+    public Collection SelectItem
     {
         get { return selectItem; }
         set { selectItem = value; }
@@ -38,6 +38,7 @@ public class UIManager : Singleton<UIManager>
         get { return cauldronArea; }
     }
 
+    // 사용 가능한 아이템 리스트 출력
     public void ShowItemList()
     {
         GameObject slotPrefab = Resources.Load<GameObject>("IngredientSlot");
@@ -52,11 +53,13 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    // 사용하려는 아이템 정보 출력
     public void ShowItemInfo()
     {
         itemInfo.GetComponent<ItemInfo>().ShowItemInfo(selectItem);
     }
 
+    // 아이템 선택되었을때
     public void ItemSelected()
     {
         GameObject obj = Resources.Load<GameObject>("SelectItem");

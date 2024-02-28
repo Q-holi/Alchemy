@@ -46,14 +46,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         coverImage.gameObject.SetActive(false);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
         UIManager.Instance.SelectItem = item;
         UIManager.Instance.ShowItemInfo();
         coverImage.gameObject.SetActive(true);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)   // 마우스 빠졌을때
     {
         UIManager.Instance.SelectItem = null;
         coverImage.gameObject.SetActive(false);
