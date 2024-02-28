@@ -12,7 +12,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GraphicRaycaster graphicRaycaster;     // 캔버스 레이캐스팅
     [SerializeField] private PointerEventData pointerEvent;         // 마우스 이벤트 데이터
     [SerializeField] private EventSystem eventSystem;               // UI 이벤트 인식 시스템 받아오기
-    [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();
+    [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();   // RayCast에 감지된 오브젝트 목록
 
     [SerializeField] private Transform itemInfo;        // 아이템 정보 출력창 위치
     [SerializeField] private InventoryData itemData;    // 인벤토리 아이템 데이터
@@ -130,6 +130,7 @@ public class UIManager : Singleton<UIManager>
 
         stackCounter.text = (item.black_Option + item.blue_Option + item.red_Option).ToString() +
             " / ??";
+        stackCounter.color = Color.white;
     }
 
     private void AddStack(int stackCount, Color stackColor)

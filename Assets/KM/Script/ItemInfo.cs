@@ -12,7 +12,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemRank;
     [SerializeField] private GameObject itemOption;
     [SerializeField] private TextMeshProUGUI itemDetail;
-    [SerializeField] private GameObject stackIcon;
+    [SerializeField] private GameObject stackPrefab;
 
     private List<GameObject> stackList = new List<GameObject>();
 
@@ -50,7 +50,7 @@ public class ItemInfo : MonoBehaviour
     {
         for (int i = 0; i < stackCount; i++)
         {
-            GameObject obj = Instantiate(stackIcon, itemOption.transform);
+            GameObject obj = Instantiate(stackPrefab, itemOption.transform);
             obj.GetComponent<Image>().color = stackColor;
             stackList.Add(obj);
         }
