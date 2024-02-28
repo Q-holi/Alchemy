@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum Rating
 {
-    Nomarl,
+    Normal,
     Rare,
     Epic,
     Legend

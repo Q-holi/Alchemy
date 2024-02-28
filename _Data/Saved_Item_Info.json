@@ -3,42 +3,42 @@
     "keyvalue": 1001,
     "name": "pickax",
     "rating": "Rare",
-    "texture2DImage": "",
+    "texture2DImagePath": "",
     "count": 3
   },
   {
     "keyvalue": 1002,
     "name": "homi",
     "rating": "Epic",
-    "texture2DImage": "",
+    "texture2DImagePath": "",
     "count": 1
   },
   {
     "keyvalue": 1003,
     "name": "Legend_Recovery_Potion",
     "rating": "Legend",
-    "texture2DImage": "LegendaryBowTexture.png",
+    "texture2DImagePath": "LegendaryBowTexture.png",
     "count": 2
   },
   {
     "keyvalue": 2001,
     "name": "Normal_Ore",
     "rating": "Normal",
-    "texture2DImage": "Icon2.png",
-    "count": 1
+    "texture2DImagePath": "Icon1",
+    "count": 10
   },
   {
     "keyvalue": 2002,
     "name": "Rare_Ore",
     "rating": "Rare",
-    "texture2DImage": "Icon2.png",
-    "count": 1
+    "texture2DImagePath": "Icon2",
+    "count": 5
   },
   {
     "keyvalue": 2003,
     "name": "Epic_Ore",
     "rating": "Epic",
-    "texture2DImage": "Icon3.png",
-    "count": 1
+    "texture2DImagePath": "Icon3",
+    "count": 2
   }
 ]
