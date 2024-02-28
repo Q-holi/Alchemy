@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private Item item;                  // 아이템 정보
+    [SerializeField] private Collection item;                  // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
 
@@ -21,11 +21,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     }
 
     // 아이템 정보 초기화
-    public void itemInit(Item info)
+    public void itemInit(Collection info)
     {
         item = info;
-        iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.texture2DImagePath);
-        itemCount.text = item.count.ToString();
+        iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
+        itemCount.text = item.Count.ToString();
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시

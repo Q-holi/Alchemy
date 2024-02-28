@@ -15,8 +15,8 @@ public class ItemInfo : MonoBehaviour
 
     public void ShowItemInfo(Item info)
     {
-        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.texture2DImagePath);
-        itemName.text = info.name;
-        itemRank.text = info.rating.ToString();
+        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.Texture2DImagePath);
+        itemName.text = info.Name;
+        itemRank.text = info.Rating.ToString();
     }
 }

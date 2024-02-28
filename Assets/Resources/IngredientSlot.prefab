@@ -347,7 +347,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ea886fdccb1d54c9e2c8c188b67caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item:
+    inventoryIndexNumber: 0
+    keyvalue: 0
+    name: 
+    rating: 0
+    texture2DImagePath: 
+    count: 0
+    red_Option: 0
+    black_Option: 0
+    blue_Option: 0
   iconImage: {fileID: 2160852772876303157}
   itemCount: {fileID: 7555884712625032307}
   coverImage: {fileID: 6512813044531516901}

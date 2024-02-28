@@ -9,13 +9,18 @@ using System;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private Transform uiCanvas;
-    [SerializeField] private Collider2D inventoryArea;   // 인벤토리 영역
+    [SerializeField] private Transform inventoryArea;   // 인벤토리 영역
     [SerializeField] private Collider2D cauldronArea;    // 가마솥 영역
     [SerializeField] private Transform itemInfo;        // 아이템 정보
+    [SerializeField] private InventoryData itemData;    // 인벤토리 아이템 데이터
 
     private GameObject tempImage;   // 복사될 오브젝트
     [SerializeField] private Item selectItem;        // 선택된 아이템
 
+    private void Awake()
+    {
+        ShowItemList();
+    }
 
     public Item SelectItem
     {
@@ -33,6 +38,20 @@ public class UIManager : Singleton<UIManager>
         get { return cauldronArea; }
     }
 
+    public void ShowItemList()
+    {
+        GameObject slotPrefab = Resources.Load<GameObject>("IngredientSlot");
+
+        foreach (Collection data in itemData.playerData.collection)
+        {
+            if (data.Keyvalue > 2000)
+            {
+                GameObject obj = Instantiate(slotPrefab, inventoryArea);
+                obj.GetComponent<InventorySlot>().itemInit(data);
+            }
+        }
+    }
+
     public void ShowItemInfo()
     {
         itemInfo.GetComponent<ItemInfo>().ShowItemInfo(selectItem);
@@ -42,7 +61,7 @@ public class UIManager : Singleton<UIManager>
     {
         GameObject obj = Resources.Load<GameObject>("SelectItem");
         obj.GetComponent<SelectItem>().SetItemIcon(
-            Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(selectItem.texture2DImagePath));
+            Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(selectItem.Texture2DImagePath));
         tempImage = Instantiate(obj, uiCanvas);
     }
 
