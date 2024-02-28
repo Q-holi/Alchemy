@@ -23,7 +23,7 @@ public class Item
     [SerializeField] private string name;
     public string Name { get => name; set => name = value; }
 
-    [SerializeField] private Rating rating;
+   [SerializeField] private Rating rating;
     public Rating Rating { get => rating; set => rating = value; }
 
     [SerializeField] private string texture2DImagePath;

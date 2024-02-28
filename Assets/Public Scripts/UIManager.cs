@@ -40,10 +40,10 @@ public class UIManager : Singleton<UIManager>
 
     public void ItemSelected()
     {
-        GameObject obj = Resources.Load<GameObject>("SelectItem");
-        obj.GetComponent<SelectItem>().SetItemIcon(
-            Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(selectItem.texture2DImagePath));
-        tempImage = Instantiate(obj, uiCanvas);
+       // GameObject obj = Resources.Load<GameObject>("SelectItem");
+       // obj.GetComponent<SelectItem>().SetItemIcon(
+            //Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(selectItem.texture2DImagePath));
+       // tempImage = Instantiate(obj, uiCanvas);
     }
 
     public void ItemDragging()
