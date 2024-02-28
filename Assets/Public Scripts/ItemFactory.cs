@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ItemFactory : AbsItemFactory
 {
-    public override Item CreatItems()
+    public override Item CreateItem()
     {
-        Item item = new Item();
-        return item;    
+        return new Item();
     }
 
 }
