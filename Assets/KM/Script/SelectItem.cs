@@ -6,7 +6,8 @@ using UnityEngine.U2D;
 
 public class SelectItem : MonoBehaviour
 {
-    [SerializeField] private Image itemIcon;
+    [SerializeField] private Collection iteminfo;
+    [SerializeField] private SpriteRenderer itemIcon;
     [SerializeField] private Rigidbody2D itemRigidbody;
 
     public Rigidbody2D ItemRigidbody 
@@ -15,18 +16,26 @@ public class SelectItem : MonoBehaviour
         set { itemRigidbody = value; }
     }
 
-    public void SetItemIcon(Sprite sprite)
+    public void SetItemIcon(Collection item)
     {
-        itemIcon = this.GetComponent<Image>();
-        itemIcon.sprite = sprite;
+        iteminfo = item;
+        itemIcon = this.GetComponent<SpriteRenderer>();
+        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
         itemRigidbody.gravityScale = 0;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.tag == "UI")
+        switch (collision.name)
         {
-            Debug.Log("cauldron");
+            case "UseIngredientArea":
+                Debug.Log("Use Item : " + iteminfo.Name);
+                UIManager.Instance.ShowStack(iteminfo);
+                break;
+            case "ItemCancel":
+                Debug.Log("Item Use Cancel");
+                break;
         }
+        Destroy(this.gameObject);
     }
 }

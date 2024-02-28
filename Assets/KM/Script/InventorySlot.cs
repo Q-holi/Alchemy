@@ -55,7 +55,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnPointerExit(PointerEventData eventData)   // 마우스 빠졌을때
     {
-        UIManager.Instance.SelectItem = null;
         coverImage.gameObject.SetActive(false);
     }
 }
