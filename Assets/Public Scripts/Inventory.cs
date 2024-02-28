@@ -5,7 +5,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
+[System.Serializable]
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<Item> items = new List<Item>();
@@ -22,7 +22,10 @@ public class Inventory : MonoBehaviour
             // JSON 문자열을 Deserialize하여 List에 추가
             items.AddRange(JsonConvert.DeserializeObject<List<Item>>(jsonText));
         }
+    }
 
+    void Start()
+    {
         ShowItemList();
     }
 
@@ -35,8 +38,8 @@ public class Inventory : MonoBehaviour
         {
             if (ingredient.keyvalue > 2000)
             {
-                slot.GetComponent<InventorySlot>().itemInit(ingredient);
-                Instantiate(slot, viewport.transform);
+                GameObject obj = Instantiate(slot, viewport.transform);
+                obj.GetComponent<InventorySlot>().itemInit(ingredient);
             }
         }
     }
