@@ -6,8 +6,10 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 [System.Serializable]
-public class UIManager : Singleton<UIManager>
+public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+
     [SerializeField] private Transform inventoryArea;   // 인벤토리 영역
     [SerializeField] private GraphicRaycaster graphicRaycaster;     // 캔버스 레이캐스팅
     [SerializeField] private PointerEventData pointerEvent;         // 마우스 이벤트 데이터
@@ -26,6 +28,12 @@ public class UIManager : Singleton<UIManager>
     private Vector3 objPosition;    // Raycast hit 좌표
     [SerializeField] private GameObject bgPlane;           // Raycast 용 배경
     [SerializeField] private Collection selectItem;        // 선택된 아이템
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
 
     private void Start()
     {
