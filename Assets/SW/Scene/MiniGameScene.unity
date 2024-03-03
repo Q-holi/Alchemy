@@ -183,7 +183,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 85
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileUnknow: {fileID: 11400000, guid: d3ba31908c275db42beb446e77466c28, type: 2}
   tileEmpty: {fileID: 11400000, guid: 2198ad71b66c56748bf67107b7cc8753, type: 2}
-  tilePlant: {fileID: 0}
+  tilePlant: {fileID: 11400000, guid: 3e6079a7a0c72d04d8c2aa88feaa5098, type: 2}
 --- !u!483693784 &2078248944
 TilemapRenderer:
   m_ObjectHideFlags: 0
