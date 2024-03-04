@@ -16,7 +16,6 @@ public class UIManager : Singleton<UIManager>
     private GameObject tempImage;   // 복사될 오브젝트
     [SerializeField] private IItem selectItem;        // 선택된 아이템
 
-
     public IItem SelectItem
     {
         get { return selectItem; }
@@ -36,14 +35,6 @@ public class UIManager : Singleton<UIManager>
     public void ShowItemInfo()
     {
         itemInfo.GetComponent<ItemInfo>().ShowItemInfo(selectItem);
-    }
-
-    public void ItemSelected()
-    {
-       // GameObject obj = Resources.Load<GameObject>("SelectItem");
-       // obj.GetComponent<SelectItem>().SetItemIcon(
-            //Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(selectItem.texture2DImagePath));
-       // tempImage = Instantiate(obj, uiCanvas);
     }
 
     public void ItemDragging()

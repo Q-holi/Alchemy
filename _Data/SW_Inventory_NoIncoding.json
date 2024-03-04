@@ -1,0 +1,38 @@
+{
+  "collection": [
+    {
+      "inventoryIndexNumber": 1,
+      "keyvalue": 1001,
+      "name": "Angelica",
+      "rating": 1,
+      "texture2DImagePath": "",
+      "count": 10,
+      "red_Option": 1,
+      "black_Option": 4,
+      "blue_Option": 2
+    },
+    {
+      "inventoryIndexNumber": 3,
+      "keyvalue": 1031,
+      "name": "Bergamot",
+      "rating": 2,
+      "texture2DImagePath": "",
+      "count": 1,
+      "red_Option": 0,
+      "black_Option": 3,
+      "blue_Option": 9
+    }
+  ],
+  "collection_Tool": [
+    {
+      "inventoryIndexNumber": 2,
+      "keyvalue": 10005,
+      "name": "Tanning_Knife",
+      "rating": 3,
+      "texture2DImagePath": "",
+      "count": 1,
+      "x_Range": 4,
+      "y_Range": 4
+    }
+  ]
+}

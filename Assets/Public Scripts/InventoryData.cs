@@ -40,7 +40,6 @@ public class InventoryData : MonoBehaviour
  
         // 파일 생성 및 저장
         File.WriteAllText(collectionJsonFilePathtest, jsonData);
-
     }
 
 }

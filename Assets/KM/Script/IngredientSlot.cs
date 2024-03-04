@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
+public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
     [SerializeField] private Collection item;                  // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
@@ -21,7 +21,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     }
 
     // 아이템 정보 초기화
-    public void itemInit(Collection info)
+    public void ItemInit(Collection info)
     {
         item = info;
         iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
@@ -31,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
         UIManager.Instance.SelectItem = item;
-        UIManager.Instance.ItemSelected();
+        //UIManager.Instance.ItemSelected();
         coverImage.gameObject.SetActive(true);
     }
 
