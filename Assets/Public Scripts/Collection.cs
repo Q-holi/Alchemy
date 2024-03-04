@@ -19,4 +19,11 @@ public class Collection : Item
 
     public int Blue_Option { get => blue_Option; set => blue_Option = value; }
 
+    public Collection(Item _item,
+        int _red_Option, int _black_Option, int _blue_Option) : base(_item.InventoryIndexNumber,_item.Keyvalue,_item.Name,_item.Rating, _item.Texture2DImagePath,_item.Count)
+    {
+        this.red_Option = _red_Option;
+        this.black_Option = _black_Option;
+        this.blue_Option = _black_Option;
+    }
 }

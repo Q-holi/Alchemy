@@ -32,4 +32,15 @@ public class Item
     [SerializeField] private int count;
     public int Count { get => count; set => count = value; }
 
+
+    public Item(int _inventoryIndexNumber, int _keyvalue, string _name, Rating _rating, string _texture2DImagePath, int _count)
+    {
+        this.inventoryIndexNumber = _inventoryIndexNumber;
+        this.keyvalue = _keyvalue;
+        this.name = _name;
+        this.rating = _rating;
+        this.texture2DImagePath = _texture2DImagePath;
+        this.count = _count;
+    }
+
 }
