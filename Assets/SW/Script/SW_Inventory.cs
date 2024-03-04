@@ -13,9 +13,9 @@ public class SW_InventoryData
     [SerializeField] private List<Collection> collection;
     [SerializeField] private List<Collection_Tool> collection_Tool;
 
-    public List<Item> CombineAndSortByInventoryIndexNumber()
+    public List<IItem> CombineAndSortByInventoryIndexNumber()
     {
-        List<Item> combinedList = new List<Item>();
+        List<IItem> combinedList = new List<IItem>();
         combinedList.AddRange(collection);
         combinedList.AddRange(collection_Tool);
 
@@ -37,7 +37,7 @@ public class SW_InventoryData
 public class SW_Inventory : MonoBehaviour
 {
     [SerializeField] static  private SW_InventoryData inventoryData;
-    List<Item> Items = new List<Item>();//-- 추후 인벤토리를 보여줄시 리스트 출력 
+    List<IItem> Items = new List<IItem>();//-- 추후 인벤토리를 보여줄시 리스트 출력 
 
     string sw_JsonFilePathtest = "_Data/SW_Inventory.json";
 
@@ -52,9 +52,9 @@ public class SW_Inventory : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            foreach (Item item in Items)
+            foreach (IItem item in Items)
             {
-                Debug.Log(item.Keyvalue);
+                Debug.Log(item.KeyValue);
             }
         }
             

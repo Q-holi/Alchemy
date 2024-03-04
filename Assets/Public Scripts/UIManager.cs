@@ -14,10 +14,10 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Transform itemInfo;        // 아이템 정보
 
     private GameObject tempImage;   // 복사될 오브젝트
-    [SerializeField] private Item selectItem;        // 선택된 아이템
+    [SerializeField] private IItem selectItem;        // 선택된 아이템
 
 
-    public Item SelectItem
+    public IItem SelectItem
     {
         get { return selectItem; }
         set { selectItem = value; }

@@ -106,7 +106,7 @@ public class Mining_Game : MonoBehaviour
 
     private void EndGame()
     {
-        Item item = new Item(1,1001,"테스트",Rating.Epic,"",1);
+       // Item item = new Item(1,1001,"테스트",Rating.Epic,"",1);
        // Collection collection = CollectionFactory.collectionFactory.CreateItem(item);
     }
 }

@@ -13,7 +13,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private GameObject itemOption;
     [SerializeField] private TextMeshProUGUI itemDetail;
 
-    public void ShowItemInfo(Item info)
+    public void ShowItemInfo(IItem info)
     {
         //itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.texture2DImagePath);
         //itemName.text = info.name;

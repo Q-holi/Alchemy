@@ -11,7 +11,7 @@ using UnityEngine;
 [Serializable]
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private List<IItem> items = new List<IItem>();
     private int maxInventoryCount = 32;
 
     private void Awake()

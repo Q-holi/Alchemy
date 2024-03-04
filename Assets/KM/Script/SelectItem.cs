@@ -30,7 +30,7 @@ public class SelectItem : MonoBehaviour
         {
             case "UseIngredientArea":
                 Debug.Log("Use Item : " + iteminfo.Name);
-                UIManager.Instance.ShowStack(iteminfo);
+                //UIManager.Instance.ShowStack(iteminfo);
                 break;
             case "ItemCancel":
                 Debug.Log("Item Use Cancel");
