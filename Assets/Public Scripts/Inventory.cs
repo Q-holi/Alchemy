@@ -3,24 +3,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 [Serializable]
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] public List<Item> items = new List<Item>();
-    [SerializeField] public List<Collection> collections = new List<Collection>();
+    [SerializeField] private List<Item> items = new List<Item>();
     private int maxInventoryCount = 32;
-
-    string collectionJsonFilePath = "_Data/CollectionSaved_Info.json";
-    string collectionJsonFilePathtest = "_Data/CollectionSaved_Infotest.json";
 
     private void Awake()
     {
        
     }
-    private void OnEnable()
+    private void Start()
     {
 
     }
