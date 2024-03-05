@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     inventoryIndexNumber: 0
-    keyvalue: 0
+    keyValue: 0
     name: 
     rating: 0
     texture2DImagePath: 
@@ -358,8 +358,10 @@ MonoBehaviour:
     black_Option: 0
     blue_Option: 0
   iconImage: {fileID: 2160852772876303157}
+  itemFrame: {fileID: 4600182105457155938}
   itemCount: {fileID: 7555884712625032307}
   coverImage: {fileID: 6512813044531516901}
+  origin_Selectitem: {fileID: 0}
 --- !u!114 &4600182105457155938
 MonoBehaviour:
   m_ObjectHideFlags: 0

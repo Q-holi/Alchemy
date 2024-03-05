@@ -9,12 +9,7 @@ public class SelectItem : MonoBehaviour
     [SerializeField] private Collection iteminfo;
     [SerializeField] private SpriteRenderer itemIcon;
     [SerializeField] private Rigidbody2D itemRigidbody;
-
-    public Rigidbody2D ItemRigidbody 
-    {
-        get { return itemRigidbody; }
-        set { itemRigidbody = value; }
-    }
+    public Rigidbody2D ItemRigidbody { get => itemRigidbody; set => itemRigidbody = value; }
 
     public void SetItemIcon(Collection item)
     {
@@ -30,12 +25,12 @@ public class SelectItem : MonoBehaviour
         {
             case "UseIngredientArea":
                 Debug.Log("Use Item : " + iteminfo.Name);
-                //UIManager.Instance.ShowStack(iteminfo);
+                Destroy(this.gameObject);
                 break;
             case "ItemCancel":
                 Debug.Log("Item Use Cancel");
+                Destroy(this.gameObject);
                 break;
         }
-        Destroy(this.gameObject);
     }
 }

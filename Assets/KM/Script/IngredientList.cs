@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class IngredientList : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform slotTransform;
+    [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private N_InventoryData inventoryData;
+
+    private void Start()
     {
-        
+        inventoryData = gameObject.GetComponent<N_Inventory>().inventoryData;
+        InventoryInit(inventoryData);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InventoryInit(N_InventoryData data)
     {
-        
+        inventoryData = data;
+
+        foreach (Collection item in inventoryData.collection)
+        {
+            GameObject slot = Instantiate(slotPrefab, slotTransform);
+            slot.GetComponent<IngredientSlot>().ItemInit(item);
+        }
     }
 }

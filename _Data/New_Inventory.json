@@ -1,0 +1,70 @@
+{
+    "collection": [
+        {
+            "inventoryIndexNumber": 2,
+            "keyValue": 0,
+            "name": "Chamomile",
+            "rating": 1,
+            "texture2DImagePath": "Icon1",
+            "count": 40,
+            "red_Option": 3,
+            "black_Option": 2,
+            "blue_Option": 3
+        },
+        {
+            "inventoryIndexNumber": 5,
+            "keyValue": 0,
+            "name": "Borage",
+            "rating": 0,
+            "texture2DImagePath": "Icon2",
+            "count": 19,
+            "red_Option": 1,
+            "black_Option": 2,
+            "blue_Option": 1
+        },
+        {
+            "inventoryIndexNumber": 1,
+            "keyValue": 0,
+            "name": "Bergamot",
+            "rating": 0,
+            "texture2DImagePath": "Icon3",
+            "count": 83,
+            "red_Option": 2,
+            "black_Option": 1,
+            "blue_Option": 2
+        },
+        {
+            "inventoryIndexNumber": 3,
+            "keyValue": 0,
+            "name": "Angelica",
+            "rating": 2,
+            "texture2DImagePath": "Icon4",
+            "count": 17,
+            "red_Option": 2,
+            "black_Option": 1,
+            "blue_Option": 5
+        },
+        {
+            "inventoryIndexNumber": 4,
+            "keyValue": 0,
+            "name": "Chervil",
+            "rating": 3,
+            "texture2DImagePath": "Icon5",
+            "count": 5,
+            "red_Option": 5,
+            "black_Option": 5,
+            "blue_Option": 5
+        },
+        {
+            "inventoryIndexNumber": 5,
+            "keyValue": 1001,
+            "name": "Noraml_Herb",
+            "rating": 0,
+            "texture2DImagePath": "Icon6",
+            "count": 5,
+            "red_Option": 3,
+            "black_Option": 2,
+            "blue_Option": 3
+        }
+    ]
+}

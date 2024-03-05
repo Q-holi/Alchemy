@@ -9,11 +9,14 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private Collection item;                  // 아이템 정보
+    [SerializeField] private Collection item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
+    [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
 
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
+
+    private GameObject selectItem;
 
     private void Awake()
     {
@@ -26,30 +29,44 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         item = info;
         iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
         itemCount.text = item.Count.ToString();
+        itemFrame.color = UIManager.Instance.GetColor(item.rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
         UIManager.Instance.SelectItem = item;
-        //UIManager.Instance.ItemSelected();
         coverImage.gameObject.SetActive(true);
+
+        selectItem = Instantiate(UIManager.Instance.SelectItemPrefab,
+        UIManager.Instance.ScreenToWorldPos(), Quaternion.identity);
+        selectItem.GetComponent<SelectItem>().SetItemIcon(item);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
     {
-        UIManager.Instance.ItemDragging();
+        selectItem.transform.position = UIManager.Instance.ScreenToWorldPos();
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝(해당 스크립트가 포함된 오브젝트에서 호출)
     {
-        UIManager.Instance.ItemDrop();
+        selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;
+
+        GameObject temp = UIManager.Instance.Detectray();
+        if (temp)
+        {
+            if (temp.name == "IngredientList")
+            {
+                Debug.Log("Item Use Cancel");
+                Destroy(selectItem);
+            }
+        }
+
         coverImage.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
         UIManager.Instance.SelectItem = item;
-        UIManager.Instance.ShowItemInfo();
         coverImage.gameObject.SetActive(true);
     }
 
