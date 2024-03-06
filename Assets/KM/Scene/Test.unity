@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 85076753}
   - component: {fileID: 85076752}
   - component: {fileID: 85076754}
+  - component: {fileID: 85076755}
   m_Layer: 5
   m_Name: PotionStackGauge
   m_TagString: Untagged
@@ -214,6 +215,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &85076755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85076749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c4e03d6822715478709811eea080bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackCounter: {fileID: 1787830955}
+  stackCounterTxt: {fileID: 108146323}
 --- !u!1 &108146321
 GameObject:
   m_ObjectHideFlags: 0
