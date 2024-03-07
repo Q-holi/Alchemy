@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -28,6 +29,17 @@ public class Mining_Game : MonoBehaviour
         board.Draw(state);//--타입에 맞게 각 셀 tile 설정
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1)) DeepDigging();
+
+    }
+
+    private void DeepDigging()
+    {
+
+    }
+
     private void GenerateCells()
     {
         for (int x = 0; x < width; x++)
@@ -49,7 +61,7 @@ public class Mining_Game : MonoBehaviour
             for (int y = 5; y < 9; y++)
             {
                 state[x, y].type = Cell.Type.Plant;
-                state[x, y].revealed = true;
+                //state[x, y].revealed = true;
             }
         }
     }
@@ -65,6 +77,9 @@ public class Mining_Game : MonoBehaviour
             int resultYPos = UnityEngine.Random.Range(5,9);
             state[4, resultYPos].type = Cell.Type.Plant;
             state[4, resultYPos].revealed = true;
+            //====================================================
+            int expansionLengh = UnityEngine.Random.Range(2, 5);
+            ExpansionMine(4, resultYPos, expansionLengh);
         }
 
 
@@ -77,6 +92,10 @@ public class Mining_Game : MonoBehaviour
             int resultXPos = UnityEngine.Random.Range(5, 9);
             state[resultXPos, 4].type = Cell.Type.Plant;
             state[resultXPos, 4].revealed = true;
+            //====================================================
+            int expansionLengh = UnityEngine.Random.Range(2, 5);
+            ExpansionMine(resultXPos, 4, expansionLengh);
+
         }
 
 
@@ -89,6 +108,9 @@ public class Mining_Game : MonoBehaviour
             int resultYPos = UnityEngine.Random.Range(5, 9);
             state[9, resultYPos].type = Cell.Type.Plant;
             state[9, resultYPos].revealed = true;
+            //====================================================
+            int expansionLengh = UnityEngine.Random.Range(2, 5);
+            ExpansionMine(9, resultYPos, expansionLengh);
         }
 
 
@@ -101,12 +123,42 @@ public class Mining_Game : MonoBehaviour
             int resultxPos = UnityEngine.Random.Range(5, 9);
             state[resultxPos, 9].type = Cell.Type.Plant;
             state[resultxPos, 9].revealed = true;
+            //====================================================
+            int expansionLengh = UnityEngine.Random.Range(2, 5);
+            ExpansionMine(resultxPos, 9, expansionLengh);
         }
     }
 
+
+    private void ExpansionMine(int posX, int posY, int expansionLengh)
+    {
+        List<Vector2Int> expansionPos = new List<Vector2Int>();
+       if (expansionLengh == 0)
+            return;
+
+        //--검사 시작
+        if (state[posX, posY + 1].type != Cell.Type.Plant) //--상 
+            expansionPos.Add(new Vector2Int(posX, posY + 1));
+
+        if (state[posX, posY - 1].type != Cell.Type.Plant) //--하
+            expansionPos.Add(new Vector2Int(posX, posY - 1));
+
+        if (state[posX-1, posY].type != Cell.Type.Plant) //--좌
+            expansionPos.Add(new Vector2Int(posX - 1, posY));
+
+        if (state[posX+1, posY].type != Cell.Type.Plant) //--우
+            expansionPos.Add(new Vector2Int(posX + 1, posY));
+
+        int randomPos = UnityEngine.Random.Range(0, expansionPos.Count);
+        state[expansionPos[randomPos].x, expansionPos[randomPos].y].type = Cell.Type.Plant;
+        state[expansionPos[randomPos].x, expansionPos[randomPos].y].revealed = true;
+
+
+        ExpansionMine(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLengh - 1);
+
+    }
     private void EndGame()
     {
-        Item item = new Item(1,1001,"테스트",Rating.Epic,"",1);
-       // Collection collection = CollectionFactory.collectionFactory.CreateItem(item);
+        
     }
 }
