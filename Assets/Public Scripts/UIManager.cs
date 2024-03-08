@@ -19,6 +19,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();
 
     [SerializeField] private GameObject stackGauge;      // 스택게이지 출력 위치
+    [SerializeField] private GameObject caulDron;           // 가마솥 위치
+    public GameObject CaulDron { get => caulDron; }
     public GameObject StackGauge { get => stackGauge; }
     [SerializeField] private Transform itemInfo;        // 아이템 정보 출력창
     public Transform Iteminfo { get => itemInfo; }

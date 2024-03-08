@@ -38,7 +38,8 @@ public class PotionStackGauge : MonoBehaviour
             }
             else
                 break;
-            stackCounterTxt.text = currentStack.ToString() + " / " + maxStack.ToString();
         }
+        stackCounterTxt.text = currentStack.ToString() + " / " + maxStack.ToString();
+        UIManager.Instance.CaulDron.GetComponent<CaulDron>().UpdateContent(currentStack, maxStack, stackList);
     }
 }

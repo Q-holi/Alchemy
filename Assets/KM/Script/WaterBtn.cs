@@ -7,6 +7,6 @@ public class WaterBtn : MonoBehaviour
 {
     public void BuildStack()
     {
-        UIManager.Instance.StackGauge.GetComponent<PotionStackGauge>().BuildStack(1, Color.black);
+        UIManager.Instance.StackGauge.GetComponent<PotionStackGauge>().BuildStack(1, Color.white);
     }
 }
