@@ -28,8 +28,8 @@ public class Collection : IItem
     public int red_Option;
     public int Red_Option { get => red_Option; set => red_Option = value; }
 
-    public int black_Option;
-    public int Black_Option { get => black_Option; set => black_Option = value; }
+    public int green_Option;
+    public int Green_Option { get => green_Option; set => green_Option = value; }
 
     public int blue_Option;
     public int Blue_Option { get => blue_Option; set => blue_Option = value; }
@@ -44,7 +44,7 @@ public class Collection : IItem
         this.count = item.Count;
 
         this.red_Option = red_Option;
-        this.black_Option = black_Option;
+        this.green_Option = black_Option;
         this.blue_Option = blue_Option;
     }
 }

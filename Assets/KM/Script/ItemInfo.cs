@@ -54,7 +54,7 @@ public class ItemInfo : MonoBehaviour
         stackList.Clear();
 
         BuildStack(info.Red_Option, Color.red);
-        BuildStack(info.Black_Option, Color.black);
+        BuildStack(info.Green_Option, Color.green);
         BuildStack(info.Blue_Option, Color.blue);
     }
 
