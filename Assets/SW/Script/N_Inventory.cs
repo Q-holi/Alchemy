@@ -12,23 +12,6 @@ using UnityEngine.XR;
 public class N_InventoryData
 {
     public List<Collection> collection;
-    public List<BasePotion> potionsList;
-
-    public BasePotion tempPotion = null;
-
-    public void Temp()
-    {
-        tempPotion = new NormalPotion();
-        tempPotion = new HealingPotion(tempPotion, 100);
-        potionsList.Add(tempPotion);
-
-        if (potionsList[0] is HealingPotion)
-        {
-            HealingPotion healingPotion = (HealingPotion)potionsList[0];
-            int healAmount = healingPotion.healAmount;
-            // 이제 healAmount를 사용할 수 있습니다.
-        }
-    }
 }
 
 public class N_Inventory : MonoBehaviour
