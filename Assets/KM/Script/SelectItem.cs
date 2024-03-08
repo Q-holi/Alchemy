@@ -24,6 +24,7 @@ public class SelectItem : MonoBehaviour
         switch (collision.name)
         {
             case "UseIngredientArea":
+                UIManager.Instance.StackGauge.GetComponent<PotionStackGauge>().CountStack(iteminfo);
                 Debug.Log("Use Item : " + iteminfo.Name);
                 Destroy(this.gameObject);
                 break;

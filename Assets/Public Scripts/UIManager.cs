@@ -18,6 +18,8 @@ public class UIManager : Singleton<UIManager>
     // RayCast에 감지된 오브젝트 목록
     [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();
 
+    [SerializeField] private GameObject stackGauge;      // 스택게이지 출력 위치
+    public GameObject StackGauge { get => stackGauge; }
     [SerializeField] private Transform itemInfo;        // 아이템 정보 출력창
     public Transform Iteminfo { get => itemInfo; }
     [SerializeField] private IItem selectItem;        // 선택된 아이템

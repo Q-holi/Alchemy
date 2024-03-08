@@ -15,6 +15,16 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDetail;
     private List<GameObject> stackList = new List<GameObject>();
 
+    private void Awake()
+    {
+        itemFrame.gameObject.SetActive(false);
+        itemIcon.gameObject.SetActive(false);
+        itemName.gameObject.SetActive(false);
+        itemRank.gameObject.SetActive(false);
+        itemOption.gameObject.SetActive(false);
+        itemDetail.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (UIManager.Instance.SelectItem != null)
@@ -25,6 +35,13 @@ public class ItemInfo : MonoBehaviour
 
     public void ShowItemInfo(Collection info)
     {
+        itemFrame.gameObject.SetActive(true);
+        itemIcon.gameObject.SetActive(true);
+        itemName.gameObject.SetActive(true);
+        itemRank.gameObject.SetActive(true);
+        itemOption.gameObject.SetActive(true);
+        itemDetail.gameObject.SetActive(true);
+
         itemFrame.color = UIManager.Instance.GetColor(info.Rating);
         itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.Texture2DImagePath);
         itemName.text = info.Name;

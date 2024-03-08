@@ -23,5 +23,6 @@ public class IngredientList : MonoBehaviour
             GameObject slot = Instantiate(slotPrefab, slotTransform);
             slot.GetComponent<IngredientSlot>().ItemInit(item);
         }
+
     }
 }
