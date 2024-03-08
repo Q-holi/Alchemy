@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class HealingPotion : Decorater
+public class HealingPotion : PotionEnchant
 {
     public int healAmount;
 
-    public HealingPotion(BasePotion _potion, int amount)
+    public HealingPotion(Potion potion, int amount)
     {
-        this.potion = _potion;
-        this.name = "Healing_Potion";
-
+        this.potion = potion;
+        this.Name = "Healing_Potion";
         healAmount = amount;
     }
 
