@@ -10,7 +10,6 @@ public class CaulDron : MonoBehaviour
     [SerializeField] private TextMeshProUGUI contentAmountTxt;  // 가마솥 내용물의 양(텍스트)
 
     [SerializeField] private int maxStack = 10;                 // 최대 가마솥의 수용량
-    public List<Collection> ingredientList = new List<Collection>(); // 사용된 재료 리스트
 
     private void Start()
     {
@@ -18,7 +17,8 @@ public class CaulDron : MonoBehaviour
     }
 
     public bool UpdateContent(Collection item)
-    {   
+    {
+        List<Collection> ingredientList = AlchemyManager.instance.IngredientList;
         // 가마솥 수용량 체크
         if (ingredientList.Count < maxStack)
             ingredientList.Add(item);

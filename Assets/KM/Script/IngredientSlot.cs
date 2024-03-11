@@ -34,6 +34,9 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
+        if (item.Count <= 0)
+            return;
+
         AlchemyManager.instance.SelectItem = item;
         coverImage.gameObject.SetActive(true);
 
@@ -44,11 +47,16 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
     {
+        if (item.Count <= 0)
+            return;
         selectItem.transform.position = AlchemyManager.instance.ScreenToWorldPos();
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
+        if (item.Count <= 0)
+            return;
+
         selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;
 
         GameObject temp = AlchemyManager.instance.Detectray();

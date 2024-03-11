@@ -19,6 +19,7 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();
 
     [SerializeField] private GameObject caulDron;           // 가마솥 위치
+    [SerializeField] private List<Collection> ingredientList;   // 가마솥에 넣은 재료 리스트
     [SerializeField] private GameObject stackPrefab;      // 재료 스택을 표시할 아이콘프리팹
 
     [SerializeField] private N_Inventory inventory;     // 인벤토리 정보
@@ -29,6 +30,7 @@ public class AlchemyManager : MonoBehaviour
 
     #region GetSet
     public GameObject CaulDron { get => caulDron; }
+    public List<Collection> IngredientList { get => ingredientList; }
     public N_Inventory Inventory { get => inventory; set => inventory = value; }
     public IItem SelectItem { get => selectItem; set => selectItem = value; }
     public GameObject StackPrefab { get => stackPrefab; }
@@ -92,5 +94,10 @@ public class AlchemyManager : MonoBehaviour
                 return Color.yellow;
         }
         return Color.white;
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log(Input.mousePosition);
     }
 }

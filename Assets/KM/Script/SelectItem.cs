@@ -26,7 +26,10 @@ public class SelectItem : MonoBehaviour
                 if (AlchemyManager.instance.CaulDron.GetComponent<CaulDron>().UpdateContent(iteminfo))
                     Debug.Log("Use Item : " + iteminfo.Name);
                 else // 아이템 사용 실패
+                { 
                     Debug.Log("Use Item False");
+                    
+                }
                 Destroy(this.gameObject);
                 break;
             case "ItemCancel":  // 아이템 사용 취소 시
