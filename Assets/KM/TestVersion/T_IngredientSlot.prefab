@@ -294,12 +294,12 @@ GameObject:
   m_Component:
   - component: {fileID: 682454234125766868}
   - component: {fileID: 8952733184736194977}
+  - component: {fileID: 1169834204018353505}
   - component: {fileID: 4600182105457155938}
   - component: {fileID: 8763235603882332325}
   - component: {fileID: 4789010203480155686}
-  - component: {fileID: -396899887447952934}
   m_Layer: 5
-  m_Name: IngredientSlot
+  m_Name: T_IngredientSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,6 +335,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877114060126032848}
   m_CullTransparentMesh: 1
+--- !u!114 &1169834204018353505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7877114060126032848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ea886fdccb1d54c9e2c8c188b67caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    inventoryIndexNumber: 0
+    keyValue: 0
+    name: 
+    rating: 0
+    texture2DImagePath: 
+    count: 0
+    red_Option: 0
+    green_Option: 0
+    blue_Option: 0
+    alpha_Option: 0
+  iconImage: {fileID: 2160852772876303157}
+  itemFrame: {fileID: 4600182105457155938}
+  itemCount: {fileID: 7555884712625032307}
+  coverImage: {fileID: 6512813044531516901}
 --- !u!114 &4600182105457155938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,30 +453,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-396899887447952934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7877114060126032848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52bc91e457104da469a89d48c791f2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item:
-    inventoryIndexNumber: 0
-    keyValue: 0
-    name: 
-    rating: 0
-    texture2DImagePath: 
-    count: 0
-    red_Option: 0
-    green_Option: 0
-    blue_Option: 0
-    alpha_Option: 0
-  iconImage: {fileID: 2160852772876303157}
-  itemFrame: {fileID: 4600182105457155938}
-  itemCount: {fileID: 7555884712625032307}
-  coverImage: {fileID: 6512813044531516901}

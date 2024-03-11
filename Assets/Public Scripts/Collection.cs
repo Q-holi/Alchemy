@@ -34,6 +34,9 @@ public class Collection : IItem
     public int blue_Option;
     public int Blue_Option { get => blue_Option; set => blue_Option = value; }
 
+    public int alpha_Option;
+    public int Alpha_Option { get => alpha_Option; set => alpha_Option = value; }
+
     public Collection(IItem item, int red_Option, int black_Option, int blue_Option)
     {
         this.inventoryIndexNumber = item.InventoryIndexNumber;

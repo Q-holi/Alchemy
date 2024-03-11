@@ -4,25 +4,20 @@ using UnityEngine;
 
 public class IngredientList : MonoBehaviour
 {
-    [SerializeField] private Transform slotTransform;
-    [SerializeField] private GameObject slotPrefab;
-    [SerializeField] private N_InventoryData inventoryData;
+    [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
+    [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
 
-    private void Start()
+    public void Start()
     {
-        inventoryData = gameObject.GetComponent<N_Inventory>().inventoryData;
-        InventoryInit(inventoryData);
+        InventoryInit(AlchemyManager.instance.Inventory.inventoryData); // 아이템 정보 설정
     }
 
-    public void InventoryInit(N_InventoryData data)
+    public void InventoryInit(N_InventoryData data) // 인벤토리 데이터기반 아이템 설정
     {
-        inventoryData = data;
-
-        foreach (Collection item in inventoryData.collection)
+        foreach (Collection item in data.collection)
         {
             GameObject slot = Instantiate(slotPrefab, slotTransform);
             slot.GetComponent<IngredientSlot>().ItemInit(item);
         }
-
     }
 }

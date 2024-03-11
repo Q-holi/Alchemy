@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.U2D;
-using System;
 using UnityEngine.EventSystems;
 
-[System.Serializable]
-public class UIManager : Singleton<UIManager>
+public class AlchemyManager : MonoBehaviour
 {
+    // 싱글톤
+    public static AlchemyManager instance;
+
     // 캔버스 레이캐스팅
     [SerializeField] private GraphicRaycaster graphicRaycaster;
     // 마우스 이벤트 데이터
@@ -18,20 +18,28 @@ public class UIManager : Singleton<UIManager>
     // RayCast에 감지된 오브젝트 목록
     [SerializeField] private List<RaycastResult> rayList = new List<RaycastResult>();
 
-    [SerializeField] private GameObject stackGauge;      // 스택게이지 출력 위치
     [SerializeField] private GameObject caulDron;           // 가마솥 위치
-    public GameObject CaulDron { get => caulDron; }
-    public GameObject StackGauge { get => stackGauge; }
-    [SerializeField] private Transform itemInfo;        // 아이템 정보 출력창
-    public Transform Iteminfo { get => itemInfo; }
-    [SerializeField] private IItem selectItem;        // 선택된 아이템
-    public IItem SelectItem { get => selectItem; set => selectItem = value; }
     [SerializeField] private GameObject stackPrefab;      // 재료 스택을 표시할 아이콘프리팹
-    public GameObject StackPrefab { get => stackPrefab; }
 
+    [SerializeField] private N_Inventory inventory;     // 인벤토리 정보
+
+    [SerializeField] private IItem selectItem;        // 선택된 아이템
     [SerializeField] private GameObject bgPlane;        // 레이캐스팅용 배경 오브젝트
     [SerializeField] private GameObject selectItemPrefab;   // 복사될 오브젝트
+
+    #region GetSet
+    public GameObject CaulDron { get => caulDron; }
+    public N_Inventory Inventory { get => inventory; set => inventory = value; }
+    public IItem SelectItem { get => selectItem; set => selectItem = value; }
+    public GameObject StackPrefab { get => stackPrefab; }
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
+    #endregion
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
 
     public Vector3 ScreenToWorldPos()
     {

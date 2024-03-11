@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1299415948328847320}
   - component: {fileID: 6139000175794321249}
+  - component: {fileID: 252555524943144646}
   - component: {fileID: 3124007348697014996}
   - component: {fileID: 5714010118601509012}
-  - component: {fileID: -434316945400063464}
   m_Layer: 0
-  m_Name: SelectItem
+  m_Name: T_SelectItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 61c86631cd419f1408c93b5b2a3c9a41, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,9 +84,33 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &252555524943144646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275107198391624566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 213a7629020d8404282dd8c2cb0bf30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iteminfo:
+    inventoryIndexNumber: 7
+    keyvalue: 2003
+    name: Epic_Ore
+    rating: 2
+    texture2DImagePath: Icon3
+    count: 3
+    red_Option: 5
+    black_Option: 1
+    blue_Option: 0
+  itemIcon: {fileID: 6139000175794321249}
+  itemRigidbody: {fileID: 5714010118601509012}
 --- !u!61 &3124007348697014996
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -119,7 +143,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.12}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -130,7 +154,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.05}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!50 &5714010118601509012
 Rigidbody2D:
@@ -159,28 +183,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-434316945400063464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275107198391624566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b0c8b949f313d48a847c3570f1a8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iteminfo:
-    inventoryIndexNumber: 0
-    keyValue: 0
-    name: 
-    rating: 0
-    texture2DImagePath: 
-    count: 0
-    red_Option: 0
-    green_Option: 0
-    blue_Option: 0
-    alpha_Option: 0
-  itemIcon: {fileID: 6139000175794321249}
-  itemRigidbody: {fileID: 5714010118601509012}

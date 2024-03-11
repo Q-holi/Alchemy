@@ -9,7 +9,8 @@
             "count": 40,
             "red_Option": 3,
             "green_Option": 3,
-            "blue_Option": 3
+            "blue_Option": 3,
+            "alpha_Option": 3
         },
         {
             "inventoryIndexNumber": 5,
@@ -20,7 +21,8 @@
             "count": 19,
             "red_Option": 1,
             "green_Option": 4,
-            "blue_Option": 1
+            "blue_Option": 1,
+            "alpha_Option": 1
         },
         {
             "inventoryIndexNumber": 1,
@@ -31,7 +33,8 @@
             "count": 83,
             "red_Option": 2,
             "green_Option": 2,
-            "blue_Option": 2
+            "blue_Option": 2,
+            "alpha_Option": 2
         },
         {
             "inventoryIndexNumber": 3,
@@ -42,7 +45,8 @@
             "count": 17,
             "red_Option": 2,
             "green_Option": 1,
-            "blue_Option": 5
+            "blue_Option": 5,
+            "alpha_Option": 4
         },
         {
             "inventoryIndexNumber": 4,
@@ -53,7 +57,8 @@
             "count": 5,
             "red_Option": 5,
             "green_Option": 5,
-            "blue_Option": 5
+            "blue_Option": 5,
+            "alpha_Option": 4
         }
     ]
 }

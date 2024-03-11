@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PotionStackGauge : MonoBehaviour
+public class T_PotionStackGauge : MonoBehaviour
 {
     [SerializeField] private GameObject stackCounter;
     [SerializeField] private TextMeshProUGUI stackCounterTxt;
@@ -32,7 +32,7 @@ public class PotionStackGauge : MonoBehaviour
             if (currentStack < maxStack)
             {
                 currentStack++;
-                GameObject temp = Instantiate(UIManager.Instance.StackPrefab, stackCounter.transform);
+                GameObject temp = Instantiate(T_UIManager.Instance.StackPrefab, stackCounter.transform);
                 temp.GetComponent<Image>().color = color;
                 stackList.Add(temp);
             }
@@ -40,6 +40,6 @@ public class PotionStackGauge : MonoBehaviour
                 break;
         }
         stackCounterTxt.text = currentStack.ToString() + " / " + maxStack.ToString();
-        UIManager.Instance.CaulDron.GetComponent<CaulDron>().UpdateContent(currentStack, maxStack, stackList);
+        T_UIManager.Instance.CaulDron.GetComponent<T_CaulDron>().UpdateContent(currentStack, maxStack, stackList);
     }
 }
