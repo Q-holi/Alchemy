@@ -43,6 +43,7 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         selectItem = Instantiate(AlchemyManager.instance.SelectItemPrefab,
         AlchemyManager.instance.ScreenToWorldPos(), Quaternion.identity);
         selectItem.GetComponent<SelectItem>().SetItemIcon(item);
+        AlchemyManager.instance.ItemUse(true, item);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
@@ -64,11 +65,11 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         {
             if (temp.name == "IngredientList") // 재료창 위에서 드래그가 끝났으면, 아이템 사용 취소
             {
+                AlchemyManager.instance.ItemUse(false, item);
                 Debug.Log("Item Use Cancel");
                 Destroy(selectItem);
             }
         }
-
         coverImage.gameObject.SetActive(false);
     }
 

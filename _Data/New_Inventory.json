@@ -6,11 +6,11 @@
             "name": "Chamomile",
             "rating": 1,
             "texture2DImagePath": "Icon1",
-            "count": 100,
-            "red_Option": 3,
-            "green_Option": 3,
-            "blue_Option": 3,
-            "alpha_Option": 3
+            "count": 92,
+            "red_Option": 1,
+            "green_Option": 0,
+            "blue_Option": 0,
+            "alpha_Option": 0
         },
         {
             "inventoryIndexNumber": 5,
@@ -18,11 +18,11 @@
             "name": "Borage",
             "rating": 0,
             "texture2DImagePath": "Icon2",
-            "count": 100,
-            "red_Option": 1,
-            "green_Option": 4,
-            "blue_Option": 1,
-            "alpha_Option": 1
+            "count": 97,
+            "red_Option": 0,
+            "green_Option": 1,
+            "blue_Option": 0,
+            "alpha_Option": 0
         },
         {
             "inventoryIndexNumber": 1,
@@ -30,11 +30,11 @@
             "name": "Bergamot",
             "rating": 0,
             "texture2DImagePath": "Icon3",
-            "count": 100,
-            "red_Option": 2,
-            "green_Option": 2,
-            "blue_Option": 2,
-            "alpha_Option": 2
+            "count": 98,
+            "red_Option": 0,
+            "green_Option": 0,
+            "blue_Option": 1,
+            "alpha_Option": 0
         },
         {
             "inventoryIndexNumber": 3,
@@ -43,10 +43,10 @@
             "rating": 2,
             "texture2DImagePath": "Icon4",
             "count": 100,
-            "red_Option": 2,
-            "green_Option": 1,
-            "blue_Option": 5,
-            "alpha_Option": 4
+            "red_Option": 0,
+            "green_Option": 0,
+            "blue_Option": 0,
+            "alpha_Option": 1
         },
         {
             "inventoryIndexNumber": 4,
@@ -55,9 +55,9 @@
             "rating": 3,
             "texture2DImagePath": "Icon5",
             "count": 100,
-            "red_Option": 5,
-            "green_Option": 5,
-            "blue_Option": 5,
+            "red_Option": 1,
+            "green_Option": 3,
+            "blue_Option": 1,
             "alpha_Option": 4
         }
     ]

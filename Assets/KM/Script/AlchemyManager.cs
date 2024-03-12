@@ -27,6 +27,7 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private PreviewLine previewLine;   // 포션이 움직일 위치 미리보기
 
     [SerializeField] private N_Inventory inventory;     // 인벤토리 정보
+    [SerializeField] private GameObject inventoryList;  // 인벤토리 아이템 정보
 
     [SerializeField] private IItem selectItem;        // 선택된 아이템
     [SerializeField] private GameObject bgPlane;        // 레이캐스팅용 배경 오브젝트
@@ -104,7 +105,23 @@ public class AlchemyManager : MonoBehaviour
     {
         Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
                                          baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
-        previewLine.DrawLine(potionMap.PostionPosition.localPosition,
-            potionMap.PostionPosition.localPosition + lineVector);
+        previewLine.DrawLine(potionMap.PotionPosition.localPosition,
+            potionMap.PotionPosition.localPosition + lineVector);
+    }
+
+    public void ItemUse(bool isUse, Collection item)
+    {
+        if (isUse)
+        {
+            Inventory.inventoryData.collection.Find(x => x == item).count--;
+            inventoryList.GetComponent<IngredientList>()
+                .InventoryUpdate(Inventory.inventoryData);
+        }
+        else
+        {
+            Inventory.inventoryData.collection.Find(x => x == item).count++;
+            inventoryList.GetComponent<IngredientList>()
+                .InventoryUpdate(Inventory.inventoryData);
+        }
     }
 }

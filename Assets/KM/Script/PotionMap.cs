@@ -10,7 +10,7 @@ public class PotionMap : MonoBehaviour
     [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();
     [SerializeField] private GameObject markerPrefab;
     [SerializeField] private Transform potionPosition;
-    public Transform PostionPosition { get { return potionPosition; } }
+    public Transform PotionPosition { get { return potionPosition; } }
 
     private void Start()
     {

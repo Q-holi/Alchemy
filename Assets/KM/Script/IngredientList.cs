@@ -6,6 +6,8 @@ public class IngredientList : MonoBehaviour
 {
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
+    private List<GameObject> slotList = new List<GameObject>();
+    public List<GameObject> SlotList { get => slotList; }
 
     public void Start()
     {
@@ -18,6 +20,15 @@ public class IngredientList : MonoBehaviour
         {
             GameObject slot = Instantiate(slotPrefab, slotTransform);
             slot.GetComponent<IngredientSlot>().ItemInit(item);
+            slotList.Add(slot);
+        }
+    }
+
+    public void InventoryUpdate(N_InventoryData data)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            slotList[i].GetComponent<IngredientSlot>().ItemInit(data.collection[i]);
         }
     }
 }

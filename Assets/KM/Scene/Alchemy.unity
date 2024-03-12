@@ -1309,7 +1309,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -1318,7 +1318,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.5192309
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1583,7 +1583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2491,6 +2491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d46ac55a04817489f72630245974ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 1087770536}
   graphicRaycaster: {fileID: 1087770537}
   eventSystem: {fileID: 1346929712}
   caulDron: {fileID: 1065364135}
@@ -2500,6 +2501,7 @@ MonoBehaviour:
   potionMap: {fileID: 1718391202}
   previewLine: {fileID: 960081077}
   inventory: {fileID: 1495020276}
+  inventoryList: {fileID: 1974386743}
   bgPlane: {fileID: 181440526}
   selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
     type: 3}
@@ -2531,7 +2533,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -100, y: 0, z: -9}
-  m_LocalScale: {x: 30, y: 30, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1743111800}

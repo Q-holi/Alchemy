@@ -31,7 +31,8 @@ public class ItemInfo : MonoBehaviour
     private void Update()
     {
         // 선택한 아이템이 있으면, 아이템 정보 출력
-        if (AlchemyManager.instance.SelectItem != null && AlchemyManager.instance.SelectItem != item)
+        if (AlchemyManager.instance.SelectItem != null &&
+            AlchemyManager.instance.SelectItem != item)
             ShowItemInfo((Collection)AlchemyManager.instance.SelectItem);
         else
             return;
