@@ -12,7 +12,22 @@ public class Board : MonoBehaviour
     [SerializeField] public Tile tileUnknow;
     [SerializeField] public Tile tileEmpty;
     [SerializeField] public Tile tilePlant;
+    [SerializeField] public Tile startPlant;
+    [SerializeField] public Tile cutPlant;
+    [SerializeField] public Tile expansionPlant1;
+    [SerializeField] public Tile expansionPlant2;
+    [SerializeField] public Tile expansionPlant3;
+    [SerializeField] public Tile expansionPlant4;
+    [SerializeField] public Tile expansionPlant5;
+    [SerializeField] public Tile expansionPlant6;
+    [SerializeField] public Tile expansionPlant7;
+    [SerializeField] public Tile expansionPlant8;
 
+
+    private void OnMouseDown()
+    {
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
@@ -43,6 +58,25 @@ public class Board : MonoBehaviour
         {
             case Cell.Type.Empty: return tileEmpty;
             case Cell.Type.Plant: return tilePlant;
+            case Cell.Type.StartPlant: return startPlant;
+            case Cell.Type.CUT: return cutPlant;
+            case Cell.Type.Number: return GetCountPlant(cell);
+            default: return null;
+        }
+    }
+
+    private Tile GetCountPlant(Cell cell)
+    {
+        switch(cell.number) 
+        {
+            case 1: return expansionPlant1;
+            case 2: return expansionPlant2;
+            case 3: return expansionPlant3;
+            case 4: return expansionPlant4;
+            case 5: return expansionPlant5;
+            case 6: return expansionPlant6;
+            case 7: return expansionPlant7;
+            case 8: return expansionPlant8;
             default: return null;
         }
     }
