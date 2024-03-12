@@ -75,6 +75,7 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
     public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
         AlchemyManager.instance.SelectItem = item;
+        AlchemyManager.instance.LinePreview(item);
         coverImage.gameObject.SetActive(true);
     }
 

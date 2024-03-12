@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.Android.Types;
 
 public class AlchemyManager : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private GameObject caulDron;           // 가마솥 위치
     [SerializeField] private List<Collection> ingredientList;   // 가마솥에 넣은 재료 리스트
     [SerializeField] private GameObject stackPrefab;      // 재료 스택을 표시할 아이콘프리팹
+
+    [SerializeField] private PotionMap potionMap;       // 포션 맵
+    [SerializeField] private PreviewLine previewLine;   // 포션이 움직일 위치 미리보기
 
     [SerializeField] private N_Inventory inventory;     // 인벤토리 정보
 
@@ -96,8 +100,11 @@ public class AlchemyManager : MonoBehaviour
         return Color.white;
     }
 
-    private void OnMouseDown()
+    public void LinePreview(Collection baseItem)
     {
-        Debug.Log(Input.mousePosition);
+        Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
+                                         baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
+        previewLine.DrawLine(potionMap.PostionPosition.localPosition,
+            potionMap.PostionPosition.localPosition + lineVector);
     }
 }
