@@ -37,25 +37,28 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         if (item.Count <= 0)
             return;
 
+        // 아이템 정보 넘겨주기
         AlchemyManager.instance.SelectItem = item;
         coverImage.gameObject.SetActive(true);
 
+        // 드래그 아이템 복사본 생성
         selectItem = Instantiate(AlchemyManager.instance.SelectItemPrefab,
         AlchemyManager.instance.ScreenToWorldPos(), Quaternion.identity);
+        // 아이템 정보 설정
         selectItem.GetComponent<SelectItem>().SetItemIcon(item);
-        AlchemyManager.instance.ItemUse(true, item);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
     {
-        if (item.Count <= 0)
+        if (item.Count <= 0 || selectItem == null)
             return;
+
         selectItem.transform.position = AlchemyManager.instance.ScreenToWorldPos();
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
-        if (item.Count <= 0)
+        if (item.Count <= 0 || selectItem == null)
             return;
 
         selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;

@@ -1244,7 +1244,7 @@ GameObject:
   - component: {fileID: 960081076}
   - component: {fileID: 960081077}
   m_Layer: 0
-  m_Name: Line
+  m_Name: PreviewLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1260,7 +1260,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1718391200}
@@ -2491,7 +2491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d46ac55a04817489f72630245974ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCanvas: {fileID: 1087770536}
   graphicRaycaster: {fileID: 1087770537}
   eventSystem: {fileID: 1346929712}
   caulDron: {fileID: 1065364135}
@@ -2608,7 +2607,7 @@ MonoBehaviour:
   optionPoint: []
   markerPrefab: {fileID: 5662340049527132074, guid: a421428f02793214291204f2a9ace972,
     type: 3}
-  potionPosition: {fileID: 1743111800}
+  potionMarker: {fileID: 1743111799}
 --- !u!1 &1743111799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,6 +2620,7 @@ GameObject:
   - component: {fileID: 1743111801}
   - component: {fileID: 1743111803}
   - component: {fileID: 1743111802}
+  - component: {fileID: 1743111804}
   m_Layer: 0
   m_Name: Potion
   m_TagString: Untagged
@@ -2758,6 +2758,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
+--- !u!114 &1743111804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743111799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341f66c909a2eb342b4e410808a7e319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1770672533
 GameObject:
   m_ObjectHideFlags: 0

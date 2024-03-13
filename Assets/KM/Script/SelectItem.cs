@@ -25,13 +25,25 @@ public class SelectItem : MonoBehaviour
         uiIcon.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
     }
 
+    //// 화면밖으로 아이콘이 나갔을때
+    //private void OnBecameInvisible()
+    //{
+    //    Debug.Log("Item Use Cancel");
+    //    AlchemyManager.instance.ItemUse(false, iteminfo);
+    //    Destroy(this.gameObject);
+    //}
+
+    // 콜라이더와 충돌시
     private void OnTriggerEnter2D(Collider2D collision) 
     {
         switch (collision.name)
         {
             case "UseIngredientArea": // 아이템 사용시
                 if (AlchemyManager.instance.CaulDron.GetComponent<CaulDron>().UpdateContent(iteminfo))
+                { 
                     Debug.Log("Use Item : " + iteminfo.Name);
+                    AlchemyManager.instance.ItemUse(true, iteminfo);
+                }
                 else // 아이템 사용 실패
                 { 
                     Debug.Log("Use Item False");
@@ -41,7 +53,6 @@ public class SelectItem : MonoBehaviour
                 break;
             case "ItemCancel":  // 아이템 사용 취소 시
                 Debug.Log("Item Use Cancel");
-                AlchemyManager.instance.ItemUse(false, iteminfo);
                 Destroy(this.gameObject);
                 break;
         }

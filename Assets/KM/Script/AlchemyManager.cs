@@ -105,8 +105,7 @@ public class AlchemyManager : MonoBehaviour
     {
         Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
                                          baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
-        previewLine.DrawLine(potionMap.PotionPosition.localPosition,
-            potionMap.PotionPosition.localPosition + lineVector);
+        previewLine.DrawLine(potionMap.PotionPosition.localPosition * 10.0f, potionMap.PotionPosition.localPosition * 10.0f + lineVector);
     }
 
     public void ItemUse(bool isUse, Collection item)
@@ -116,6 +115,9 @@ public class AlchemyManager : MonoBehaviour
             Inventory.inventoryData.collection.Find(x => x == item).count--;
             inventoryList.GetComponent<IngredientList>()
                 .InventoryUpdate(Inventory.inventoryData);
+
+            potionMap.GetPotionMarker.GetComponent<PotionMarker>().
+                MovePotion(new Vector3(item.Green_Option - item.Alpha_Option,item.Red_Option - item.Blue_Option, 0.0f));
         }
         else
         {
