@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PotionMarker : MonoBehaviour
 {
-    [SerializeField] private Potion potion;
+    // 원본 포션 데이터 (데코레이터로 덮어 씌울것)
+    [SerializeField] private Potion potion = new NormalPotion();
 
     public IEnumerator MovePotionCorutine(Vector3 startPos, Vector3 endPos)
     {
@@ -24,6 +25,7 @@ public class PotionMarker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Get Option");
+        potion = collision.gameObject.GetComponent<MarkerOption>().SetPotion(potion);
+        potion.PotionEffect();
     }
 }

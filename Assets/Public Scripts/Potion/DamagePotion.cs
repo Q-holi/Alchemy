@@ -9,7 +9,8 @@ public class DamagePotion : PotionEnchant
     public DamagePotion(Potion potion, int amount)
     {
         this.potion = potion;
-        this.Name = "Damage_Potion";
+        potion.Name = "Damage_Potion";
+        potion.Texture2DImagePath = "item_32";
         damageAmount = amount;
     }
 

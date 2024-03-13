@@ -2504,6 +2504,7 @@ MonoBehaviour:
   bgPlane: {fileID: 181440526}
   selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
     type: 3}
+  isDragging: 0
 --- !u!1 &1718391199
 GameObject:
   m_ObjectHideFlags: 0

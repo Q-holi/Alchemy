@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class MarkerOption : MonoBehaviour
 {
-    [SerializeField] private Potion potion;
-
-    public void SetPotion()
-    { 
-        
+    public Potion SetPotion(Potion targetPotion)
+    {
+        targetPotion = new HealingPotion(targetPotion, 100);
+        return targetPotion;
     }
 }

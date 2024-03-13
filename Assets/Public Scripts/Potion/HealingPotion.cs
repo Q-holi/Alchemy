@@ -10,7 +10,8 @@ public class HealingPotion : PotionEnchant
     public HealingPotion(Potion potion, int amount)
     {
         this.potion = potion;
-        this.Name = "Healing_Potion";
+        potion.Name = "Healing_Potion";
+        potion.Texture2DImagePath = "item_19";
         healAmount = amount;
     }
 

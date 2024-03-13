@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class NormalPotion : Potion
 {
-    public NormalPotion(IItem item)
+    public NormalPotion()
     {
-        this.InventoryIndexNumber = item.InventoryIndexNumber;
-        this.KeyValue = item.KeyValue;
-        this.Name = item.Name;
-        this.Rating = item.Rating;
-        this.Texture2DImagePath = item.Texture2DImagePath;
-        this.Count = item.Count;
+        this.InventoryIndexNumber = 0;
+        this.KeyValue = 0;
+        this.Name = "Normal Potion";
+        this.Rating = Rating.Normal;
+        this.Texture2DImagePath = "item_01";
+        this.Count = 1;
     }
     public override void PotionEffect()
     {
