@@ -33,6 +33,8 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private GameObject bgPlane;        // 레이캐스팅용 배경 오브젝트
     [SerializeField] private GameObject selectItemPrefab;   // 복사될 오브젝트
 
+    public bool isDragging = false;
+
     #region GetSet
     public GameObject CaulDron { get => caulDron; }
     public List<Collection> IngredientList { get => ingredientList; }
@@ -103,9 +105,11 @@ public class AlchemyManager : MonoBehaviour
 
     public void LinePreview(Collection baseItem)
     {
+        previewLine.gameObject.SetActive(true);
         Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
                                          baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
-        previewLine.DrawLine(potionMap.PotionPosition.localPosition * 10.0f, potionMap.PotionPosition.localPosition * 10.0f + lineVector);
+        previewLine.DrawLine(potionMap.PotionPosition.localPosition * 10.0f,
+            potionMap.PotionPosition.localPosition * 10.0f + lineVector);
     }
 
     public void ItemUse(bool isUse, Collection item)
@@ -116,8 +120,13 @@ public class AlchemyManager : MonoBehaviour
             inventoryList.GetComponent<IngredientList>()
                 .InventoryUpdate(Inventory.inventoryData);
 
-            potionMap.GetPotionMarker.GetComponent<PotionMarker>().
-                MovePotion(new Vector3(item.Green_Option - item.Alpha_Option,item.Red_Option - item.Blue_Option, 0.0f));
+            Vector3 startPos = potionMap.GetPotionMarker.GetComponent<PotionMarker>().gameObject.transform.localPosition;
+            Vector3 endPos = startPos + 
+                (new Vector3(item.Green_Option - item.Alpha_Option, item.Red_Option - item.Blue_Option, 0.0f)) / 10.0f;
+
+            StartCoroutine(potionMap.GetPotionMarker.GetComponent<PotionMarker>().MovePotionCorutine(startPos, endPos));
+
+            previewLine.gameObject.SetActive(false);
         }
         else
         {

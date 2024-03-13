@@ -47,7 +47,6 @@ public class SelectItem : MonoBehaviour
                 else // 아이템 사용 실패
                 { 
                     Debug.Log("Use Item False");
-                    AlchemyManager.instance.ItemUse(false, iteminfo);
                 }
                 Destroy(this.gameObject);
                 break;

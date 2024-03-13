@@ -34,6 +34,7 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
+        AlchemyManager.instance.isDragging = true;
         if (item.Count <= 0)
             return;
 
@@ -54,10 +55,13 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
             return;
 
         selectItem.transform.position = AlchemyManager.instance.ScreenToWorldPos();
+        // 아이템 정보 넘겨주기
+        AlchemyManager.instance.SelectItem = item;
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
+        AlchemyManager.instance.isDragging = false;
         if (item.Count <= 0 || selectItem == null)
             return;
 
@@ -68,7 +72,6 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         {
             if (temp.name == "IngredientList") // 재료창 위에서 드래그가 끝났으면, 아이템 사용 취소
             {
-                AlchemyManager.instance.ItemUse(false, item);
                 Debug.Log("Item Use Cancel");
                 Destroy(selectItem);
             }
@@ -78,6 +81,8 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
 
     public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
+        if (AlchemyManager.instance.isDragging)
+            return;
         AlchemyManager.instance.SelectItem = item;
         AlchemyManager.instance.LinePreview(item);
         coverImage.gameObject.SetActive(true);
@@ -85,6 +90,8 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
 
     public void OnPointerExit(PointerEventData eventData)   // 마우스 빠졌을때
     {
+        if (AlchemyManager.instance.isDragging)
+            return;
         coverImage.gameObject.SetActive(false);
     }
 }
