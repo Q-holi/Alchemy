@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.Android.Types;
 
-public class AlchemyManager : MonoBehaviour
+public class AlchemySceneManager : MonoBehaviour
 {
-    public static AlchemyManager instance;
+    public static AlchemySceneManager instance;
 
     [SerializeField] private InventoryList ingredientList;
     public InventoryList IngredientList { get => ingredientList; }

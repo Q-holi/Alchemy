@@ -10,8 +10,8 @@ public class PreviewLine : MonoBehaviour
 
     private void Update()
     {
-        if (AlchemyManager.instance.IngredientList.SelectItem != null)
-            LinePreview((Collection)AlchemyManager.instance.IngredientList.SelectItem);
+        if (AlchemySceneManager.instance.IngredientList.SelectItem != null)
+            LinePreview((Collection)AlchemySceneManager.instance.IngredientList.SelectItem);
     }
 
     public void LinePreview(Collection baseItem)
