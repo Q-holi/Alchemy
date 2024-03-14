@@ -23,6 +23,8 @@ public class Mining_Game : MonoBehaviour
     */
     [SerializeField] private int expansionLengh = 7;
     [SerializeField] private int shallowDigCount = 25;
+    [SerializeField] private int emptyCount;
+    [SerializeField] private int plantCount;
 
     private bool IsValid(int x, int y) { return x >= 0 && x < width && y >= 0 && y < height; }
 
@@ -40,7 +42,8 @@ public class Mining_Game : MonoBehaviour
         GenerateCells();//--게임에 필요한 셀 생성
         GenerateCenter();
         GenerateStartMine();
-        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -10.0f); ;
+        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -10.0f);
+        board.CountCellsType(state, out emptyCount, out plantCount);
         board.Draw(state);//--타입에 맞게 각 셀 tile 설정
     }
 
@@ -58,6 +61,7 @@ public class Mining_Game : MonoBehaviour
             GenerateCells();//--게임에 필요한 셀 생성
             GenerateCenter();
             GenerateStartMine();
+            board.CountCellsType(state, out emptyCount, out plantCount);
             board.Draw(state);//--타입에 맞게 각 셀 tile 설정
         }
     }
@@ -262,6 +266,7 @@ public class Mining_Game : MonoBehaviour
         ExpansionMine(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLengh - 1);
 
     }
+    
     private void EndGame()
     {
 
