@@ -1,59 +1,12 @@
 {
     "collection": [
-        {
-            "inventoryIndexNumber": 7,
-            "keyvalue": 1003,
-            "name": "Fig",
-            "rating": 1,
-            "texture2DImagePath": "",
-            "count": 10,
-            "red_Option": 8,
-            "black_Option": 2,
-            "blue_Option": 0
-        },
-        {
-            "inventoryIndexNumber": 4,
-            "keyvalue": 1006,
-            "name": "Chamomile",
-            "rating": 3,
-            "texture2DImagePath": "",
-            "count": 2,
-            "red_Option": 10,
-            "black_Option": 10,
-            "blue_Option": 0
-        },
-        {
-            "inventoryIndexNumber": 3,
-            "keyvalue": 1007,
-            "name": "Borage",
-            "rating": 2,
-            "texture2DImagePath": "",
-            "count": 5,
-            "red_Option": 1,
-            "black_Option": 1,
-            "blue_Option": 10
-        },
-        {
-            "inventoryIndexNumber": 2,
-            "keyvalue": 1001,
-            "name": "Chervil",
-            "rating": 1,
-            "texture2DImagePath": "",
-            "count": 5,
-            "red_Option": 5,
-            "black_Option": 10,
-            "blue_Option": 8
-        },
-        {
-            "inventoryIndexNumber": 1,
-            "keyvalue": 1010,
-            "name": "Chives",
-            "rating": 2,
-            "texture2DImagePath": "",
-            "count": 2,
-            "red_Option": 1,
-            "black_Option": 1,
-            "blue_Option": 1
-        }
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
     ]
 }
