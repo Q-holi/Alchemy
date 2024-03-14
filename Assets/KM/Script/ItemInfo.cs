@@ -16,7 +16,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private GameObject stackPrefab;        // 아이템 옵션 표기를 위한 스택 프리팹
 
     [SerializeField] private InventoryList inventory;       // 인벤토리 정보 불러오기
-    private Collection item;    // 중복 검증을 위한 아이템 데이터
+    private IItem item;    // 중복 검증을 위한 아이템 데이터
     private List<GameObject> stackList = new List<GameObject>();    // 아이템 옵션 리스트
 
     private void Awake()
@@ -40,7 +40,7 @@ public class ItemInfo : MonoBehaviour
             return;
     }
 
-    public void ShowItemInfo(Collection info)
+    public void ShowItemInfo(IItem info)
     {
         item = info;
         // 아이템 정보 표시를 위해 정보창 정보 visible
@@ -53,7 +53,7 @@ public class ItemInfo : MonoBehaviour
 
         // 아이템 정보 설정
         itemFrame.color = UtilFunction.GetColor(info.Rating);
-        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.Texture2DImagePath);
+        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempIcons").GetSprite(info.Texture2DImagePath);
         itemName.text = info.Name;
         itemName.color = UtilFunction.GetColor(info.Rating);
         itemRank.text = info.Rating.ToString();
@@ -64,14 +64,18 @@ public class ItemInfo : MonoBehaviour
             Destroy(stack);
         stackList.Clear();
 
-        BuildStack(info.Red_Option, Color.red);
-        BuildStack(info.Green_Option, Color.green);
-        BuildStack(info.Blue_Option, Color.blue);
-        BuildStack(info.Alpha_Option, Color.white);
+        Collection temp = (Collection)info;
+        BuildStack(temp.Red_Option, Color.red);
+        BuildStack(temp.Green_Option, Color.green);
+        BuildStack(temp.Blue_Option, Color.blue);
+        BuildStack(temp.Alpha_Option, Color.white);
     }
 
     private void BuildStack(int count, Color color)
     {
+        if (count == 0)
+            return;
+
         for (int i = 0; i < count; i++)
         {
             GameObject temp = Instantiate(stackPrefab, itemOption.transform);

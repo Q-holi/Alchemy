@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class BattleSceneManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static BattleSceneManager instance;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private InventoryList ingredientList;
+    public InventoryList IngredientList { get => ingredientList; }
+
+    private void Awake()
     {
-        
+        if (instance == null)
+            instance = this;
+
+        List<Potion> ingredientData = ingredientList.Inventory.inventoryData.potions;
+        ingredientList.InventoryInit(ingredientData);
     }
 }

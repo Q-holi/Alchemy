@@ -13,10 +13,10 @@ public class SelectItem : MonoBehaviour
     public Rigidbody2D ItemRigidbody { get => itemRigidbody; set => itemRigidbody = value; }
     public IItem GetIteminfo { get => item; }
 
-    public void SetItemIcon(Collection item, InventoryList parent) // 아이템 정보 설정
+    public void SetItemIcon(IItem item) // 아이템 정보 설정
     {
         this.item = item;
-        SpriteAtlas icons = Resources.Load<SpriteAtlas>("TempOreImage");
+        SpriteAtlas icons = Resources.Load<SpriteAtlas>("TempIcons");
         uiIcon.GetComponent<Image>().sprite = icons.GetSprite(item.Texture2DImagePath);
         uiIcon.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         itemRigidbody.gravityScale = 0;

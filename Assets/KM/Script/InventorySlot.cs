@@ -26,18 +26,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     }
 
     // 아이템 정보 초기화
-    public void ItemInit(Collection info)
+    public void ItemInit(IItem info)
     {
         item = info;
-        iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
-        itemCount.text = item.Count.ToString();
-        itemFrame.color = UtilFunction.GetColor(item.Rating);
-    }
-
-    public void ItemInit(Potion info)
-    {
-        item = info;
-        iconImage.sprite = Resources.Load<SpriteAtlas>("TempPotionImage").GetSprite(item.Texture2DImagePath);
+        iconImage.sprite = Resources.Load<SpriteAtlas>("TempIcons").GetSprite(item.Texture2DImagePath);
         itemCount.text = item.Count.ToString();
         itemFrame.color = UtilFunction.GetColor(item.Rating);
     }
@@ -55,8 +47,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         // 드래그 아이템 복사본 생성
         selectItem = Instantiate(inventory.SelectItemPrefab,
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
-        // 아이템 정보 설정
-        selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item, inventory);
+        // 아이템 정보 설정 << 다시 생각해보기
+        selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
@@ -91,7 +83,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (inventory.isDragging)
             return;
         inventory.SelectItem = item;
-        //AlchemyManager.instance.LinePreview((Collection)item);
         coverImage.gameObject.SetActive(true);
     }
 

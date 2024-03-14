@@ -12,7 +12,7 @@ public class AlchemySceneManager : MonoBehaviour
     [SerializeField] private InventoryList ingredientList;
     public InventoryList IngredientList { get => ingredientList; }
 
-    private void Awake()
+    private void Start()
     {
         if (instance == null)
             instance = this;
