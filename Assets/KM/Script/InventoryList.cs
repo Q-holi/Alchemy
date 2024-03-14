@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class InventoryList : MonoBehaviour
 {
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
@@ -15,6 +16,7 @@ public class InventoryList : MonoBehaviour
     public bool isDragging = false;     // 아이템 드래그 감지
 
     #region GetSet
+    public N_Inventory Inventory { get => inventory; }
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
     public IItem SelectItem { get => selectItem; set => selectItem = value; }
     #endregion
@@ -51,17 +53,8 @@ public class InventoryList : MonoBehaviour
     {
         if (isUse)
         {
-            //PotionMarker marker = potionMap.GetPotionMarker.GetComponent<PotionMarker>();
-
             inventory.inventoryData.collections.Find(x => x == item).count--;
             InventoryUpdate(inventory.inventoryData);
-
-            //Vector3 startPos = marker.gameObject.transform.localPosition;   // 시작점
-            //Vector3 endPos = startPos +
-            //    (new Vector3(item.Green_Option - item.Alpha_Option, item.Red_Option - item.Blue_Option, 0.0f)) / 10.0f; // 목적지
-            //StartCoroutine(marker.MovePotionCorutine(startPos, endPos));    // 포션 위치 움직이는 코루틴 실행
-
-            //previewLine.gameObject.SetActive(false);
         }
         else
         {

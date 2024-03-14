@@ -52,12 +52,12 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = AlchemyManager.GetColor(info.Rating);
+        itemFrame.color = UtilFunction.GetColor(info.Rating);
         itemIcon.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(info.Texture2DImagePath);
         itemName.text = info.Name;
-        itemName.color = AlchemyManager.GetColor(info.Rating);
+        itemName.color = UtilFunction.GetColor(info.Rating);
         itemRank.text = info.Rating.ToString();
-        itemRank.color = AlchemyManager.GetColor(info.Rating);
+        itemRank.color = UtilFunction.GetColor(info.Rating);
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)

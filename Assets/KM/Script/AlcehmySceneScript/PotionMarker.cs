@@ -23,7 +23,7 @@ public class PotionMarker : MonoBehaviour
         transform.localPosition = endPos; // 이동이 완료된 후 목적지에 정확히 위치하도록 보정
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) // 포션이 효과를 얻었을때
     {
         potion = collision.gameObject.GetComponent<MarkerOption>().SetPotion(potion);
         potion.PotionEffect();

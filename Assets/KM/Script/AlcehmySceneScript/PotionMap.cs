@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class PotionMap : MonoBehaviour
 {
-    // 확대, 축소
+    // 확대, 축소 기능 추후 제작
 
-    // 포션 옵션의 위치
-    [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();
+    [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();    // 포션 옵션의 위치 설정
     [SerializeField] private GameObject markerPrefab;   // 옵션 마커 프리팹
-    [SerializeField] private GameObject potionMarker;  // 맵에서 포션의 위치
-    public Transform PotionPosition { get { return potionMarker.transform; } }
-    public GameObject GetPotionMarker { get { return potionMarker; } }
 
     private void Start()
     {

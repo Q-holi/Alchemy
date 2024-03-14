@@ -31,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         item = info;
         iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
         itemCount.text = item.Count.ToString();
-        itemFrame.color = AlchemyManager.GetColor(item.Rating);
+        itemFrame.color = UtilFunction.GetColor(item.Rating);
     }
 
     public void ItemInit(Potion info)
@@ -39,7 +39,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         item = info;
         iconImage.sprite = Resources.Load<SpriteAtlas>("TempPotionImage").GetSprite(item.Texture2DImagePath);
         itemCount.text = item.Count.ToString();
-        itemFrame.color = AlchemyManager.GetColor(item.Rating);
+        itemFrame.color = UtilFunction.GetColor(item.Rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
@@ -54,7 +54,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
         // 드래그 아이템 복사본 생성
         selectItem = Instantiate(inventory.SelectItemPrefab,
-        AlchemyManager.ScreenToWorldPos(), Quaternion.identity);
+        UtilFunction.ScreenToWorldPos(), Quaternion.identity);
         // 아이템 정보 설정
         selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item, inventory);
     }
@@ -64,7 +64,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.Count <= 0 || selectItem == null)
             return;
 
-        selectItem.transform.position = AlchemyManager.ScreenToWorldPos();
+        selectItem.transform.position = UtilFunction.ScreenToWorldPos();
         // 아이템 정보 넘겨주기
         inventory.SelectItem = item;
     }
@@ -77,15 +77,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
         selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;
 
-        GameObject temp = AlchemyManager.instance.Detectray();
-        if (temp)
+        if (UtilFunction.Detectray(inventory.gameObject.name))
         {
-            if (temp.name == "IngredientList") // 재료창 위에서 드래그가 끝났으면, 아이템 사용 취소
-            {
-                Debug.Log("Item Use Cancel");
-                Destroy(selectItem);
-            }
+            Debug.Log("Item Use Cancel");
+            Destroy(selectItem);
         }
+
         coverImage.gameObject.SetActive(false);
     }
 
@@ -94,7 +91,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (inventory.isDragging)
             return;
         inventory.SelectItem = item;
-        AlchemyManager.instance.LinePreview((Collection)item);
+        //AlchemyManager.instance.LinePreview((Collection)item);
         coverImage.gameObject.SetActive(true);
     }
 
