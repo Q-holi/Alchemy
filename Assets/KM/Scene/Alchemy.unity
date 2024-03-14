@@ -1437,6 +1437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 960081076}
   potionMarker: {fileID: 1743111804}
+  ingredientList: {fileID: 496504812}
 --- !u!1 &1021925852
 GameObject:
   m_ObjectHideFlags: 0

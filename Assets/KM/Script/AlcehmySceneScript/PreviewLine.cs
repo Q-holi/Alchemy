@@ -7,12 +7,11 @@ public class PreviewLine : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private PotionMarker potionMarker;
-    [SerializeField] private InventoryList ingredientList;
 
     private void Update()
     {
-        if (ingredientList.SelectItem != null)
-            LinePreview((Collection)ingredientList.SelectItem);
+        if (AlchemyManager.instance.IngredientList.SelectItem != null)
+            LinePreview((Collection)AlchemyManager.instance.IngredientList.SelectItem);
     }
 
     public void LinePreview(Collection baseItem)
