@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
@@ -11,7 +12,8 @@ using UnityEngine.XR;
 [System.Serializable]
 public class N_InventoryData
 {
-    public List<Collection> collection;
+    public List<Collection> collections;
+    public List<Potion> potions;
 }
 
 public class N_Inventory : MonoBehaviour
@@ -23,10 +25,13 @@ public class N_Inventory : MonoBehaviour
     string sw_JsonFilePathtest = "_Data/New_Inventory.json";
 
     private bool AddInventoryData(IItem item) =>
-        inventoryData.collection.Any(x => x.InventoryIndexNumber == item.InventoryIndexNumber);
+        inventoryData.collections.Any(x => x.InventoryIndexNumber == item.InventoryIndexNumber);
 
     private void Awake()
     {
+        inventoryData = new N_InventoryData();
+        inventoryData.collections = new List<Collection>();
+        inventoryData.potions = new List<Potion>();
         LoadJsonData();
     }
 
@@ -39,6 +44,10 @@ public class N_Inventory : MonoBehaviour
             //
             //// CreateCollection 메서드 호출
             //N_Collection collection = ItemFactory.CreateCollection( 5, 10, 11);
+
+            // 예시 아이템 생성
+            Potion item = new NormalPotion();
+            inventoryData.potions.Add(item);
         }
 
     }
@@ -60,10 +69,22 @@ public class N_Inventory : MonoBehaviour
             byte[] decodedBytes = Convert.FromBase64String(jsonText);
             string reformat = System.Text.Encoding.UTF8.GetString(decodedBytes);
             inventoryData = JsonUtility.FromJson<N_InventoryData>(reformat);
+
+            if (inventoryData.potions == null)
+                inventoryData.potions = new List<Potion>();
+
+            if (inventoryData.collections == null)
+                inventoryData.collections = new List<Collection>();
+
         }
         catch (FormatException)
         {
             inventoryData = JsonUtility.FromJson<N_InventoryData>(jsonText);
+            if (inventoryData.potions == null)
+                inventoryData.potions = new List<Potion>();
+
+            if (inventoryData.collections == null)
+                inventoryData.collections = new List<Collection>();
         }
     }
 

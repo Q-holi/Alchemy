@@ -7,9 +7,9 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
+public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private Collection item;            // 아이템 정보
+    [SerializeField] private IItem item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
@@ -29,7 +29,15 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         item = info;
         iconImage.sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
         itemCount.text = item.Count.ToString();
-        itemFrame.color = AlchemyManager.instance.GetColor(item.rating);
+        itemFrame.color = AlchemyManager.instance.GetColor(item.Rating);
+    }
+
+    public void ItemInit(Potion info)
+    {
+        item = info;
+        iconImage.sprite = Resources.Load<SpriteAtlas>("TempPotionImage").GetSprite(item.Texture2DImagePath);
+        itemCount.text = item.Count.ToString();
+        itemFrame.color = AlchemyManager.instance.GetColor(item.Rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
@@ -46,7 +54,7 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         selectItem = Instantiate(AlchemyManager.instance.SelectItemPrefab,
         AlchemyManager.instance.ScreenToWorldPos(), Quaternion.identity);
         // 아이템 정보 설정
-        selectItem.GetComponent<SelectItem>().SetItemIcon(item);
+        selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
@@ -84,7 +92,7 @@ public class IngredientSlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHan
         if (AlchemyManager.instance.isDragging)
             return;
         AlchemyManager.instance.SelectItem = item;
-        AlchemyManager.instance.LinePreview(item);
+        AlchemyManager.instance.LinePreview((Collection)item);
         coverImage.gameObject.SetActive(true);
     }
 

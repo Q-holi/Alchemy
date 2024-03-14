@@ -106,33 +106,33 @@ public class AlchemyManager : MonoBehaviour
     public void LinePreview(Collection baseItem)
     {
         previewLine.gameObject.SetActive(true);
+        Vector3 markerPoint = potionMap.PotionPosition.localPosition;
         Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
                                          baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
-        previewLine.DrawLine(potionMap.PotionPosition.localPosition * 10.0f,
-            potionMap.PotionPosition.localPosition * 10.0f + lineVector);
+        previewLine.DrawLine(markerPoint * 10.0f, markerPoint * 10.0f + lineVector);
     }
 
+    // 아이템 사용 함수
     public void ItemUse(bool isUse, Collection item)
     {
         if (isUse)
         {
-            Inventory.inventoryData.collection.Find(x => x == item).count--;
-            inventoryList.GetComponent<IngredientList>()
-                .InventoryUpdate(Inventory.inventoryData);
+            PotionMarker marker = potionMap.GetPotionMarker.GetComponent<PotionMarker>();
 
-            Vector3 startPos = potionMap.GetPotionMarker.GetComponent<PotionMarker>().gameObject.transform.localPosition;
+            Inventory.inventoryData.collections.Find(x => x == item).count--;
+            inventoryList.GetComponent<InventoryList>().InventoryUpdate(Inventory.inventoryData);
+
+            Vector3 startPos = marker.gameObject.transform.localPosition;   // 시작점
             Vector3 endPos = startPos + 
-                (new Vector3(item.Green_Option - item.Alpha_Option, item.Red_Option - item.Blue_Option, 0.0f)) / 10.0f;
-
-            StartCoroutine(potionMap.GetPotionMarker.GetComponent<PotionMarker>().MovePotionCorutine(startPos, endPos));
+                (new Vector3(item.Green_Option - item.Alpha_Option, item.Red_Option - item.Blue_Option, 0.0f)) / 10.0f; // 목적지
+            StartCoroutine(marker.MovePotionCorutine(startPos, endPos));    // 포션 위치 움직이는 코루틴 실행
 
             previewLine.gameObject.SetActive(false);
         }
         else
         {
-            Inventory.inventoryData.collection.Find(x => x == item).count++;
-            inventoryList.GetComponent<IngredientList>()
-                .InventoryUpdate(Inventory.inventoryData);
+            Inventory.inventoryData.collections.Find(x => x == item).count++;
+            inventoryList.GetComponent<InventoryList>().InventoryUpdate(Inventory.inventoryData);
         }
     }
 }

@@ -42,7 +42,6 @@ public class CaulDron : MonoBehaviour
         contentAmount.color = new Color(stackColor.r / ingredientList.Count,
                                         stackColor.g / ingredientList.Count,
                                         stackColor.b / ingredientList.Count);
-        Debug.Log(stackColor);
         return true;
     }
 }

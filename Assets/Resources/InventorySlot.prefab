@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 4789010203480155686}
   - component: {fileID: -396899887447952934}
   m_Layer: 5
-  m_Name: IngredientSlot
+  m_Name: InventorySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,17 +438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bc91e457104da469a89d48c791f2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    inventoryIndexNumber: 0
-    keyValue: 0
-    name: 
-    rating: 0
-    texture2DImagePath: 
-    count: 0
-    red_Option: 0
-    green_Option: 0
-    blue_Option: 0
-    alpha_Option: 0
   iconImage: {fileID: 2160852772876303157}
   itemFrame: {fileID: 4600182105457155938}
   itemCount: {fileID: 7555884712625032307}

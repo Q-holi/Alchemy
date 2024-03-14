@@ -18,7 +18,7 @@ public class T_IngredientList : MonoBehaviour
     {
         inventoryData = data;
 
-        foreach (Collection item in inventoryData.collection)
+        foreach (Collection item in inventoryData.collections)
         {
             GameObject slot = Instantiate(slotPrefab, slotTransform);
             slot.GetComponent<T_IngredientSlot>().ItemInit(item);
