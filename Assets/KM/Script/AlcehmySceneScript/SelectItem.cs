@@ -9,10 +9,13 @@ public class SelectItem : MonoBehaviour
     [SerializeField] private Collection iteminfo;           // 복사된 아이템 데이터
     [SerializeField] private Rigidbody2D itemRigidbody;     // 아이템 중력 조절용 rigidbody 컴포넌트
     [SerializeField] private GameObject uiIcon;
+
+    private InventoryList inventory;    // 인벤토리 데이터.
     public Rigidbody2D ItemRigidbody { get => itemRigidbody; set => itemRigidbody = value; }
 
-    public void SetItemIcon(Collection item) // 아이템 정보 설정
+    public void SetItemIcon(Collection item, InventoryList parent) // 아이템 정보 설정
     {
+        inventory = parent;
         iteminfo = item;
         uiIcon.GetComponent<Image>().sprite = Resources.Load<SpriteAtlas>("TempOreImage").GetSprite(item.Texture2DImagePath);
         uiIcon.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -42,7 +45,7 @@ public class SelectItem : MonoBehaviour
                 if (AlchemyManager.instance.CaulDron.GetComponent<CaulDron>().UpdateContent(iteminfo))
                 { 
                     Debug.Log("Use Item : " + iteminfo.Name);
-                    AlchemyManager.instance.ItemUse(true, iteminfo);
+                    inventory.ItemUse(true, iteminfo);
                 }
                 else // 아이템 사용 실패
                 { 

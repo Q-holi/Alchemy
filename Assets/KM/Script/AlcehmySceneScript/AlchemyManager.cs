@@ -26,22 +26,14 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private PotionMap potionMap;       // 포션 맵
     [SerializeField] private PreviewLine previewLine;   // 포션이 움직일 위치 미리보기
 
-    [SerializeField] private N_Inventory inventory;     // 인벤토리 정보
     [SerializeField] private GameObject inventoryList;  // 인벤토리 아이템 정보
 
-    [SerializeField] private IItem selectItem;        // 선택된 아이템
     [SerializeField] private GameObject bgPlane;        // 레이캐스팅용 배경 오브젝트
-    [SerializeField] private GameObject selectItemPrefab;   // 복사될 오브젝트
-
-    public bool isDragging = false;
 
     #region GetSet
     public GameObject CaulDron { get => caulDron; }
     public List<Collection> IngredientList { get => ingredientList; }
-    public N_Inventory Inventory { get => inventory; set => inventory = value; }
-    public IItem SelectItem { get => selectItem; set => selectItem = value; }
     public GameObject StackPrefab { get => stackPrefab; }
-    public GameObject SelectItemPrefab { get => selectItemPrefab; }
     #endregion
 
     private void Awake()
@@ -50,15 +42,17 @@ public class AlchemyManager : MonoBehaviour
             instance = this;
     }
 
-    public Vector3 ScreenToWorldPos()
+    public static Vector3 ScreenToWorldPos()
     {
+        GameObject plane = GameObject.Find("RayCastBG_Obj");
+
         // 레이캐스트 활용해서 좌표 추적
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         Vector3 objPosition = new Vector3();
 
-        if (bgPlane.GetComponent<MeshCollider>().Raycast(ray, out hit, 1000))
+        if (plane.GetComponent<MeshCollider>().Raycast(ray, out hit, 1000))
         {
             objPosition = hit.point;
             objPosition.z = objPosition.z - 0.1f; // ZFighting 방지를 위해 z 위치 조정
@@ -87,7 +81,7 @@ public class AlchemyManager : MonoBehaviour
             return null;
     }
 
-    public Color GetColor(Rating rating)
+    public static Color GetColor(Rating rating)
     {
         switch (rating)
         {
@@ -110,29 +104,5 @@ public class AlchemyManager : MonoBehaviour
         Vector3 lineVector = new Vector3(baseItem.Green_Option - baseItem.Alpha_Option,
                                          baseItem.Red_Option - baseItem.Blue_Option, 0.0f);
         previewLine.DrawLine(markerPoint * 10.0f, markerPoint * 10.0f + lineVector);
-    }
-
-    // 아이템 사용 함수
-    public void ItemUse(bool isUse, Collection item)
-    {
-        if (isUse)
-        {
-            PotionMarker marker = potionMap.GetPotionMarker.GetComponent<PotionMarker>();
-
-            Inventory.inventoryData.collections.Find(x => x == item).count--;
-            inventoryList.GetComponent<InventoryList>().InventoryUpdate(Inventory.inventoryData);
-
-            Vector3 startPos = marker.gameObject.transform.localPosition;   // 시작점
-            Vector3 endPos = startPos + 
-                (new Vector3(item.Green_Option - item.Alpha_Option, item.Red_Option - item.Blue_Option, 0.0f)) / 10.0f; // 목적지
-            StartCoroutine(marker.MovePotionCorutine(startPos, endPos));    // 포션 위치 움직이는 코루틴 실행
-
-            previewLine.gameObject.SetActive(false);
-        }
-        else
-        {
-            Inventory.inventoryData.collections.Find(x => x == item).count++;
-            inventoryList.GetComponent<InventoryList>().InventoryUpdate(Inventory.inventoryData);
-        }
     }
 }

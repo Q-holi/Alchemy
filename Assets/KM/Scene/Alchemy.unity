@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 181440528}
   - component: {fileID: 181440527}
   m_Layer: 0
-  m_Name: BG
+  m_Name: RayCastBG_Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -760,6 +760,9 @@ MonoBehaviour:
   itemRank: {fileID: 1983683649}
   itemOption: {fileID: 640459197}
   itemDetail: {fileID: 2129911137}
+  stackPrefab: {fileID: 1651204546045026914, guid: 2f2442d79c30dc442a67ac78a033cd98,
+    type: 3}
+  inventory: {fileID: 496504812}
 --- !u!1 &387824052
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +997,8 @@ GameObject:
   m_Component:
   - component: {fileID: 496504809}
   - component: {fileID: 496504810}
+  - component: {fileID: 496504812}
+  - component: {fileID: 496504811}
   m_Layer: 5
   m_Name: InventoryContent
   m_TagString: Untagged
@@ -1044,6 +1049,40 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &496504811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496504808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cae41fb92132f64cb8762aab89d819f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incoding64: 0
+  inventoryData:
+    collections: []
+--- !u!114 &496504812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496504808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a03b2a580fee524eb4f3f578c96cddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotTransform: {fileID: 496504809}
+  slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
+    type: 3}
+  inventory: {fileID: 496504811}
+  selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
+    type: 3}
+  isDragging: 0
 --- !u!1 &640459197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,12 +2538,8 @@ MonoBehaviour:
     type: 3}
   potionMap: {fileID: 1718391202}
   previewLine: {fileID: 960081077}
-  inventory: {fileID: 1495020276}
   inventoryList: {fileID: 1974386743}
   bgPlane: {fileID: 181440526}
-  selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
-    type: 3}
-  isDragging: 0
 --- !u!1 &1718391199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,7 +2853,6 @@ GameObject:
   - component: {fileID: 1974386746}
   - component: {fileID: 1974386745}
   - component: {fileID: 1974386749}
-  - component: {fileID: 1974386751}
   m_Layer: 5
   m_Name: InventoryList
   m_TagString: Untagged
@@ -2959,21 +2993,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1974386751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974386743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a03b2a580fee524eb4f3f578c96cddc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotTransform: {fileID: 496504809}
-  slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
-    type: 3}
 --- !u!1 &1983683647
 GameObject:
   m_ObjectHideFlags: 0
