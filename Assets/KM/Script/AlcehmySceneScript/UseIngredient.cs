@@ -32,6 +32,7 @@ public class UseIngredient : MonoBehaviour
         {
             Debug.Log("Use Item Fail");
         }
+
         Destroy(collision.gameObject);
     }
 }

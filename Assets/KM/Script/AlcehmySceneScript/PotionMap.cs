@@ -32,7 +32,7 @@ public class PotionMap : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            Vector3 tempPos = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), -0.1f);
+            Vector3 tempPos = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0.0f);
             optionPoint.Add(tempPos);
         }
     }
