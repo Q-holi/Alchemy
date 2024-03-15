@@ -289,11 +289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8033cb7db15ebf84c99e3c2297edbb73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 50
-  height: 50
-  seed: why
-  useRandomSeed: 0
-  randomFillPercent: 45
+  width: 80
+  height: 80
+  seed: fuck
+  useRandomSeed: 1
+  randomFillPercent: 50
 --- !u!4 &236264746
 Transform:
   m_ObjectHideFlags: 0

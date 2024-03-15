@@ -35,9 +35,7 @@ public class NewBehaviourScript : MonoBehaviour
         RandomFillMap();
 
         for (int i = 0; i < 5; i++)
-        {
             SmoothMap();
-        }
     }
 
     // 맵을 랜덤하게 채움
@@ -61,7 +59,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    // 주변 타일을 검사해서 지형을 뭉개는 부분
+    // 주변 타일을 검사해서 지형을 뭉개서 다듬는 함수
     private void SmoothMap()
     {
         for (int x = 0; x < width; x++)
@@ -69,7 +67,7 @@ public class NewBehaviourScript : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 int neighbourWallTiles = GetSurroundingWallCount(x, y);
-                if (neighbourWallTiles > 4) // 사방이 막혔다면 해당 타일을 벽으로 변환
+                if (neighbourWallTiles > 4) // 주변 8칸중 막힌 공간이 4개 이상이면 벽으로 전환
                     map[x, y] = 1;
                 else if (neighbourWallTiles < 4) // 아니라면 그 타일은 여전히 방
                     map[x, y] = 0;
@@ -100,7 +98,7 @@ public class NewBehaviourScript : MonoBehaviour
         return wallCount;
     }
 
-    // 맵에 들어간 데이터 gizmo 사용해 출력
+    // 맵에 들어간 데이터를 gizmo 사용해 출력
     private void OnDrawGizmos()
     {
         if (map != null)
