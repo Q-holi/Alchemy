@@ -14,7 +14,7 @@ public class BattleSceneManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        List<Potion> ingredientData = ingredientList.Inventory.inventoryData.potions;
-        ingredientList.InventoryInit(ingredientData);
+        //List<Potion> ingredientData = ingredientList.Inventory.inventoryData.potions;
+        //ingredientList.InventoryInit(ingredientData);
     }
 }
