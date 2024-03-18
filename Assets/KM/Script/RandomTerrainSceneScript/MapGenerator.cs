@@ -191,7 +191,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    // 주변 타일을 검사해서 지형을 뭉개서 다듬는 함수
+    // 주변 타일을 검사해서 지형을 뭉개 다듬는 함수
     private void SmoothMap()
     {
         for (int x = 0; x < width; x++)
