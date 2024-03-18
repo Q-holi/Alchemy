@@ -9,7 +9,8 @@ using UnityEngine.Tilemaps;
 public class MapGenerator : MonoBehaviour
 {
     // 타일맵을 그릴 타일
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap wallTileMap;
+    [SerializeField] private Tilemap floorTileMap;
 
     // 타일맵에 그려질 타일
     [SerializeField] public Tile wallTile;
@@ -241,7 +242,8 @@ public class MapGenerator : MonoBehaviour
     // 맵 정보를 토대로 타일 출력
     public void DrawTile()
     {
-        tilemap.ClearAllTiles();
+        wallTileMap.ClearAllTiles();
+        floorTileMap.ClearAllTiles();
 
         for (int x = 0; x < width; x++)
         {
@@ -249,9 +251,9 @@ public class MapGenerator : MonoBehaviour
             {
                 Vector3Int pos = new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
                 if (map[x, y] == 1)
-                    tilemap.SetTile(pos, wallTile);
+                    wallTileMap.SetTile(pos, wallTile);
                 else
-                    tilemap.SetTile(pos, floorTile);
+                    floorTileMap.SetTile(pos, floorTile);
             }
         }
     }
