@@ -6,14 +6,23 @@ using Unity.Mathematics;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.Tilemaps;
 
-
+enum TileType
+{ 
+    Wall = 0,
+    Dirt,
+    Grass,
+    Border_Dirt,
+    Border_Grass
+}
 
 public class MapGenerator : MonoBehaviour
 {
+    // 타일맵을 그릴 타일
     [SerializeField] private Tilemap tilemap;
 
-    [SerializeField] public Tile wallTile;
-    [SerializeField] public Tile floorTile;
+    // 타일맵에 그려질 타일
+    [SerializeField] public Tile wallTile;     
+    [SerializeField] public List<Tile> floorTile;
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -29,6 +38,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int roomThresholdSize; // 제거할 방 타일의 크기
 
     private int[,] map;
+
     struct Coord
     {
         public int tileX;
@@ -57,7 +67,7 @@ public class MapGenerator : MonoBehaviour
         map = new int[width, height];
         RandomFillMap();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 8; i++)
             SmoothMap();
 
         ProcessMap();
@@ -65,6 +75,7 @@ public class MapGenerator : MonoBehaviour
         DrawTile();
     }
 
+    // 부자연스러운 작은 공간이나 섬 제거
     private void ProcessMap()
     {
         List<List<Coord>> wallRegions = GetRegions(1);  // 공간이 벽인 타일 검사
@@ -90,10 +101,10 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-
+    // 생성된 방의 영역 체크
     private List<List<Coord>> GetRegions(int tileType)
     {
-        List<List<Coord>> regions = new List<List<Coord>>();    // 쪼개진 맵 영역정보
+        List<List<Coord>> regions = new List<List<Coord>>();    // 검사한 맵의 영역(범위)
         int[,] mapFlags = new int[width, height];   // 검사할 맵 영역
 
         for (int x = 0; x < width; x++)
@@ -129,7 +140,7 @@ public class MapGenerator : MonoBehaviour
         while (queue.Count > 0) // 큐에 남은 타일이 없을때까지
         {
             Coord tile = queue.Dequeue();   // 큐에 추가한 첫번째 타일
-            tiles.Add(tile);                // 그 타일을 검사 완료 영역에 추가
+            tiles.Add(tile);                // 그 타일을 영역에 추가
 
             // 검사 영역으로부터 주변 8칸
             for (int x = tile.tileX - 1; x <= tile.tileX + 1; x++)
@@ -188,7 +199,7 @@ public class MapGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 int neighbourWallTiles = GetSurroundingWallCount(x, y);
-                if (neighbourWallTiles > 4) // 주변 8칸중 막힌 공간이 4개보다 많으면이면 벽으로 전환
+                if (neighbourWallTiles > 4) // 주변 8칸중 막힌 공간이 4개보다 많으면 벽으로 전환
                     map[x, y] = 1;
                 else if (neighbourWallTiles < 4) // 아니라면 그 타일은 여전히 방
                     map[x, y] = 0;
@@ -239,16 +250,17 @@ public class MapGenerator : MonoBehaviour
     // 맵 정보를 토대로 타일 출력
     public void DrawTile()
     {
+        tilemap.ClearAllTiles();
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                Vector3Int pos =
-                    new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
+                Vector3Int pos = new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
                 if (map[x, y] == 1)
                     tilemap.SetTile(pos, wallTile);
                 else
-                    tilemap.SetTile(pos, floorTile);
+                    tilemap.SetTile(pos, floorTile[UnityEngine.Random.Range(0, floorTile.Count)]);
             }
         }
     }
