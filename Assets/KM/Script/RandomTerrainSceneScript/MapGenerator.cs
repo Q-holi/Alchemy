@@ -6,23 +6,14 @@ using Unity.Mathematics;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.Tilemaps;
 
-enum TileType
-{ 
-    Wall = 0,
-    Dirt,
-    Grass,
-    Border_Dirt,
-    Border_Grass
-}
-
 public class MapGenerator : MonoBehaviour
 {
     // 타일맵을 그릴 타일
     [SerializeField] private Tilemap tilemap;
 
     // 타일맵에 그려질 타일
-    [SerializeField] public Tile wallTile;     
-    [SerializeField] public List<Tile> floorTile;
+    [SerializeField] public Tile wallTile;
+    public RuleTile floorTile;
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -260,7 +251,7 @@ public class MapGenerator : MonoBehaviour
                 if (map[x, y] == 1)
                     tilemap.SetTile(pos, wallTile);
                 else
-                    tilemap.SetTile(pos, floorTile[UnityEngine.Random.Range(0, floorTile.Count)]);
+                    tilemap.SetTile(pos, floorTile);
             }
         }
     }
