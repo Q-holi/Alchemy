@@ -13,8 +13,8 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private Tilemap floorTileMap;
 
     // 타일맵에 그려질 타일
-    [SerializeField] public Tile wallTile;
-    public RuleTile floorTile;
+    [SerializeField] private Tile wallTile;
+    [SerializeField] private RuleTile floorTile;
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -30,6 +30,8 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int roomThresholdSize; // 제거할 방 타일의 크기
 
     private int[,] map;
+    [SerializeField] private GameObject tempobj;
+    public Vector3 spawnPoint;
 
     struct Coord
     {
@@ -65,6 +67,7 @@ public class MapGenerator : MonoBehaviour
         ProcessMap();
 
         DrawTile();
+        SetSpawnPoint();
     }
 
     // 부자연스러운 작은 공간이나 섬 제거
@@ -254,6 +257,22 @@ public class MapGenerator : MonoBehaviour
                     wallTileMap.SetTile(pos, wallTile);
                 else
                     floorTileMap.SetTile(pos, floorTile);
+            }
+        }
+    }
+
+    public void SetSpawnPoint()
+    {
+        while (true)
+        {
+            int randomWidth = UnityEngine.Random.Range(0, width);
+            int randomHeight = UnityEngine.Random.Range(0, height);
+            if (map[randomWidth, randomHeight] == 0)
+            { 
+                spawnPoint = new Vector3((-width / 2 + randomWidth + .5f),
+                                         (-height / 2 + randomHeight) + .5f);
+                tempobj.transform.position = spawnPoint;
+                break;
             }
         }
     }
