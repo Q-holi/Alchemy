@@ -1,23 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-[Serializable]
-public enum Rating
-{
-    Normal,
-    Rare,
-    Epic,
-    Legend
-}
 
-public interface IItem 
+public abstract class Item
 {
-    int InventoryIndexNumber { get; set; }
-    int KeyValue { get; set; }
-    string Name { get; set; }
-    Rating Rating { get; set; }
-    string Texture2DImagePath { get; set; }
-    int Count { get; set; }
+    public BaseItemData itemData;
+    public int count;
+
+    public Item(BaseItemData data) { itemData = data; }
+
+    public void SetAmount(int amount) { count = amount; }
 }
