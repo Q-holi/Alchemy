@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Unity.Android.Types;
+using System;
 
 public class AlchemySceneManager : MonoBehaviour
 {
     public static AlchemySceneManager instance;
 
-    [SerializeField] private InventoryList ingredientList;
-    public InventoryList IngredientList { get => ingredientList; }
+    [SerializeField] private Inventory ingredientList;
+    public Inventory IngredientList { get => ingredientList; }
 
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
             instance = this;
 
-        ingredientList.InventoryInit(ingredientList.Inventory.items);
+        ingredientList.InventoryInit(ingredientList.InventoryData.items);
     }
 }

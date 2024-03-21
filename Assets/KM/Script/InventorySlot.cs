@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.U2D;
 using TMPro;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
@@ -17,14 +15,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
 
-    public event System.Action<Item> OnMouseOverEvent;
-
     private GameObject selectItem;  // 드래그시, 복사된 아이템
-    private InventoryList inventory;
+    private Inventory inventory;
 
     private void Awake()
     {
-        inventory = gameObject.GetComponentInParent<InventoryList>();
+        inventory = gameObject.GetComponentInParent<Inventory>();
         coverImage.gameObject.SetActive(false);
     }
 
@@ -50,8 +46,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         // 드래그 아이템 복사본 생성
         selectItem = Instantiate(inventory.SelectItemPrefab,
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
-        // 아이템 정보 설정 << 다시 생각해보기
-        selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item);
+        // 아이템 정보 설정
+        EventHandler.OnItemDragging(item, true);
     }
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
@@ -59,7 +55,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0 || selectItem == null)
             return;
 
-        selectItem.transform.position = UtilFunction.ScreenToWorldPos();
         // 아이템 정보 넘겨주기
         inventory.SelectItem = item;
     }
@@ -70,7 +65,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0 || selectItem == null)
             return;
 
-        selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;
+        EventHandler.OnItemDragging(item, false);
 
         if (UtilFunction.Detectray(inventory.gameObject.name))
         {
@@ -85,7 +80,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     {
         if (inventory.isDragging)
             return;
-        inventory.SelectItem = item;
+
+        EventHandler.OnMouse?.Invoke(item);
         coverImage.gameObject.SetActive(true);
     }
 

@@ -8,19 +8,24 @@ public class PreviewLine : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private PotionMarker potionMarker;
 
-    private void Update()
+    private void Start()
     {
-        if (AlchemySceneManager.instance.IngredientList.SelectItem != null)
-            LinePreview((Collection)AlchemySceneManager.instance.IngredientList.SelectItem);
+        EventHandler.OnMouse += LinePreview;
     }
 
-    public void LinePreview(Collection baseItem)
+    private void OnDestroy()
+    {
+        EventHandler.OnMouse -= LinePreview;
+    }
+
+    public void LinePreview(Item baseItem)
     {
         gameObject.SetActive(true);
+        Collection temp = (Collection)baseItem;
 
         Vector3 markerPoint = potionMarker.gameObject.transform.localPosition;
-        Vector3 lineVector = new Vector3(baseItem.options.x - baseItem.options.z,
-                                         baseItem.options.y - baseItem.options.w, -0.1f);
+        Vector3 lineVector = new Vector3(temp.options.x - temp.options.z,
+                                         temp.options.y - temp.options.w, -0.1f);
 
         lineRenderer.SetPosition(0, markerPoint * 10.0f);
         lineRenderer.SetPosition(1, markerPoint * 10.0f + lineVector);

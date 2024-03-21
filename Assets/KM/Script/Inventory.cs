@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-
-public class InventoryList : MonoBehaviour
+public class Inventory : MonoBehaviour
 {
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
-    [SerializeField] private N_Inventory inventory;             // 인벤토리 데이터
+    [SerializeField] private N_Inventory inventoryData;             // 인벤토리 데이터
     private List<GameObject> slotList = new List<GameObject>(); // 현재 인벤토리에 생성된 아이템 슬롯들
 
     [SerializeField] private Item selectItem;        // 선택된 아이템
@@ -16,10 +16,20 @@ public class InventoryList : MonoBehaviour
     public bool isDragging = false;     // 아이템 드래그 감지
 
     #region GetSet
-    public N_Inventory Inventory { get => inventory; }
+    public N_Inventory InventoryData { get => inventoryData; }
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
     public Item SelectItem { get => selectItem; set => selectItem = value; }
     #endregion
+
+    private void Start()
+    {
+        EventHandler.OnUseItem += ItemUse;
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.OnUseItem -= ItemUse;
+    }
 
     public void InventoryInit(List<Item> data) // 인벤토리 데이터기반 아이템 설정
     {
@@ -34,25 +44,18 @@ public class InventoryList : MonoBehaviour
         }
     }
 
+    public void ItemUse(Item item)
+    {
+        inventoryData.items.Find(x => x == item).count--;
+        InventoryUpdate();
+    }
+
     public void InventoryUpdate()
     {
         for (int i = 0; i < slotList.Count; i++)
         {
-            slotList[i].GetComponent<InventorySlot>().ItemInit(inventory.items[i]);
-        }
-    }
-
-    public void ItemUse(bool isUse, Collection item)
-    {
-        if (isUse)
-        {
-            inventory.items.Find(x => x == item).count--;
-            InventoryUpdate();
-        }
-        else
-        {
-            inventory.items.Find(x => x == item).count++;
-            InventoryUpdate();
+            slotList[i].GetComponent<InventorySlot>().
+                ItemInit(inventoryData.items[i]);
         }
     }
 }

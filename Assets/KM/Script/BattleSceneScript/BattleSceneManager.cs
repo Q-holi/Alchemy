@@ -6,8 +6,8 @@ public class BattleSceneManager : MonoBehaviour
 {
     public static BattleSceneManager instance;
 
-    [SerializeField] private InventoryList ingredientList;
-    public InventoryList IngredientList { get => ingredientList; }
+    [SerializeField] private Inventory ingredientList;
+    public Inventory IngredientList { get => ingredientList; }
 
     private void Awake()
     {
