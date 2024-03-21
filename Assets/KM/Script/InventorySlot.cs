@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.U2D;
 using TMPro;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
@@ -15,6 +16,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
 
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
+
+    public event System.Action<Item> OnMouseOverEvent;
 
     private GameObject selectItem;  // 드래그시, 복사된 아이템
     private InventoryList inventory;

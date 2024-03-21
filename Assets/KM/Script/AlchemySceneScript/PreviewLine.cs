@@ -19,8 +19,8 @@ public class PreviewLine : MonoBehaviour
         gameObject.SetActive(true);
 
         Vector3 markerPoint = potionMarker.gameObject.transform.localPosition;
-        Vector3 lineVector = new Vector3(baseItem.options.x - baseItem.options.y,
-                                         baseItem.options.z - baseItem.options.w, -0.1f);
+        Vector3 lineVector = new Vector3(baseItem.options.x - baseItem.options.z,
+                                         baseItem.options.y - baseItem.options.w, -0.1f);
 
         lineRenderer.SetPosition(0, markerPoint * 10.0f);
         lineRenderer.SetPosition(1, markerPoint * 10.0f + lineVector);

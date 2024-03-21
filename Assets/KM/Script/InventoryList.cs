@@ -21,31 +21,24 @@ public class InventoryList : MonoBehaviour
     public Item SelectItem { get => selectItem; set => selectItem = value; }
     #endregion
 
-    public void InventoryInit(List<Collection> data) // 인벤토리 데이터기반 아이템 설정
+    public void InventoryInit(List<Item> data) // 인벤토리 데이터기반 아이템 설정
     {
-        foreach (Collection item in data)
+        foreach (Item item in data)
         {
-            GameObject slot = Instantiate(slotPrefab, slotTransform);
-            slot.GetComponent<InventorySlot>().ItemInit(item);
-            slotList.Add(slot);
+            if (item is Collection collection)
+            {
+                GameObject slot = Instantiate(slotPrefab, slotTransform);
+                slot.GetComponent<InventorySlot>().ItemInit(collection);
+                slotList.Add(slot);
+            }   
         }
     }
 
-    public void InventoryInit(List<Potion> data) // 인벤토리 데이터기반 아이템 설정
-    {
-        foreach (Potion item in data)
-        {
-            GameObject slot = Instantiate(slotPrefab, slotTransform);
-            slot.GetComponent<InventorySlot>().ItemInit(item);
-            slotList.Add(slot);
-        }
-    }
-
-    public void InventoryUpdate(N_InventoryData data)
+    public void InventoryUpdate()
     {
         for (int i = 0; i < slotList.Count; i++)
         {
-            slotList[i].GetComponent<InventorySlot>().ItemInit(data.collections[i]);
+            slotList[i].GetComponent<InventorySlot>().ItemInit(inventory.items[i]);
         }
     }
 
@@ -53,13 +46,13 @@ public class InventoryList : MonoBehaviour
     {
         if (isUse)
         {
-            inventory.inventoryData.collections.Find(x => x == item).count--;
-            InventoryUpdate(inventory.inventoryData);
+            inventory.items.Find(x => x == item).count--;
+            InventoryUpdate();
         }
         else
         {
-            inventory.inventoryData.collections.Find(x => x == item).count++;
-            InventoryUpdate(inventory.inventoryData);
+            inventory.items.Find(x => x == item).count++;
+            InventoryUpdate();
         }
     }
 }

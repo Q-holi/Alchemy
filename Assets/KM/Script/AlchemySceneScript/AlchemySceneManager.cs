@@ -17,7 +17,6 @@ public class AlchemySceneManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        List<Collection> ingredientData = ingredientList.Inventory.inventoryData.collections;
-        ingredientList.InventoryInit(ingredientData);
+        ingredientList.InventoryInit(ingredientList.Inventory.items);
     }
 }

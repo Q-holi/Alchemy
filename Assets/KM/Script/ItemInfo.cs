@@ -58,6 +58,7 @@ public class ItemInfo : MonoBehaviour
         itemName.color = UtilFunction.GetColor(info.itemData.rating);
         itemRank.text = info.itemData.rating.ToString();
         itemRank.color = UtilFunction.GetColor(info.itemData.rating);
+        itemDetail.text = info.itemData.detail;
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MarkerOption : MonoBehaviour
 {
-    //public Potion SetPotion(Potion targetPotion)
-    //{
-    //    targetPotion = new HealingPotion(targetPotion, 100);
-    //    return targetPotion;
-    //}
+    public BasePotionData potionData;
+
+    public Potion SetPotion(Potion targetPotion)
+    {
+        targetPotion.EnchantPotion(potionData);
+        return targetPotion;
+    }
 }

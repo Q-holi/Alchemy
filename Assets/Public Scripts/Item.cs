@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
+[System.Serializable]
 public abstract class Item
 {
-    public BaseItemData itemData;
-    public int count;
+    [SerializeField] public BaseItemData itemData;
+    [SerializeField] public int count = 50;
 
     public Item(BaseItemData data) { itemData = data; }
 
