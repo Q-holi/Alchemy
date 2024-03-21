@@ -16,11 +16,11 @@ public class UseIngredient : MonoBehaviour
         if (caulDron.UpdateContent(item)) // 가마솥 내용물 업데이트
         {
             AlchemySceneManager.instance.IngredientList.ItemUse(true ,item);
-            Debug.Log("Use Item : " + item.name);
+            Debug.Log("Use Item : " + item.itemData.itemName);
 
             // 아이템 옵션의 효과 (포션의 이동거리)
-            Vector3 lineVector = new Vector3(item.Green_Option - item.Alpha_Option,
-                                     item.Red_Option - item.Blue_Option, 0.0f) / 10.0f;
+            Vector3 lineVector = new Vector3((int)item.options.x - (int)item.options.x,
+                                     (int)item.options.x - (int)item.options.x, 0.0f) / 10.0f;
 
             // 포션 마커의 시작점
             Vector3 markerPoint = potionMarker.gameObject.transform.localPosition;

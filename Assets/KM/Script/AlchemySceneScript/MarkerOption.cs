@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MarkerOption : MonoBehaviour
 {
-    public Potion SetPotion(Potion targetPotion)
-    {
-        targetPotion = new HealingPotion(targetPotion, 100);
-        return targetPotion;
-    }
+    //public Potion SetPotion(Potion targetPotion)
+    //{
+    //    targetPotion = new HealingPotion(targetPotion, 100);
+    //    return targetPotion;
+    //}
 }

@@ -10,7 +10,7 @@ public class InventoryList : MonoBehaviour
     [SerializeField] private N_Inventory inventory;             // 인벤토리 데이터
     private List<GameObject> slotList = new List<GameObject>(); // 현재 인벤토리에 생성된 아이템 슬롯들
 
-    [SerializeField] private IItem selectItem;        // 선택된 아이템
+    [SerializeField] private Item selectItem;        // 선택된 아이템
     [SerializeField] private GameObject selectItemPrefab;   // 복사될 오브젝트
 
     public bool isDragging = false;     // 아이템 드래그 감지
@@ -18,7 +18,7 @@ public class InventoryList : MonoBehaviour
     #region GetSet
     public N_Inventory Inventory { get => inventory; }
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
-    public IItem SelectItem { get => selectItem; set => selectItem = value; }
+    public Item SelectItem { get => selectItem; set => selectItem = value; }
     #endregion
 
     public void InventoryInit(List<Collection> data) // 인벤토리 데이터기반 아이템 설정

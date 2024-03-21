@@ -33,11 +33,12 @@ public class CaulDron : MonoBehaviour
         Color stackColor = new Color(0, 0, 0);
         foreach (Collection ingredient in ingredientList)
         {
-            int optiomAmount = ingredient.Red_Option + ingredient.Green_Option + ingredient.Blue_Option + ingredient.Alpha_Option;
+            float optiomAmount = ingredient.options.x + ingredient.options.y +
+                                 ingredient.options.z + ingredient.options.w;
 
-            stackColor.r += (float)ingredient.Red_Option / (float)optiomAmount;
-            stackColor.g += (float)ingredient.Green_Option / (float)optiomAmount;
-            stackColor.b += (float)ingredient.Blue_Option / (float)optiomAmount;
+            stackColor.r += ingredient.options.x / optiomAmount;
+            stackColor.g += ingredient.options.y / optiomAmount;
+            stackColor.b += ingredient.options.z / optiomAmount;
         }
         contentAmount.color = new Color(stackColor.r / ingredientList.Count,
                                         stackColor.g / ingredientList.Count,

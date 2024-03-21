@@ -24,8 +24,8 @@ public class N_Inventory : MonoBehaviour
 
     string sw_JsonFilePathtest = "_Data/New_Inventory.json";
 
-    private bool AddInventoryData(IItem item) =>
-        inventoryData.collections.Any(x => x.InventoryIndexNumber == item.InventoryIndexNumber);
+    //private bool AddInventoryData(Item item) =>
+    //    inventoryData.collections.Any(x => x.InventoryIndexNumber == item.InventoryIndexNumber);
 
     private void Awake()
     {
@@ -37,18 +37,6 @@ public class N_Inventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            //// 예시 아이템 생성
-            //IItem item = new N_Collection();
-            //
-            //// CreateCollection 메서드 호출
-            //N_Collection collection = ItemFactory.CreateCollection( 5, 10, 11);
-
-            // 예시 아이템 생성
-            Potion item = new NormalPotion();
-            inventoryData.potions.Add(item);
-        }
 
     }
     private void OnApplicationQuit()

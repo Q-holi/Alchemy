@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private IItem item;            // 아이템 정보
+    [SerializeField] private Item item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
@@ -26,18 +26,18 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     }
 
     // 아이템 정보 초기화
-    public void ItemInit(IItem info)
+    public void ItemInit(Item info)
     {
         item = info;
-        iconImage.sprite = Resources.Load<SpriteAtlas>("TempIcons").GetSprite(item.Texture2DImagePath);
-        itemCount.text = item.Count.ToString();
-        itemFrame.color = UtilFunction.GetColor(item.Rating);
+        iconImage.sprite = item.itemData.sprite;
+        itemCount.text = item.count.ToString();
+        itemFrame.color = UtilFunction.GetColor(item.itemData.rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
         inventory.isDragging = true;
-        if (item.Count <= 0)
+        if (item.count <= 0)
             return;
 
         // 아이템 정보 넘겨주기
@@ -53,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnDrag(PointerEventData eventData)  // 드래그 중
     {
-        if (item.Count <= 0 || selectItem == null)
+        if (item.count <= 0 || selectItem == null)
             return;
 
         selectItem.transform.position = UtilFunction.ScreenToWorldPos();
@@ -64,7 +64,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
         inventory.isDragging = false;
-        if (item.Count <= 0 || selectItem == null)
+        if (item.count <= 0 || selectItem == null)
             return;
 
         selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;

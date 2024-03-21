@@ -16,7 +16,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private GameObject stackPrefab;        // 아이템 옵션 표기를 위한 스택 프리팹
 
     [SerializeField] private InventoryList inventory;       // 인벤토리 정보 불러오기
-    private IItem item;    // 중복 검증을 위한 아이템 데이터
+    private Item item;    // 중복 검증을 위한 아이템 데이터
     private List<GameObject> stackList = new List<GameObject>();    // 아이템 옵션 리스트
 
     private void Awake()
@@ -40,7 +40,7 @@ public class ItemInfo : MonoBehaviour
             return;
     }
 
-    public void ShowItemInfo(IItem info)
+    public void ShowItemInfo(Item info)
     {
         item = info;
         // 아이템 정보 표시를 위해 정보창 정보 visible
@@ -52,12 +52,12 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = UtilFunction.GetColor(info.Rating);
-        itemIcon.sprite = Resources.Load<SpriteAtlas>("TempIcons").GetSprite(info.Texture2DImagePath);
-        itemName.text = info.Name;
-        itemName.color = UtilFunction.GetColor(info.Rating);
-        itemRank.text = info.Rating.ToString();
-        itemRank.color = UtilFunction.GetColor(info.Rating);
+        itemFrame.color = UtilFunction.GetColor(info.itemData.rating);
+        itemIcon.sprite = info.itemData.sprite;
+        itemName.text = info.itemData.itemName;
+        itemName.color = UtilFunction.GetColor(info.itemData.rating);
+        itemRank.text = info.itemData.rating.ToString();
+        itemRank.color = UtilFunction.GetColor(info.itemData.rating);
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)
@@ -65,10 +65,10 @@ public class ItemInfo : MonoBehaviour
         stackList.Clear();
 
         Collection temp = (Collection)info;
-        BuildStack(temp.Red_Option, Color.red);
-        BuildStack(temp.Green_Option, Color.green);
-        BuildStack(temp.Blue_Option, Color.blue);
-        BuildStack(temp.Alpha_Option, Color.white);
+        BuildStack((int)temp.options.x, Color.red);
+        BuildStack((int)temp.options.y, Color.green);
+        BuildStack((int)temp.options.z, Color.blue);
+        BuildStack((int)temp.options.w, Color.white);
     }
 
     private void BuildStack(int count, Color color)
