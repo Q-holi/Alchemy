@@ -38,10 +38,6 @@ public class ItemInfo : MonoBehaviour
         InventoryEventHandler.OnMouse -= ShowItemInfo;
     }
 
-    private void Update()
-    {
-    }
-
     public void ShowItemInfo(Item info)
     {
         // 아이템 정보 표시를 위해 정보창 정보 visible
