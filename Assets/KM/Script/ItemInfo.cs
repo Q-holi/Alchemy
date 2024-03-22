@@ -66,11 +66,13 @@ public class ItemInfo : MonoBehaviour
             Destroy(stack);
         stackList.Clear();
 
-        Collection temp = (Collection)info;
-        BuildStack((int)temp.options.x, Color.red);
-        BuildStack((int)temp.options.y, Color.green);
-        BuildStack((int)temp.options.z, Color.blue);
-        BuildStack((int)temp.options.w, Color.white);
+        if (info is Collection collection)
+        {
+            BuildStack((int)collection.options.x, Color.red);
+            BuildStack((int)collection.options.y, Color.green);
+            BuildStack((int)collection.options.z, Color.blue);
+            BuildStack((int)collection.options.w, Color.white);
+        }
     }
 
     private void BuildStack(int count, Color color)

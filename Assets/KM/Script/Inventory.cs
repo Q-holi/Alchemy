@@ -109,7 +109,7 @@ public class Inventory : MonoBehaviour
         List<Item> tempList = new List<Item>();
 
         foreach (Item item in inventoryData.items)
-            tempList.Add(InventoryItemTypeFilter(item));
+            tempList.Add(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
 
         // List 에서 null인 부분 제거
         tempList.RemoveAll(x => x == null);
@@ -137,21 +137,5 @@ public class Inventory : MonoBehaviour
         }
 
         InventorySlotInit(tempList, inventoryFilter);
-    }
-
-    private Item InventoryItemTypeFilter(Item item)
-    {
-        // 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
-        switch (inventoryFilter)
-        {
-            case InventoryFilterType.Collection when item is Collection collection:
-                return collection;
-            case InventoryFilterType.Potion when item is Potion potion:
-                return potion;
-            case InventoryFilterType.Tool when item is Tool tool:
-                return tool;
-            default:
-                return null;
-        }
     }
 }

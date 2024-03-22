@@ -6,7 +6,6 @@ using System;
 public class AlchemySceneManager : MonoBehaviour
 {
     [SerializeField] private Inventory ingredientList;
-    public Inventory IngredientList { get => ingredientList; }
 
     private void Awake()
     {
