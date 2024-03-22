@@ -39,24 +39,19 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0)
             return;
 
-        // 아이템 정보 넘겨주기
-        inventory.SelectItem = item;
         coverImage.gameObject.SetActive(true);
 
         // 드래그 아이템 복사본 생성
         selectItem = Instantiate(inventory.SelectItemPrefab,
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
         // 아이템 정보 설정
-        EventHandler.OnItemDragging(item, true);
+        // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
+        InventoryEventHandler.OnItemDragging(item, inventory.isDragging);
     }
 
-    public void OnDrag(PointerEventData eventData)  // 드래그 중
+    public void OnDrag(PointerEventData eventData)
     {
-        if (item.count <= 0 || selectItem == null)
-            return;
-
-        // 아이템 정보 넘겨주기
-        inventory.SelectItem = item;
+        // 아이템 드래그를 인식하려면 아무 기능이 없더라도 있어야 함
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
@@ -65,7 +60,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0 || selectItem == null)
             return;
 
-        EventHandler.OnItemDragging(item, false);
+        InventoryEventHandler.OnItemDragging(item, inventory.isDragging);
 
         if (UtilFunction.Detectray(inventory.gameObject.name))
         {
@@ -78,17 +73,19 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
-        if (inventory.isDragging)
+        if (inventory.isDragging)       // 드래그 중일땐 인식 X
             return;
 
-        EventHandler.OnMouse?.Invoke(item);
+        InventoryEventHandler.OnMouse?.Invoke(item);
         coverImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)   // 마우스 빠졌을때
     {
-        if (inventory.isDragging)
+        if (inventory.isDragging)       // 드래그 중일땐 인식 X
             return;
         coverImage.gameObject.SetActive(false);
     }
+
+
 }

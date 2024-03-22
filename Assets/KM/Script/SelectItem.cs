@@ -17,12 +17,12 @@ public class SelectItem : MonoBehaviour
 
     public void OnEnable()
     {
-        EventHandler.OnItemDragging += SetItemIcon;
+        InventoryEventHandler.OnItemDragging += SetItemIcon;
     }
 
     public void OnDestroy()
     {
-        EventHandler.OnItemDragging -= SetItemIcon;
+        InventoryEventHandler.OnItemDragging -= SetItemIcon;
     }
 
     public void SetItemIcon(Item item, bool dragging) // 아이템 정보 설정

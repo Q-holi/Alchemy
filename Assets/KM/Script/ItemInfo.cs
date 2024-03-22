@@ -31,11 +31,11 @@ public class ItemInfo : MonoBehaviour
 
     private void Start()
     {
-        EventHandler.OnMouse += ShowItemInfo;
+        InventoryEventHandler.OnMouse += ShowItemInfo;
     }
     private void OnDestroy()
     {
-        EventHandler.OnMouse -= ShowItemInfo;
+        InventoryEventHandler.OnMouse -= ShowItemInfo;
     }
 
     private void Update()

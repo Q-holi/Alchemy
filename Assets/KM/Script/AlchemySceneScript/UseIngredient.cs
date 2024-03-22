@@ -15,7 +15,7 @@ public class UseIngredient : MonoBehaviour
             (Collection)collision.gameObject.GetComponent<SelectItem>().GetIteminfo;
         if (caulDron.UpdateContent(item)) // 가마솥 내용물 업데이트
         {
-            EventHandler.OnUseItem(item);
+            InventoryEventHandler.OnUseItem(item);
             Debug.Log("Use Item : " + item.itemData.itemName);
 
             // 아이템 옵션의 효과 (포션의 이동거리)

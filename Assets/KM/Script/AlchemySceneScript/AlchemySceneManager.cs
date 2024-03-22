@@ -5,16 +5,12 @@ using System;
 
 public class AlchemySceneManager : MonoBehaviour
 {
-    public static AlchemySceneManager instance;
-
     [SerializeField] private Inventory ingredientList;
     public Inventory IngredientList { get => ingredientList; }
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-
-        ingredientList.InventoryInit(ingredientList.InventoryData.items);
+        ingredientList.InventorySlotInit(ingredientList.InventoryData.items,
+                                    InventoryFilterType.Collection);
     }
 }
