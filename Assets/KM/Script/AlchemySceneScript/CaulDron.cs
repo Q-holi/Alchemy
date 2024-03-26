@@ -17,6 +17,9 @@ public class CaulDron : MonoBehaviour
         contentAmountTxt.text = "0 / " + maxStack.ToString();
     }
 
+    /// <summary>
+    /// 가마솥에 재료가 추가되면 관련 정보 업데이트
+    /// </summary>
     public bool UpdateContent(Collection item)
     {
         // 가마솥 수용량 체크

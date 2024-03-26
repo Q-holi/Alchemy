@@ -11,6 +11,4 @@ public abstract class Item
     [SerializeField] public int count = 50;
 
     public Item(BaseItemData data) { itemData = data; }
-
-    public void SetAmount(int amount) { count = amount; }
 }

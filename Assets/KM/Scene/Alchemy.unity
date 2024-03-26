@@ -1310,7 +1310,6 @@ GameObject:
   - component: {fileID: 496504809}
   - component: {fileID: 496504810}
   - component: {fileID: 496504812}
-  - component: {fileID: 496504811}
   m_Layer: 5
   m_Name: InventoryContent
   m_TagString: Untagged
@@ -1361,34 +1360,6 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &496504811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496504808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cae41fb92132f64cb8762aab89d819f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDB:
-  - {fileID: 11400000, guid: bf06ac53f330ede498cd5de41e3886fd, type: 2}
-  - {fileID: 11400000, guid: 6dcfc34394b89254aa777be551b0bbcc, type: 2}
-  - {fileID: 11400000, guid: ebac4819419dc024e89927bf74feb00c, type: 2}
-  - {fileID: 11400000, guid: 7b902f27ff15cdc4999f597850bc44d3, type: 2}
-  - {fileID: 11400000, guid: 99a568999c15e7f4481d94aaa0058bf6, type: 2}
-  - {fileID: 11400000, guid: 976608b261e9b604288652ffa2785432, type: 2}
-  - {fileID: 11400000, guid: 6a124b21b87b1724f961ae1dee090c5f, type: 2}
-  - {fileID: 11400000, guid: 3eb13fe823b4ead44b7216dd300876be, type: 2}
-  - {fileID: 11400000, guid: 2578a028d29a30649b19b883b8c3c2d6, type: 2}
-  - {fileID: 11400000, guid: 51ee55d5edcffa44b928f12fe84559e0, type: 2}
-  - {fileID: 11400000, guid: 2e1950c1240da9042b6a900e9c3b0b73, type: 2}
-  - {fileID: 11400000, guid: 465538ef6ed0f9842899065b498e57fa, type: 2}
-  - {fileID: 11400000, guid: 3da0e8bc5cdfb30428ca98d5fb3a6aea, type: 2}
-  - {fileID: 11400000, guid: 766aff1987d9dca4e86f550c2e4a2484, type: 2}
-  - {fileID: 11400000, guid: 4159eb248f7263b479e1194ef74bf121, type: 2}
 --- !u!114 &496504812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,13 +1369,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 496504808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4eff1c901367e1499a1fa7e82b29a7c, type: 3}
+  m_Script: {fileID: 11500000, guid: db366c36af9a12e45abccc049c57343b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   slotTransform: {fileID: 496504809}
   slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
     type: 3}
-  inventoryData: {fileID: 496504811}
   selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
     type: 3}
   isDragging: 0

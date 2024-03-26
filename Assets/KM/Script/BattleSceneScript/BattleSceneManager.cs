@@ -6,14 +6,13 @@ public class BattleSceneManager : MonoBehaviour
 {
     public static BattleSceneManager instance;
 
-    [SerializeField] private Inventory potionList;
+    [SerializeField] private InventoryManager potionList;
 
-    private void Awake()
+    private void Start()
     {
         if (instance == null)
             instance = this;
 
-        potionList.InventorySlotInit(potionList.InventoryData.items,
-                            InventoryFilterType.Potion);
+        potionList.InventorySlotInit(InventoryFilterType.Potion);
     }
 }

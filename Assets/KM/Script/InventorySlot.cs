@@ -16,15 +16,17 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
 
     private GameObject selectItem;  // 드래그시, 복사된 아이템
-    private Inventory inventory;
+    private InventoryManager inventory;
 
     private void Awake()
     {
-        inventory = gameObject.GetComponentInParent<Inventory>();
+        inventory = gameObject.GetComponentInParent<InventoryManager>();
         coverImage.gameObject.SetActive(false);
     }
 
-    // 아이템 정보 초기화
+    /// <summary>
+    /// 인벤토리 슬롯 아이템 정보 초기화
+    /// </summary>
     public void ItemInit(Item info)
     {
         item = info;

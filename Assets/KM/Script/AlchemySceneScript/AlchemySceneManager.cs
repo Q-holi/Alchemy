@@ -5,11 +5,10 @@ using System;
 
 public class AlchemySceneManager : MonoBehaviour
 {
-    [SerializeField] private Inventory ingredientList;
+    [SerializeField] private InventoryManager ingredientList;
 
-    private void Awake()
+    private void OnEnable()
     {
-        ingredientList.InventorySlotInit(ingredientList.InventoryData.items,
-                                    InventoryFilterType.Collection);
+        ingredientList.InventorySlotInit(InventoryFilterType.Collection);
     }
 }

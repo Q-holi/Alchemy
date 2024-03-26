@@ -19,5 +19,4 @@ public class BaseItemData : ScriptableObject
     public Sprite sprite;
     public Rating rating;
     public string detail;
-    public int count;
 }

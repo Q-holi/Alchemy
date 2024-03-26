@@ -12,7 +12,6 @@ public class SelectItem : MonoBehaviour
     private Item item; // 복사된 아이템의 정보
     private bool isDragging = false;
 
-    public Rigidbody2D ItemRigidbody { get => itemRigidbody; set => itemRigidbody = value; }
     public Item GetIteminfo { get => item; }
 
     public void OnEnable()
@@ -46,7 +45,7 @@ public class SelectItem : MonoBehaviour
         }
         else
         {
-            ItemRigidbody.gravityScale = 10;
+            itemRigidbody.gravityScale = 10;
         }
     }
 }

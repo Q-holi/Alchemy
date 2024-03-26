@@ -28,6 +28,9 @@ public class ItemFilter : MonoBehaviour
         SetFilter((int)filter); //최초 옵션 실행이 필요한 경우
     }
 
+    /// <summary>
+    /// 필터 세팅
+    /// </summary>
     public void SetFilter(int option)
     {
         filter = (ItemFilterType)option;

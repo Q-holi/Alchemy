@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UtilFunction
 {
+    // 파라미터로 넘겨받은 UI와 GraphicRayCasting 검사
     public static bool Detectray(string name)
     {
         // 캔버스 레이캐스팅
@@ -32,6 +33,7 @@ public class UtilFunction
         return false;
     }
 
+    // 화면좌표를 오브젝트 좌표로 변환
     public static Vector3 ScreenToWorldPos()
     {
         GameObject plane = GameObject.Find("RayCastBG_Obj");
@@ -52,6 +54,7 @@ public class UtilFunction
             return objPosition;
     }
 
+    // 등급에 맞는 색 추출
     public static Color GetColor(Rating rating)
     {
         switch (rating)
@@ -68,9 +71,9 @@ public class UtilFunction
         return Color.white;
     }
 
+    // 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
     public static Item InventoryItemTypeFilter(Item item, InventoryFilterType filter)
     {
-        // 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
         switch (filter)
         {
             case InventoryFilterType.Collection when item is Collection collection:
