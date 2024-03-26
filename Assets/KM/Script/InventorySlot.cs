@@ -27,12 +27,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     /// <summary>
     /// 인벤토리 슬롯 아이템 정보 초기화
     /// </summary>
-    public void ItemInit(int keyCode)
+    public void ItemInit(Item item)
     {
-        item = UtilFunction.InventoryItemMaker(keyCode);
-        iconImage.sprite = InventoryManager.itemDB[keyCode].sprite;
+        this.item = item;
+        iconImage.sprite = InventoryManager.itemDB[item.itemkey].sprite;
         itemCount.text = item.count.ToString();
-        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[keyCode].rating);
+        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시

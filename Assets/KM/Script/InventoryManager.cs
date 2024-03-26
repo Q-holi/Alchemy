@@ -126,7 +126,7 @@ public class InventoryManager : Singleton<InventoryManager>
         if (item != null)   // 왜인지 모르겠는데 null 인 Item 이 하나 생성됨. 나중에 알아보기
         {
             GameObject slot = Instantiate(slotPrefab, slotTransform);
-            slot.GetComponent<InventorySlot>().ItemInit(item.itemkey);
+            slot.GetComponent<InventorySlot>().ItemInit(item);
             slotList.Add(slot);
         }
         return;
