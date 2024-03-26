@@ -40,7 +40,7 @@ public class SelectItem : MonoBehaviour
 
         if (isDragging)
         {
-            // 실제 상호작용할 오브젝트 위치 설정
+            // 실제 상호작용할 오브젝트의 위치 설정 (유니티에서 UI 충돌은 없다.)
             gameObject.transform.position = UtilFunction.ScreenToWorldPos();
         }
         else

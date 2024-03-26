@@ -94,19 +94,4 @@ public class UtilFunction
                 return null;
         }
     }
-
-    /// <summary>
-    /// 아이템의 키값으로 아이템 생성
-    /// </summary>
-    public static Item InventoryItemMaker(int keyCode)
-    {
-        if (keyCode >= 1000 || keyCode < 2000)
-            return new Collection(keyCode);
-        else if (keyCode >= 2000 || keyCode < 3000)
-            return new Potion(keyCode);
-        else if (keyCode >= 3000 || keyCode < 4000)
-            return new Tool(keyCode);
-
-        return null;
-    }
 }

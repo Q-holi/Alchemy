@@ -25,6 +25,6 @@ public class PotionMarker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // 포션이 효과를 얻었을때
     {
-        potion = collision.gameObject.GetComponent<MarkerOption>().SetPotion(potion);
+        potion = collision.gameObject.GetComponent<MarkerOption>().GetEnchant(potion);
     }
 }

@@ -29,6 +29,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     /// </summary>
     public void ItemInit(Item item)
     {
+        // Item 에 count(갯수) 를 저장하기때문에 Item 형태로 받아와야 함
         this.item = item;
         iconImage.sprite = InventoryManager.itemDB[item.itemkey].sprite;
         itemCount.text = item.count.ToString();
