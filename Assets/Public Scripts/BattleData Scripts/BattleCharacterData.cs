@@ -4,22 +4,20 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-[Serializable]
+[System.Serializable]
 public struct Status
 {
+    public string name;
     public int hp;
     public int shield;
-    public string name;
     public int atkPower;
     public int defPower;
     public int speed;
 }
 
-[System.Serializable]
-public abstract class BattleCharacterData : ScriptableObject
+[CreateAssetMenu(fileName = "Battle Data", menuName = "Battle System/Status Data", order = 1)]
+public class BattleCharacterData : ScriptableObject
 {
     public Status defaultStatus;
-    public Status currentStatus;
-    public GameObject hpBar;
-    public GameObject speedBar;
+    public Sprite sprite;
 }

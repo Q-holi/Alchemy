@@ -7,8 +7,11 @@ public class Tool : Item
 {
     public int durability;
 
-    public Tool(BaseToolData data) : base(data)
+    public Tool(int keyCode) : base(keyCode) 
     {
-        durability = data.duration;
+        if (InventoryManager.itemDB[keyCode] is BaseToolData toolData)
+        {
+            durability = toolData.durability;
+        }
     }
 }

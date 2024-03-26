@@ -7,8 +7,8 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Item
 {
-    [SerializeField] public BaseItemData itemData;
+    [SerializeField] public int itemkey;
     [SerializeField] public int count = 50;
 
-    public Item(BaseItemData data) { itemData = data; }
+    public Item(int keyCode) { itemkey = keyCode; }
 }

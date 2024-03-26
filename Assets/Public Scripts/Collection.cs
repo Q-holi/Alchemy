@@ -7,8 +7,9 @@ public class Collection : Item
 {
     public Vector4 options;
 
-    public Collection(BaseCollectionData data) : base(data)
+    public Collection(int keyCode) : base(keyCode)
     {
-        options = data.options;
+        if(InventoryManager.itemDB[keyCode] is BaseCollectionData collectionData)
+            options = collectionData.options;
     }
 }

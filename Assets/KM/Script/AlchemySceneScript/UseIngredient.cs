@@ -11,12 +11,13 @@ public class UseIngredient : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 충돌한 아이템의 정보 불러오기
-        Collection item =
-            (Collection)collision.gameObject.GetComponent<SelectItem>().GetIteminfo;
-        if (caulDron.UpdateContent(item)) // 가마솥 내용물 업데이트
+        int key = collision.gameObject.GetComponent<SelectItem>().GetIteminfo;
+        BaseCollectionData item = (BaseCollectionData)InventoryManager.itemDB[key];
+
+        if (caulDron.UpdateContent(key)) // 가마솥 내용물 업데이트
         {
-            InventoryEventHandler.OnUseItem(item);
-            Debug.Log("Use Item : " + item.itemData.itemName);
+            InventoryEventHandler.OnUseItem(key);
+            Debug.Log("Use Item : " + InventoryManager.itemDB[key].itemName);
 
             // 아이템 옵션의 효과 (포션의 이동거리)
             Vector3 lineVector = new Vector3((int)item.options.x - (int)item.options.z,

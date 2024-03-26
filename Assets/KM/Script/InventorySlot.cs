@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private Item item;            // 아이템 정보
+    [SerializeField] public Item item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
@@ -27,12 +27,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     /// <summary>
     /// 인벤토리 슬롯 아이템 정보 초기화
     /// </summary>
-    public void ItemInit(Item info)
+    public void ItemInit(int keyCode)
     {
-        item = info;
-        iconImage.sprite = item.itemData.sprite;
+        item = UtilFunction.InventoryItemMaker(keyCode);
+        iconImage.sprite = InventoryManager.itemDB[keyCode].sprite;
         itemCount.text = item.count.ToString();
-        itemFrame.color = UtilFunction.GetColor(item.itemData.rating);
+        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[keyCode].rating);
     }
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
@@ -48,7 +48,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
         // 아이템 정보 설정
         // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
-        InventoryEventHandler.OnItemDragging(item, inventory.isDragging);
+        InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -62,7 +62,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0 || selectItem == null)
             return;
 
-        InventoryEventHandler.OnItemDragging(item, inventory.isDragging);
+        InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
 
         if (UtilFunction.Detectray(inventory.gameObject.name))
         {

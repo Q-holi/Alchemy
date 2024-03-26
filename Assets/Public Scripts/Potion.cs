@@ -9,11 +9,13 @@ public class Potion : Item
     public int duration;
     public List<BasePotionData> enchantPotions = new List<BasePotionData>(); 
 
-    public Potion(BasePotionData data) : base(data)
+    public Potion(int keyCode) : base(keyCode)
     {
-        enchantPotions.Add(data);
-        amount = data.amount;
-        duration = data.duration;
+        if (InventoryManager.itemDB[keyCode] is BasePotionData potionData)
+        {
+            amount = potionData.amount;
+            duration = potionData.duration;
+        }
     }
 
     public void EnchantPotion(BasePotionData data)

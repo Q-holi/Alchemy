@@ -12,7 +12,7 @@ public enum InventoryFilterType
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public Dictionary<int, BaseItemData> itemDB = new Dictionary<int, BaseItemData>();         // 아이템 DB
+    public static Dictionary<int, BaseItemData> itemDB = new Dictionary<int, BaseItemData>();         // 아이템 DB
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -50,7 +50,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     #region ItemDB Load
     /// <summary>
-    /// itemDB 기반 데이터 로드
+    /// Scriptable Object 불러와서 itemDB 생성
     /// </summary>
     private void ItemDBLoad(string filepath = "")
     {
@@ -90,6 +90,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     /// <summary>
     /// 인벤토리 데이터로 인벤토리 정보 로드
+    /// externData 에 다른 List 를 넘겨주면, 그 List로 인벤토리 초기화
     /// </summary>
     public void InventorySlotInit(InventoryFilterType filter, List<Item> externData = null)
     {
@@ -102,33 +103,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         foreach (Item item in initList)
         {
-            switch (inventoryFilter) // 불러와야할 아이템 종류에 따라 아이템 출력
-            {
-                case InventoryFilterType.Collection:
-                    if (item is Collection collection)
-                    {
-                        GameObject slot = Instantiate(slotPrefab, slotTransform);
-                        slot.GetComponent<InventorySlot>().ItemInit(collection);
-                        slotList.Add(slot);
-                    }
-                    break;
-                case InventoryFilterType.Potion:
-                    if (item is Potion potion)
-                    {
-                        GameObject slot = Instantiate(slotPrefab, slotTransform);
-                        slot.GetComponent<InventorySlot>().ItemInit(potion);
-                        slotList.Add(slot);
-                    }
-                    break;
-                case InventoryFilterType.Tool:
-                    if (item is Tool tool)
-                    {
-                        GameObject slot = Instantiate(slotPrefab, slotTransform);
-                        slot.GetComponent<InventorySlot>().ItemInit(tool);
-                        slotList.Add(slot);
-                    }
-                    break;
-            }
+            MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
         }
     }
 
@@ -144,25 +119,27 @@ public class InventoryManager : Singleton<InventoryManager>
     }
 
     /// <summary>
-    /// 아이템 사용시 인벤토리 데이터 업데이트
+    /// 인벤토리 슬롯 생성하기
     /// </summary>
-    private void ItemUse(Item item)
+    private void MakeSlot(Item item)
     {
-        items.Find(x => x == item).count--;
-        InventoryUpdate();
+        if (item != null)   // 왜인지 모르겠는데 null 인 Item 이 하나 생성됨. 나중에 알아보기
+        {
+            GameObject slot = Instantiate(slotPrefab, slotTransform);
+            slot.GetComponent<InventorySlot>().ItemInit(item.itemkey);
+            slotList.Add(slot);
+        }
+        return;
     }
 
     /// <summary>
-    /// 인벤토리 정보 갱신
+    /// 아이템 사용시 인벤토리 데이터 업데이트
     /// </summary>
-    private void InventoryUpdate()
+    private void ItemUse(int keyCode)
     {
-        for (int i = 0; i < slotList.Count; i++)
-        {
-            slotList[i].GetComponent<InventorySlot>().
-                ItemInit(items[i]);
-        }
+        items.Find(x => x.itemkey == keyCode).count--;
     }
+
 
     /// <summary>
     /// 필터 정보에따라 인벤토리 슬롯을 정렬
@@ -183,9 +160,9 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             case ItemFilterType.Name: // 이름순 정렬
                 if(orderType)
-                    tempList.Sort((x, y) => x.itemData.itemName.CompareTo(y.itemData.itemName));
+                    tempList.Sort((x, y) => itemDB[x.itemkey].itemName.CompareTo(itemDB[y.itemkey].itemName));
                 else
-                    tempList.Sort((x, y) => y.itemData.itemName.CompareTo(x.itemData.itemName));
+                    tempList.Sort((x, y) => itemDB[y.itemkey].itemName.CompareTo(itemDB[x.itemkey].itemName));
                 break;
             case ItemFilterType.Capacity: // 소지 갯수순서 정렬
                 if (orderType)
@@ -195,9 +172,9 @@ public class InventoryManager : Singleton<InventoryManager>
                 break;
             case ItemFilterType.Rating: // 아이템 등급순 정렬
                 if (orderType)
-                    tempList.Sort((x, y) => x.itemData.rating.CompareTo(y.itemData.rating));
+                    tempList.Sort((x, y) => itemDB[x.itemkey].rating.CompareTo(itemDB[y.itemkey].rating));
                 else
-                    tempList.Sort((x, y) => y.itemData.rating.CompareTo(x.itemData.rating));
+                    tempList.Sort((x, y) => itemDB[y.itemkey].rating.CompareTo(itemDB[x.itemkey].rating));
                 break;
         }
 
@@ -211,12 +188,12 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         foreach (KeyValuePair<int, BaseItemData> data in itemDB)
         {
-            if (data.Value is BaseCollectionData collectionData)
-                items.Add(new Collection(collectionData));
-            else if (data.Value is BasePotionData potionData)
-                items.Add(new Potion(potionData));
-            else if (data.Value is BaseToolData toolData)
-                items.Add(new Tool(toolData));
+            if (data.Key >= 1000 && data.Key < 2000)
+                items.Add(new Collection(data.Key));
+            else if (data.Key >= 2000 && data.Key < 3000)
+                items.Add(new Potion(data.Key));
+            else if (data.Key >= 3000 && data.Key < 4000)
+                items.Add(new Tool(data.Key));
         }
     }
 }

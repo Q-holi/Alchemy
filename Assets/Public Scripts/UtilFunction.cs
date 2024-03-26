@@ -6,7 +6,9 @@ using UnityEngine.EventSystems;
 
 public class UtilFunction
 {
-    // 파라미터로 넘겨받은 UI와 GraphicRayCasting 검사
+    /// <summary>
+    /// 파라미터로 넘겨받은 UI의 GraphicRayCasting 검사
+    /// </summary>
     public static bool Detectray(string name)
     {
         // 캔버스 레이캐스팅
@@ -33,7 +35,9 @@ public class UtilFunction
         return false;
     }
 
-    // 화면좌표를 오브젝트 좌표로 변환
+    /// <summary>
+    /// 화면좌표(NDC)를 오브젝트 좌표(World)로 변환
+    /// </summary>
     public static Vector3 ScreenToWorldPos()
     {
         GameObject plane = GameObject.Find("RayCastBG_Obj");
@@ -54,7 +58,9 @@ public class UtilFunction
             return objPosition;
     }
 
-    // 등급에 맞는 색 추출
+    /// <summary>
+    /// 등급에 맞는 색 추출
+    /// </summary>
     public static Color GetColor(Rating rating)
     {
         switch (rating)
@@ -71,7 +77,9 @@ public class UtilFunction
         return Color.white;
     }
 
-    // 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
+    /// <summary>
+    /// 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
+    /// </summary>
     public static Item InventoryItemTypeFilter(Item item, InventoryFilterType filter)
     {
         switch (filter)
@@ -85,5 +93,20 @@ public class UtilFunction
             default:
                 return null;
         }
+    }
+
+    /// <summary>
+    /// 아이템의 키값으로 아이템 생성
+    /// </summary>
+    public static Item InventoryItemMaker(int keyCode)
+    {
+        if (keyCode >= 1000 || keyCode < 2000)
+            return new Collection(keyCode);
+        else if (keyCode >= 2000 || keyCode < 3000)
+            return new Potion(keyCode);
+        else if (keyCode >= 3000 || keyCode < 4000)
+            return new Tool(keyCode);
+
+        return null;
     }
 }

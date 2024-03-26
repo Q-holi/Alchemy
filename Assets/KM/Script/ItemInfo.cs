@@ -41,7 +41,7 @@ public class ItemInfo : MonoBehaviour
     /// <summary>
     /// 넘겨받은 아이템 정보 출력
     /// </summary>
-    public void ShowItemInfo(Item info)
+    public void ShowItemInfo(Item item)
     {
         // 아이템 정보 표시를 위해 정보창 정보 visible
         itemFrame.gameObject.SetActive(true);
@@ -52,20 +52,20 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = UtilFunction.GetColor(info.itemData.rating);
-        itemIcon.sprite = info.itemData.sprite;
-        itemName.text = info.itemData.itemName;
-        itemName.color = UtilFunction.GetColor(info.itemData.rating);
-        itemRank.text = info.itemData.rating.ToString();
-        itemRank.color = UtilFunction.GetColor(info.itemData.rating);
-        itemDetail.text = info.itemData.detail;
+        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemIcon.sprite = InventoryManager.itemDB[item.itemkey].sprite;
+        itemName.text = InventoryManager.itemDB[item.itemkey].itemName;
+        itemName.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemRank.text = InventoryManager.itemDB[item.itemkey].rating.ToString();
+        itemRank.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemDetail.text = InventoryManager.itemDB[item.itemkey].detail;
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)
             Destroy(stack);
         stackList.Clear();
 
-        if (info is Collection collection)
+        if (item is Collection collection)
         {
             BuildStack((int)collection.options.x, Color.red);
             BuildStack((int)collection.options.y, Color.green);
