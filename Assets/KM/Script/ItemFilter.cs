@@ -25,7 +25,6 @@ public class ItemFilter : MonoBehaviour
 
         // DropDown 에 있는 OnValueChanged 이벤트에 setDropDown 이벤트 추가
         filterOptions.onValueChanged.AddListener(delegate { SetFilter(filterOptions.value); });
-        SetFilter((int)filter); //최초 옵션 실행이 필요한 경우
     }
 
     /// <summary>

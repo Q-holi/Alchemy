@@ -138,15 +138,15 @@ public class InventoryManager : Singleton<InventoryManager>
     private void ItemUse(int keyCode)
     {
         items.Find(x => x.itemkey == keyCode).count--;
+        InventorySlotInit(inventoryFilter, items);
     }
-
 
     /// <summary>
     /// 필터 정보에따라 인벤토리 슬롯을 정렬
     /// </summary>
     private void InentorySorting(int filterType, bool orderType)
     {
-        // 임시 인벤토리 리스트
+        // 임시 아이템 리스트
         List<Item> tempList = new List<Item>();
 
         // 유형에 맞는 아이템 정보만 필터링
