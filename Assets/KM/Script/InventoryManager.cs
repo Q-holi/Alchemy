@@ -140,12 +140,31 @@ public class InventoryManager : Singleton<InventoryManager>
         if (isUse)
         {
             items.Find(x => x.itemkey == keyCode).count--;
-            InventorySlotInit(inventoryFilter, items);
+            // 아이템 키에 해당하는 아이템 찾아서, 그 슬롯의 정보 업데이트
+            foreach (GameObject slot in slotList)
+            {
+                if (keyCode == slot.GetComponent<InventorySlot>().GetItem.itemkey)
+                { 
+                    slot.GetComponent<InventorySlot>().
+                        ItemInit(items.Find(x => x.itemkey == keyCode));
+                    break;
+                }
+            }
+            Debug.Log("Item Use Success");
         }
         else
         {
             items.Find(x => x.itemkey == keyCode).count++;
-            InventorySlotInit(inventoryFilter, items);
+            foreach (GameObject slot in slotList)
+            {
+                if (keyCode == slot.GetComponent<InventorySlot>().GetItem.itemkey)
+                {
+                    slot.GetComponent<InventorySlot>().
+                        ItemInit(items.Find(x => x.itemkey == keyCode));
+                    break;
+                }
+            }
+            Debug.Log("Item Use Cancel");
         }
     }
 

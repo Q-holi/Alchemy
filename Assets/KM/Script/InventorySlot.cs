@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] public Item item;            // 아이템 정보
+    [SerializeField] private Item item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
@@ -17,6 +17,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     private GameObject selectItem;  // 드래그시, 복사된 아이템
     private InventoryManager inventory;
+
+    public Item GetItem { get => item; }
 
     private void Awake()
     {
@@ -51,7 +53,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
         InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
         InventoryEventHandler.OnUseItem(item.itemkey, true);
-
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -61,7 +62,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
-        Debug.Log("End Drag");
         inventory.isDragging = false;
         if (item.count <= 0 || selectItem == null)
             return;
@@ -70,7 +70,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
         if (UtilFunction.Detectray(inventory.gameObject.name))
         {
-            Debug.Log("Item Use Cancel");
+            InventoryEventHandler.OnUseItem(item.itemkey, false);
             Destroy(selectItem);
         }
 
