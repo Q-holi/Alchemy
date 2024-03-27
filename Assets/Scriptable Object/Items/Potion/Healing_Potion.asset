@@ -17,6 +17,5 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: ed9f4ff90acf21d4e8dd1f2ba3212b9f, type: 3}
   rating: 1
   detail: This is HealingPotion
-  count: 7
   amount: 30
   duration: 1

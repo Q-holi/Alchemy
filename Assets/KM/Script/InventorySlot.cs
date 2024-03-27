@@ -50,6 +50,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         // 아이템 정보 설정
         // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
         InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
+        InventoryEventHandler.OnUseItem(item.itemkey, true);
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -59,6 +61,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
+        Debug.Log("End Drag");
         inventory.isDragging = false;
         if (item.count <= 0 || selectItem == null)
             return;

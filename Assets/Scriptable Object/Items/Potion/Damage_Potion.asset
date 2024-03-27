@@ -17,6 +17,5 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 9d830554addb4c44081a46bd975f1c27, type: 3}
   rating: 1
   detail: This is Damage Potion
-  count: 4
   amount: 10
   duration: 1

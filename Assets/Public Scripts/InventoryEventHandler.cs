@@ -15,7 +15,7 @@ public static class InventoryEventHandler
     /// <summary>
     /// 아이템 사용시 호출되는 이벤트
     /// </summary>
-    public static Action<int> OnUseItem;
+    public static Action<int, bool> OnUseItem;
 
     /// <summary>
     /// 인벤토리 필터 사용시 호출되는 이벤트

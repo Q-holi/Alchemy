@@ -135,10 +135,18 @@ public class InventoryManager : Singleton<InventoryManager>
     /// <summary>
     /// 아이템 사용시 인벤토리 데이터 업데이트
     /// </summary>
-    private void ItemUse(int keyCode)
+    private void ItemUse(int keyCode, bool isUse)
     {
-        items.Find(x => x.itemkey == keyCode).count--;
-        InventorySlotInit(inventoryFilter, items);
+        if (isUse)
+        {
+            items.Find(x => x.itemkey == keyCode).count--;
+            InventorySlotInit(inventoryFilter, items);
+        }
+        else
+        {
+            items.Find(x => x.itemkey == keyCode).count++;
+            InventorySlotInit(inventoryFilter, items);
+        }
     }
 
     /// <summary>

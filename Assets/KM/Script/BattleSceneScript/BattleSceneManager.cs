@@ -10,15 +10,20 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
         new Dictionary<string, BattleCharacterData>();
 
     [SerializeField] private InventoryManager potionList;
+    public bool targeting;      // 선택된 대상이 있는지 검사
 
     private void Start()
     {
         potionList.InventorySlotInit(InventoryFilterType.Potion);
     }
 
-    private void ItemDBLoad(string filepath = "")
+    #region UnitDB Load
+    /// <summary>
+    /// 전투에 사용될 유닛 데이터 불러오기
+    /// </summary>
+    private void UnitDBLoad(string filepath = "")
     {
-        string path = "Assets/Scriptable Object/Items";
+        string path = "Assets/Scriptable Object/BattleData";
         if (filepath != "") // 파일경로를 입력해줬다면 그 경로를 검사
             path = filepath;
 
@@ -40,14 +45,17 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
 
         // 재귀함수로 하위폴더 아이템 검사
         foreach (string subDirectory in directories)
-            ItemDBLoad(subDirectory);
+            UnitDBLoad(subDirectory);
     }
 
     /// <summary>
-    /// 파일이 BaseItemData 형식인지 확인
+    /// 파일이 BattleCharacterData 형식인지 확인
     /// </summary>
     private BattleCharacterData LoadScriptableObject(string filePath)
     {
         return UnityEditor.AssetDatabase.LoadAssetAtPath(filePath, typeof(BattleCharacterData)) as BattleCharacterData;
     }
+    #endregion
+
+
 }

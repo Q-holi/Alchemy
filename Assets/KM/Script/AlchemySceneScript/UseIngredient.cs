@@ -16,7 +16,6 @@ public class UseIngredient : MonoBehaviour
 
         if (caulDron.UpdateContent(key)) // 가마솥 내용물 업데이트
         {
-            InventoryEventHandler.OnUseItem(key);
             Debug.Log("Use Item : " + InventoryManager.itemDB[key].itemName);
 
             // 아이템 옵션의 효과 (포션의 이동거리)
@@ -32,6 +31,7 @@ public class UseIngredient : MonoBehaviour
         }
         else
         {
+            InventoryEventHandler.OnUseItem(key, false);
             Debug.Log("Use Item Fail");
         }
 
