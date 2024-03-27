@@ -7,6 +7,8 @@ public class BattleUnit : MonoBehaviour
 
     [SerializeField] private GameObject hpBarObj;      // 유닛 체력바
     [SerializeField] private GameObject speedBarObj;   // 유닛의 턴
+    [SerializeField] private GameObject highLight;     // 유닛 선택 강조표시 이미지
+
     private HpBar hpBar;
     private SpeedBar speedBar;
 
@@ -50,7 +52,10 @@ public class BattleUnit : MonoBehaviour
 
     private void OnMouseOver()
     {
-        BattleSceneManager.Instance.targeting = true;
+        if (!BattleSceneManager.Instance.targeting)
+            BattleSceneManager.Instance.targeting = true;
+        else
+            return;
         
         Debug.Log(this.name);
     }
