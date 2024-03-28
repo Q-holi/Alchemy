@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleUnit : MonoBehaviour
@@ -11,16 +12,14 @@ public class BattleUnit : MonoBehaviour
 
     private HpBar hpBar;
     private SpeedBar speedBar;
+    private Dictionary<string, Buff> buffList;       // 현재 받고있는 버프 리스트
 
-    private void Awake()
+    /// <summary>
+    /// 유닛의 이름으로 DB에서 데이터를 가져오기
+    /// </summary>
+    public void SetBattleData(string name)
     {
-        SetBattleData();
-    }
-
-    public void SetBattleData()
-    {
-        //defaultData = data;
-        //currentData = defaultData.defaultStatus;
+        defaultData = BattleSceneManager.unitDB[name];
 
         SetHpBar();
         SetSpeedBar();
@@ -73,5 +72,31 @@ public class BattleUnit : MonoBehaviour
         int getDamage = (caster.atkPower + damage) - currentData.defPower;
         currentData.hp -= getDamage;
         hpBar.UpdateHpBar(currentData.hp);
+    }
+
+    /// <summary>
+    /// 회복할때 호출되는 함수
+    /// </summary>
+    private void GetHeal(Status caster, int amount)
+    { 
+        
+    }
+
+    /// <summary>
+    /// 보호막(방어도) 를 얻을때 호출되는 함수
+    /// </summary>
+    private void GetShield(Status caster, int amount)
+    { 
+    
+    }
+
+    private void CheckBuff()
+    { 
+    
+    }
+
+    private void CheckDeBuff()
+    { 
+    
     }
 }

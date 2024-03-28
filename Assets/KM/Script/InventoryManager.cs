@@ -12,7 +12,7 @@ public enum InventoryFilterType
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public static Dictionary<int, BaseItemData> itemDB = new Dictionary<int, BaseItemData>();         // 아이템 DB
+    public static SortedDictionary<int, BaseItemData> itemDB = new SortedDictionary<int, BaseItemData>();         // 아이템 DB
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -206,6 +206,11 @@ public class InventoryManager : Singleton<InventoryManager>
         }
 
         InventorySlotInit(inventoryFilter, tempList);
+    }
+
+    private void SortDictionary()
+    { 
+    
     }
 
     /// <summary>

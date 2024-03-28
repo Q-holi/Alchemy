@@ -6,8 +6,8 @@ using System.IO;
 public class BattleSceneManager : Singleton<BattleSceneManager>
 {
     // 유닛들을 불러올 DB
-    public Dictionary<string, BattleCharacterData> unitDB =
-        new Dictionary<string, BattleCharacterData>();
+    public static SortedDictionary<string, BattleCharacterData> unitDB =
+        new SortedDictionary<string, BattleCharacterData>();
 
     [SerializeField] private InventoryManager potionList;
     public bool targeting;      // 선택된 대상이 있는지 검사
