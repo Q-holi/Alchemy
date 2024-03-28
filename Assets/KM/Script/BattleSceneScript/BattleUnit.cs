@@ -34,6 +34,7 @@ public class BattleUnit : MonoBehaviour
             GameObject.Find("Canvas").transform);
         hpBarObj.transform.position = hpPos;
         hpBar = hpBarObj.GetComponent<HpBar>();
+
         //hp.SetMaxHp = defaultData.defaultStatus.hp;
         //hp.UpdateHpBar(defaultData.defaultStatus.hp);
     }
@@ -91,11 +92,6 @@ public class BattleUnit : MonoBehaviour
     }
 
     private void CheckBuff()
-    { 
-    
-    }
-
-    private void CheckDeBuff()
     { 
     
     }
