@@ -71,16 +71,31 @@ public class BattleUnit : MonoBehaviour
     private void GetDamage(Status caster, int damage)
     {
         int getDamage = (caster.atkPower + damage) - currentData.defPower;
-        currentData.hp -= getDamage;
-        hpBar.UpdateHpBar(currentData.hp);
+
+        // 보호막이 있으면
+        if (currentData.shield > 0)
+        {
+            // 남는데미지가 있는지 계산
+            int remainDamage = currentData.shield - getDamage;
+
+            if (remainDamage > 0)   // 보호막을 뛰어넘는 데미지 일때
+            {
+                currentData.shield = 0;
+                currentData.hp -= remainDamage;
+            }
+            else // 보호막이 충분할때
+                currentData.shield -= getDamage;
+        }
+
+        hpBar.UpdateHpBar(currentData.hp, currentData.shield);
     }
 
     /// <summary>
     /// 회복할때 호출되는 함수
     /// </summary>
     private void GetHeal(Status caster, int amount)
-    { 
-        
+    {
+        caster.hp += amount;
     }
 
     /// <summary>
@@ -88,7 +103,7 @@ public class BattleUnit : MonoBehaviour
     /// </summary>
     private void GetShield(Status caster, int amount)
     { 
-    
+        caster.shield += amount;
     }
 
     private void CheckBuff()
