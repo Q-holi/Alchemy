@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 602471560}
   - component: {fileID: 602471561}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BattleScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1782,7 +1782,7 @@ Transform:
   m_GameObject: {fileID: 656081077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: -0.05}
+  m_LocalPosition: {x: 0.2, y: 0, z: -0.05}
   m_LocalScale: {x: -0.13, y: -0.475, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d507da413864620439991dad800ba9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultData: {fileID: 0}
+  defaultData: {fileID: 11400000, guid: 5bb5509bbe4fc9744b9c07aa20a0ca0e, type: 2}
   currentData:
     name: 
     hp: 0
@@ -1863,6 +1863,7 @@ MonoBehaviour:
     speed: 0
   hpBarObj: {fileID: 0}
   speedBarObj: {fileID: 0}
+  highLight: {fileID: 0}
 --- !u!61 &656081081
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2355,7 +2356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d507da413864620439991dad800ba9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultData: {fileID: 0}
+  defaultData: {fileID: 11400000, guid: 0bfe553d0c926be48a5328f5b3e971d5, type: 2}
   currentData:
     name: 
     hp: 0
@@ -2365,6 +2366,7 @@ MonoBehaviour:
     speed: 0
   hpBarObj: {fileID: 0}
   speedBarObj: {fileID: 0}
+  highLight: {fileID: 0}
 --- !u!61 &819482303
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2603,7 +2605,7 @@ Transform:
   m_GameObject: {fileID: 1111035334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: -0.05}
+  m_LocalPosition: {x: -0.2, y: 0, z: -0.05}
   m_LocalScale: {x: -0.13, y: -0.475, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2674,7 +2676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d507da413864620439991dad800ba9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultData: {fileID: 0}
+  defaultData: {fileID: 11400000, guid: b1e9839b35ba0f94baba8386f2caddb3, type: 2}
   currentData:
     name: 
     hp: 0
@@ -2684,6 +2686,7 @@ MonoBehaviour:
     speed: 0
   hpBarObj: {fileID: 0}
   speedBarObj: {fileID: 0}
+  highLight: {fileID: 0}
 --- !u!61 &1111035338
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3931,7 +3934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d507da413864620439991dad800ba9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultData: {fileID: 0}
+  defaultData: {fileID: 11400000, guid: ae2db936e3f3db5438f68f03377604f3, type: 2}
   currentData:
     name: 
     hp: 0
@@ -3941,6 +3944,7 @@ MonoBehaviour:
     speed: 0
   hpBarObj: {fileID: 0}
   speedBarObj: {fileID: 0}
+  highLight: {fileID: 0}
 --- !u!61 &1987098872
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -14,6 +14,12 @@ public class BattleUnit : MonoBehaviour
     private SpeedBar speedBar;
     private Dictionary<string, Buff> buffList;       // 현재 받고있는 버프 리스트
 
+    private void Awake()
+    {
+        SetHpBar();
+        SetSpeedBar();
+    }
+
     /// <summary>
     /// 유닛의 이름으로 DB에서 데이터를 가져오기
     /// </summary>
@@ -23,20 +29,21 @@ public class BattleUnit : MonoBehaviour
 
         SetHpBar();
         SetSpeedBar();
-
     }
 
     private void SetHpBar()
     {
         Vector3 hpPos = Camera.main.WorldToScreenPoint(this.transform.position);
+        hpPos.y += 25.0f;
         hpPos.y += 150.0f;
         hpBarObj = Instantiate(Resources.Load<GameObject>("BattleScenePrefab/HpBarBg"),
             GameObject.Find("Canvas").transform);
         hpBarObj.transform.position = hpPos;
         hpBar = hpBarObj.GetComponent<HpBar>();
 
-        //hp.SetMaxHp = defaultData.defaultStatus.hp;
-        //hp.UpdateHpBar(defaultData.defaultStatus.hp);
+        hpBar.SetDefensePower = defaultData.defaultStatus.defPower;
+        hpBar.SetMaxHp = defaultData.defaultStatus.hp;
+        hpBar.UpdateHpBar(defaultData.defaultStatus.hp, defaultData.defaultStatus.shield);
     }
 
     private void SetSpeedBar()
@@ -47,9 +54,10 @@ public class BattleUnit : MonoBehaviour
             GameObject.Find("Canvas").transform);
         speedBarObj.transform.position = speedPos;
         speedBar = speedBarObj.GetComponent<SpeedBar>();
-        //speed.SetSpeed = defaultData.defaultStatus.speed;
+        speedBar.SetSpeed = defaultData.defaultStatus.speed;
     }
 
+    // 오브젝트에 마우스를 올렸을때
     private void OnMouseOver()
     {
         if (!BattleSceneManager.Instance.targeting)
@@ -65,18 +73,22 @@ public class BattleUnit : MonoBehaviour
         BattleSceneManager.Instance.targeting = false;
     }
 
+    private void AttackTarget()
+    { 
+        
+    }
+
     /// <summary>
     /// 공격자로부터 데미지를 받을때 호출되는 함수
     /// </summary>
-    private void GetDamage(Status caster, int damage)
+    private void GetDamage(int damage)
     {
-        int getDamage = (caster.atkPower + damage) - currentData.defPower;
+        int getDamage = damage - currentData.defPower;
 
         // 보호막이 있으면
         if (currentData.shield > 0)
         {
-            // 남는데미지가 있는지 계산
-            int remainDamage = currentData.shield - getDamage;
+            int remainDamage = currentData.shield - getDamage; // 남는데미지가 있는지 계산
 
             if (remainDamage > 0)   // 보호막을 뛰어넘는 데미지 일때
             {
@@ -91,23 +103,25 @@ public class BattleUnit : MonoBehaviour
     }
 
     /// <summary>
-    /// 회복할때 호출되는 함수
+    /// 회복을 받을때 호출되는 함수
     /// </summary>
-    private void GetHeal(Status caster, int amount)
+    private void GetHeal(int amount)
     {
-        caster.hp += amount;
+        currentData.hp += amount;
+        hpBar.UpdateHpBar(currentData.hp, currentData.shield);
     }
 
     /// <summary>
     /// 보호막(방어도) 를 얻을때 호출되는 함수
     /// </summary>
-    private void GetShield(Status caster, int amount)
-    { 
-        caster.shield += amount;
+    private void GetShield(int amount)
+    {
+        currentData.shield += amount;
+        hpBar.UpdateHpBar(currentData.hp, currentData.shield);
     }
 
     private void CheckBuff()
     { 
-    
+        
     }
 }
