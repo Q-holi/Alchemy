@@ -150,7 +150,6 @@ public class InventoryManager : Singleton<InventoryManager>
                     break;
                 }
             }
-            Debug.Log("Item Use Success");
         }
         else
         {
@@ -164,7 +163,6 @@ public class InventoryManager : Singleton<InventoryManager>
                     break;
                 }
             }
-            Debug.Log("Item Use Cancel");
         }
     }
 

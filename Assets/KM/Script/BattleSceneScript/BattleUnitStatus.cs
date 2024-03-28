@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleUnit : MonoBehaviour
+public class BattleUnitStatus : MonoBehaviour
 {
     [SerializeField] private BattleCharacterData defaultData;    // 기본 캐릭터 데이터
     [SerializeField] private Status currentData;             // 현재 캐릭터 데이터
@@ -31,6 +31,9 @@ public class BattleUnit : MonoBehaviour
         SetSpeedBar();
     }
 
+    /// <summary>
+    /// 유닛의 HpBar 설정
+    /// </summary>
     private void SetHpBar()
     {
         Vector3 hpPos = Camera.main.WorldToScreenPoint(this.transform.position);
@@ -46,6 +49,9 @@ public class BattleUnit : MonoBehaviour
         hpBar.UpdateHpBar(defaultData.defaultStatus.hp, defaultData.defaultStatus.shield);
     }
 
+    /// <summary>
+    /// 턴을 표시하는 SpeedBar 설정
+    /// </summary>
     private void SetSpeedBar()
     {
         Vector3 speedPos = Camera.main.WorldToScreenPoint(this.transform.position);
@@ -73,6 +79,9 @@ public class BattleUnit : MonoBehaviour
         BattleSceneManager.Instance.targeting = false;
     }
 
+    /// <summary>
+    /// 유닛이 공격시 호출되는 함수
+    /// </summary>
     private void AttackTarget()
     { 
         
@@ -120,6 +129,9 @@ public class BattleUnit : MonoBehaviour
         hpBar.UpdateHpBar(currentData.hp, currentData.shield);
     }
 
+    /// <summary>
+    /// 유닛에게 적용된 버프효과 적용시 호출되는 함수
+    /// </summary>
     private void CheckBuff()
     { 
         
