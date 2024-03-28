@@ -4,6 +4,6 @@ using System.Collections.Generic;
 public class ItemSave
 {
     // string key is an identifier name we choose for this list
-    public Dictionary<string, List<Item>> listItemDictionary;
+    public Dictionary<string, List<InventoryItem>> listItemDictionary;
 }
 

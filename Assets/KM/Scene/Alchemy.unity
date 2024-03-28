@@ -1312,6 +1312,7 @@ GameObject:
   - component: {fileID: 496504812}
   - component: {fileID: 496504814}
   - component: {fileID: 496504813}
+  - component: {fileID: 496504815}
   m_Layer: 5
   m_Name: InventoryContent
   m_TagString: Untagged
@@ -1380,6 +1381,8 @@ MonoBehaviour:
   selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
     type: 3}
   isDragging: 0
+  inventoryLists: []
+  itemList: {fileID: 11400000, guid: 9cacb19eb2cc9c54aab324c976954269, type: 2}
 --- !u!114 &496504813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1418,6 +1421,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496504808}
   m_CullTransparentMesh: 1
+--- !u!114 &496504815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496504808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f58869c9e9b6824383a262b2c2de3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gUID: fa6b891b-5c6d-42ce-88e5-20c0e4c4bc49
 --- !u!1 &640459197
 GameObject:
   m_ObjectHideFlags: 0
