@@ -19,8 +19,8 @@ public class UseIngredient : MonoBehaviour
             Debug.Log("Use Item : " + InventoryManager.itemDB[key].itemName);
 
             // 아이템 옵션의 효과 (포션의 이동거리)
-            Vector3 lineVector = new Vector3((int)item.options.x - (int)item.options.z,
-                                     (int)item.options.y - (int)item.options.w, 0.0f) / 10.0f;
+            Vector3 lineVector = new Vector3(item.r - item.b,
+                                     item.g - item.a, 0.0f) / 10.0f;
 
             // 포션 마커의 시작점
             Vector3 markerPoint = potionMarker.gameObject.transform.localPosition;

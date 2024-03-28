@@ -9,7 +9,8 @@ public enum InventoryFilterType
     Potion,
     Tool
 }
-
+[RequireComponent(typeof(GenerateGUID))]
+//-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
     public static Dictionary<int, BaseItemData> itemDB = new Dictionary<int, BaseItemData>();         // 아이템 DB
@@ -27,9 +28,17 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
 
+    private string _iSaveableUniqueID; //--<GenerateGUID>().GUID값을 받는다.
+    public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
+
+    private GameObjectSave _gameObjectSave;
+    public GameObjectSave GameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
+
     protected override void Awake()
     {
         base.Awake();
+        ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
+        GameObjectSave = new GameObjectSave();
         ItemDBLoad();
         TempItemGenerater();
     }
@@ -223,4 +232,23 @@ public class InventoryManager : Singleton<InventoryManager>
                 items.Add(new Tool(data.Key));
         }
     }
+
+    #region SW_SaveLoad
+    public void ISaveableStoreScene(string sceneName)
+    {
+        //기존에 있던 같은 이름의 scene을 지웁니다.-> Scene을 새롭게 업데이트 하는 방식
+        GameObjectSave.itemData.Remove(sceneName);
+
+        //-- 이후 현제 Scene의 있는 아이템 전부를 가져와 SceneItem형식으로 List에 저장한다. 
+        List<Item> itemList = items;
+        //Item[] itemsInScene = FindObjectsOfType<Item>();
+
+        ItemSave itemSave = new ItemSave();
+        itemSave.listItemDictionary = new Dictionary<string, List<Item>>();
+        itemSave.listItemDictionary.Add("ItemList", itemList);
+
+        GameObjectSave.itemData.Add(sceneName, itemSave);
+    }
+
+    #endregion
 }
