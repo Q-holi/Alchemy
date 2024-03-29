@@ -5,7 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
-public  class Item
+
+public class Item
 {
     [SerializeField] public int itemkey;
     [SerializeField] public int count = 50;

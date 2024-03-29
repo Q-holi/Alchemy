@@ -19,4 +19,4 @@ MonoBehaviour:
     atkPower: 0
     defPower: 0
     speed: 10
-  sprite: {fileID: 0}
+  sprite: {fileID: 1848397376, guid: 89a8943225045f9428d1f4a3d9180d81, type: 3}

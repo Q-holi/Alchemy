@@ -5,5 +5,5 @@ using UnityEngine;
 
 public static class BattleEventHandler
 {
-    public static Action<Status, int> OnAttackTarget;
+    public static Action GetTurn;
 }

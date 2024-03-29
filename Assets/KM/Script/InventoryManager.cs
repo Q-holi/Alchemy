@@ -13,8 +13,9 @@ public enum InventoryFilterType
 //-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
-    #region KM
-    public static Dictionary<int, BaseItemData> itemDB = new Dictionary<int, BaseItemData>();         // 아이템 DB
+
+    public static SortedDictionary<int, BaseItemData> itemDB = new SortedDictionary<int, BaseItemData>();         // 아이템 DB
+
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -182,7 +183,6 @@ public class InventoryManager : Singleton<InventoryManager>
                     break;
                 }
             }
-            Debug.Log("Item Use Success");
         }
         else
         {
@@ -196,7 +196,6 @@ public class InventoryManager : Singleton<InventoryManager>
                     break;
                 }
             }
-            Debug.Log("Item Use Cancel");
         }
     }
 
@@ -238,6 +237,11 @@ public class InventoryManager : Singleton<InventoryManager>
         }
 
         InventorySlotInit(inventoryFilter, tempList);
+    }
+
+    private void SortDictionary()
+    { 
+    
     }
 
     /// <summary>
