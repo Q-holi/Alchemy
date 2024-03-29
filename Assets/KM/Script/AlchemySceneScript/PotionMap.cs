@@ -8,7 +8,6 @@ public class PotionMap : MonoBehaviour
 
     [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();    // 포션 옵션의 위치 설정
     [SerializeField] private GameObject markerPrefab;   // 옵션 마커 프리팹
-    [SerializeField] public List<BasePotionData> potionDB = new List<BasePotionData>();
 
     private void Start()
     {
@@ -26,7 +25,7 @@ public class PotionMap : MonoBehaviour
             tempobj.transform.position += options * 10.0f;
             tempobj.GetComponent<SpriteRenderer>().color =
                 new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f));
-            tempobj.GetComponent<MarkerOption>().potionData = potionDB[Random.Range(0, potionDB.Count)];
+            //tempobj.GetComponent<MarkerOption>().potionData = potionDB[Random.Range(0, potionDB.Count)];
         }
     }
 

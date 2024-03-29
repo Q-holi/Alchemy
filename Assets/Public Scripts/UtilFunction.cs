@@ -61,37 +61,19 @@ public class UtilFunction
     /// <summary>
     /// 등급에 맞는 색 추출
     /// </summary>
-    public static Color GetColor(Rating rating)
+    public static Color GetColor(ItemRating rating)
     {
         switch (rating)
         {
-            case Rating.Normal:
+            case ItemRating.Normal:
                 return Color.white;
-            case Rating.Rare:
+            case ItemRating.Rare:
                 return Color.blue;
-            case Rating.Epic:
+            case ItemRating.Epic:
                 return Color.magenta;
-            case Rating.Legend:
+            case ItemRating.Legend:
                 return Color.yellow;
         }
         return Color.white;
-    }
-
-    /// <summary>
-    /// 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
-    /// </summary>
-    public static Item InventoryItemTypeFilter(Item item, InventoryFilterType filter)
-    {
-        switch (filter)
-        {
-            case InventoryFilterType.Collection when item is Collection collection:
-                return collection;
-            case InventoryFilterType.Potion when item is Potion potion:
-                return potion;
-            case InventoryFilterType.Tool when item is Tool tool:
-                return tool;
-            default:
-                return null;
-        }
     }
 }

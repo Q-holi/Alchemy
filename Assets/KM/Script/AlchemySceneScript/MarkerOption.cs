@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MarkerOption : MonoBehaviour
 {
-    public BasePotionData potionData;
-
-    public Potion GetEnchant(Potion targetPotion)
-    {
-        targetPotion.EnchantPotion(potionData);
-        return targetPotion;
-    }
+    //public BasePotionData potionData;
+    //
+    //public Potion GetEnchant(Potion targetPotion)
+    //{
+    //    targetPotion.EnchantPotion(potionData);
+    //    return targetPotion;
+    //}
 }

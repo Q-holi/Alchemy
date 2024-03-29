@@ -15,5 +15,5 @@ public class ItemDetails
     public bool potion;
     public bool collection;
     public bool tool;
-    public List<int> itmeOption = new List<int>();
+    public List<int> itemOption = new List<int>();
 }

@@ -41,7 +41,7 @@ public class ItemInfo : MonoBehaviour
     /// <summary>
     /// 넘겨받은 아이템 정보 출력
     /// </summary>
-    public void ShowItemInfo(Item item)
+    public void ShowItemInfo(ItemDetails item)
     {
         // 아이템 정보 표시를 위해 정보창 정보 visible
         itemFrame.gameObject.SetActive(true);
@@ -52,25 +52,25 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
-        itemIcon.sprite = InventoryManager.itemDB[item.itemkey].sprite;
-        itemName.text = InventoryManager.itemDB[item.itemkey].itemName;
-        itemName.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
-        itemRank.text = InventoryManager.itemDB[item.itemkey].rating.ToString();
-        itemRank.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
-        itemDetail.text = InventoryManager.itemDB[item.itemkey].detail;
+        itemFrame.color = UtilFunction.GetColor(item.itemRating);
+        itemIcon.sprite = item.sprite;
+        itemName.text = item.name;
+        itemName.color = UtilFunction.GetColor(item.itemRating);
+        itemRank.text = item.ToString();
+        itemRank.color = UtilFunction.GetColor(item.itemRating);
+        itemDetail.text = item.detail;
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)
             Destroy(stack);
         stackList.Clear();
 
-        if (item is Collection collection)
+        if (item.collection)
         {
-            BuildStack((int)collection.r, Color.red);
-            BuildStack((int)collection.g, Color.green);
-            BuildStack((int)collection.b, Color.blue);
-            BuildStack((int)collection.a, Color.white);
+            BuildStack((int)item.itemOption[0], Color.red);
+            BuildStack((int)item.itemOption[1], Color.green);
+            BuildStack((int)item.itemOption[2], Color.blue);
+            BuildStack((int)item.itemOption[3], Color.white);
         }
     }
 

@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler
 {
-    [SerializeField] private Item item;            // 아이템 정보
     [SerializeField] private Image iconImage;            // 아이템 이미지
     [SerializeField] private Image itemFrame;            // 아이템 프레임
     [SerializeField] private TextMeshProUGUI itemCount;  // 아이템 갯수
@@ -16,8 +15,9 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
 
     private GameObject selectItem;  // 드래그시, 복사된 아이템
+    private InventoryItem itemData;
 
-    public Item GetItem { get => item; }
+    public int GetItem { get => itemData.itemCode; }
 
     private void Awake()
     {
@@ -25,28 +25,23 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     }
 
     /// <summary>
-    /// 인벤토리 슬롯 아이템 정보 초기화
+    /// 인벤토리 슬롯 아이템 정보 초기화 및 업데이트
     /// </summary>
-    public void ItemInit(Item item)
+    public void ItemInit(ItemDetails item)
     {
-        // Item 에 count(갯수) 를 저장하기때문에 Item 형태로 받아와야 함
-        this.item = item;
-        iconImage.sprite = InventoryManager.itemDB[item.itemkey].sprite;
-        itemCount.text = item.count.ToString();
-        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        iconImage.sprite = item.sprite;
+
+        itemData = InventoryManager.Instance.inventoryLists.Find(x => x.itemCode == item.itemCode);
+        if (!itemData.Equals(default(InventoryItem)))
+            itemCount.text = itemData.itemQuantity.ToString();
+
+        itemFrame.color = UtilFunction.GetColor(item.itemRating);
     }
-    public void ItemInit(ItemDetails itemDetail)
-    {
-
-        iconImage.sprite = itemDetail.sprite;
-
-    }
-
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
         InventoryManager.Instance.isDragging = true;
-        if (item.count <= 0)
+        if (itemData.itemQuantity <= 0)
             return;
 
         coverImage.gameObject.SetActive(true);
@@ -56,8 +51,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
         // 아이템 정보 설정
         // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
-        InventoryEventHandler.OnItemDragging(item.itemkey, InventoryManager.Instance.isDragging);
-        InventoryEventHandler.OnUseItem(item.itemkey, true);
+        InventoryEventHandler.OnItemDragging(itemData.itemCode, InventoryManager.Instance.isDragging);
+        InventoryEventHandler.OnUseItem(itemData.itemCode, true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -68,14 +63,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
     {
         InventoryManager.Instance.isDragging = false;
-        if (item.count <= 0 || selectItem == null)
+        if (itemData.itemCode <= 0 || selectItem == null)
             return;
 
-        InventoryEventHandler.OnItemDragging(item.itemkey, InventoryManager.Instance.isDragging);
+        InventoryEventHandler.OnItemDragging(itemData.itemCode, InventoryManager.Instance.isDragging);
 
         if (UtilFunction.Detectray(InventoryManager.Instance.gameObject.name))
         {
-            InventoryEventHandler.OnUseItem(item.itemkey, false);
+            InventoryEventHandler.OnUseItem(itemData.itemCode, false);
             Destroy(selectItem);
         }
 
@@ -87,7 +82,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (InventoryManager.Instance.isDragging)       // 드래그 중일땐 인식 X
             return;
 
-        InventoryEventHandler.OnMouse?.Invoke(item);
+        InventoryEventHandler.OnMouse?.Invoke(InventoryManager.Instance.GetItemDetails(itemData.itemCode));
         coverImage.gameObject.SetActive(true);
     }
 
@@ -97,6 +92,4 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
             return;
         coverImage.gameObject.SetActive(false);
     }
-
-
 }
