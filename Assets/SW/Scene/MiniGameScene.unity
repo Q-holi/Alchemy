@@ -184,8 +184,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 85
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -439,6 +439,8 @@ MonoBehaviour:
   width: 14
   height: 14
   board: {fileID: 0}
+  expansionLengh: 8
+  shallowDigCount: 25
 --- !u!1 &2078248941
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +453,7 @@ GameObject:
   - component: {fileID: 2078248945}
   - component: {fileID: 2078248944}
   - component: {fileID: 2078248943}
+  - component: {fileID: 2078248946}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -466,7 +469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078248941}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -488,6 +491,16 @@ MonoBehaviour:
   tileUnknow: {fileID: 11400000, guid: d3ba31908c275db42beb446e77466c28, type: 2}
   tileEmpty: {fileID: 11400000, guid: 2198ad71b66c56748bf67107b7cc8753, type: 2}
   tilePlant: {fileID: 11400000, guid: 3e6079a7a0c72d04d8c2aa88feaa5098, type: 2}
+  startPlant: {fileID: 11400000, guid: f17352c1edea6ba4b9dfed34cd4e0ced, type: 2}
+  cutPlant: {fileID: 11400000, guid: e5055894a778c104cbbf2c7e60c7ada8, type: 2}
+  expansionPlant1: {fileID: 11400000, guid: 33f40ea9d0d6f1740a3546fe9850c70e, type: 2}
+  expansionPlant2: {fileID: 11400000, guid: 45cb1c381a76a9448bc40bed439ea3bd, type: 2}
+  expansionPlant3: {fileID: 11400000, guid: 76a66b853b05e294d9af7f8c21052457, type: 2}
+  expansionPlant4: {fileID: 11400000, guid: c9a8ca4fd03af744fa498b5d5d52c5eb, type: 2}
+  expansionPlant5: {fileID: 11400000, guid: f5ec0cc1dcc565b499fdf591f5bf76f8, type: 2}
+  expansionPlant6: {fileID: 11400000, guid: 124757b5738819e42af12558ceebc7d4, type: 2}
+  expansionPlant7: {fileID: 11400000, guid: 11e396ea134cb5947b474ea38ee3f2b6, type: 2}
+  expansionPlant8: {fileID: 11400000, guid: dac45ab2c37fdbe4dbfb62803a1078c1, type: 2}
 --- !u!483693784 &2078248944
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -575,6 +588,42 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &2078248946
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078248941}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
