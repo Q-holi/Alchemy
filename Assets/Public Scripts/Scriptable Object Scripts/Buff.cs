@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Buff
+
+[CreateAssetMenu(fileName = "Battle Data", menuName = "Battle System/Buff Data", order = 1)]
+public class Buff : ScriptableObject
 {
-    public string name;    // 디버프 이름
+    public string name;    // 버프 이름
     public bool isBuff;    // 버프 유형
 
     public int duration;   // 지속시간

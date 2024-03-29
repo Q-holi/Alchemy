@@ -21,7 +21,7 @@ MonoBehaviour:
     potion: 0
     collection: 1
     tool: 0
-    itmeOption: 00000000000000000000000001000000
+    itemOption: 01000000000000000000000000000000
   - itemCode: 1002
     name: BBB
     sprite: {fileID: 21300000, guid: 9786fef103e94a44faea2fde9f4a495d, type: 3}
@@ -30,7 +30,7 @@ MonoBehaviour:
     potion: 0
     collection: 1
     tool: 0
-    itmeOption: 00000000010000000000000000000000
+    itemOption: 00000000010000000000000000000000
   - itemCode: 1003
     name: CCC
     sprite: {fileID: 21300000, guid: 1eecacf6f643e354898d7a98c6c86e74, type: 3}
@@ -39,7 +39,7 @@ MonoBehaviour:
     potion: 1
     collection: 0
     tool: 0
-    itmeOption: 
+    itemOption: 
   - itemCode: 1004
     name: DDD
     sprite: {fileID: 21300000, guid: 725847955a9d5854a8cc269b73a3d40b, type: 3}
@@ -48,4 +48,4 @@ MonoBehaviour:
     potion: 0
     collection: 1
     tool: 0
-    itmeOption: 00000000000000000100000000000000
+    itemOption: 00000000000000000100000000000000
