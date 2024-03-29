@@ -67,10 +67,10 @@ public class ItemInfo : MonoBehaviour
 
         if (item is Collection collection)
         {
-            BuildStack((int)collection.options.x, Color.red);
-            BuildStack((int)collection.options.y, Color.green);
-            BuildStack((int)collection.options.z, Color.blue);
-            BuildStack((int)collection.options.w, Color.white);
+            BuildStack((int)collection.r, Color.red);
+            BuildStack((int)collection.g, Color.green);
+            BuildStack((int)collection.b, Color.blue);
+            BuildStack((int)collection.a, Color.white);
         }
     }
 

@@ -9,10 +9,13 @@ public enum InventoryFilterType
     Potion,
     Tool
 }
-
+[RequireComponent(typeof(GenerateGUID))]
+//-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
+
     public static SortedDictionary<int, BaseItemData> itemDB = new SortedDictionary<int, BaseItemData>();         // 아이템 DB
+
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -26,11 +29,25 @@ public class InventoryManager : Singleton<InventoryManager>
     public bool isDragging = false;     // 아이템 드래그 감지
 
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
+    #endregion
+    #region SW
+    private string _iSaveableUniqueID; //--<GenerateGUID>().GUID값을 받는다.
+    public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
+
+    private GameObjectSave _gameObjectSave;
+    public GameObjectSave GameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
+    public List<InventoryItem> inventoryLists = new List<InventoryItem>();
+    private Dictionary<int, ItemDetails> itemDetailsDictionary;
+    [SerializeField] private SO_ItemList itemList = null;
+    #endregion
 
     protected override void Awake()
     {
         base.Awake();
+        ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
+        GameObjectSave = new GameObjectSave();
         ItemDBLoad();
+        CreateItemDetailsDictionary();
         TempItemGenerater();
     }
 
@@ -88,6 +105,7 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     #endregion
 
+    #region KM
     /// <summary>
     /// 인벤토리 데이터로 인벤토리 정보 로드
     /// externData 에 다른 List 를 넘겨주면, 그 List로 인벤토리 초기화
@@ -101,10 +119,25 @@ public class InventoryManager : Singleton<InventoryManager>
         SlotListInit();
         inventoryFilter = filter;
 
-        foreach (Item item in initList)
+        //foreach (Item item in initList)
+        //{
+        //    MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
+        //}
+        foreach (InventoryItem item in inventoryLists)
         {
-            MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
+            MakeSlot(GetItemDetails(item.itemCode));
         }
+    }
+
+    private void MakeSlot(ItemDetails itemDetail)
+    {
+        if (itemDetail != null)   // 왜인지 모르겠는데 null 인 Item 이 하나 생성됨. 나중에 알아보기
+        {
+            GameObject slot = Instantiate(slotPrefab, slotTransform);
+            slot.GetComponent<InventorySlot>().ItemInit(itemDetail);
+            slotList.Add(slot);
+        }
+        return;
     }
 
     /// <summary>
@@ -144,7 +177,7 @@ public class InventoryManager : Singleton<InventoryManager>
             foreach (GameObject slot in slotList)
             {
                 if (keyCode == slot.GetComponent<InventorySlot>().GetItem.itemkey)
-                { 
+                {
                     slot.GetComponent<InventorySlot>().
                         ItemInit(items.Find(x => x.itemkey == keyCode));
                     break;
@@ -184,7 +217,7 @@ public class InventoryManager : Singleton<InventoryManager>
         switch ((ItemFilterType)filterType)
         {
             case ItemFilterType.Name: // 이름순 정렬
-                if(orderType)
+                if (orderType)
                     tempList.Sort((x, y) => itemDB[x.itemkey].itemName.CompareTo(itemDB[y.itemkey].itemName));
                 else
                     tempList.Sort((x, y) => itemDB[y.itemkey].itemName.CompareTo(itemDB[x.itemkey].itemName));
@@ -226,4 +259,70 @@ public class InventoryManager : Singleton<InventoryManager>
                 items.Add(new Tool(data.Key));
         }
     }
+    #endregion
+
+    #region SW_SaveLoad
+    public void ISaveableStoreScene(string sceneName)
+    {
+        //기존에 있던 같은 이름의 scene을 지웁니다.-> Scene을 새롭게 업데이트 하는 방식
+        GameObjectSave.itemData.Remove(sceneName);
+
+        //-- 이후 현제 Scene의 있는 아이템 전부를 가져와 SceneItem형식으로 List에 저장한다. 
+        List<InventoryItem> itemList = inventoryLists;
+        //Item[] itemsInScene = FindObjectsOfType<Item>();
+
+        ItemSave itemSave = new ItemSave();
+        itemSave.listItemDictionary = new Dictionary<string, List<InventoryItem>>();
+        itemSave.listItemDictionary.Add("ItemList", itemList);
+
+        GameObjectSave.itemData.Add(sceneName, itemSave);
+    }
+
+    private void CreateItemDetailsDictionary()
+    {
+        itemDetailsDictionary = new Dictionary<int, ItemDetails>();
+
+        foreach (ItemDetails itemDetails in itemList.itemDetails)
+        {
+            //InventoryItem tempItem = new InventoryItem();
+            //tempItem.itemCode = itemDetails.itemCode;
+            //tempItem.itemQuantity = 10;
+            //inventoryLists.Add(tempItem);
+            itemDetailsDictionary.Add(itemDetails.itemCode, itemDetails);
+        }
+    }
+
+    public ItemDetails GetItemDetails(int itemCode)
+    {
+        ItemDetails itemDetails;
+
+        if (itemDetailsDictionary.TryGetValue(itemCode, out itemDetails))
+            return itemDetails;
+        else
+            return null;
+    }
+    public void LoadItemSaveData(GameSave gameSave)
+    {
+
+        if (gameSave.gameObjectData.TryGetValue(ISaveableUniqueID, out GameObjectSave gameObjectSave))
+        {
+            GameObjectSave = gameObjectSave;
+        }
+
+        if (GameObjectSave.itemData.TryGetValue("TestSaveScene", out ItemSave itemSave))//--sceneSave ->  Dictionary<string, List<SceneItem>> SceneItem 리스트를 가져온다.
+        {
+            if (itemSave.listItemDictionary != null && itemSave.listItemDictionary.TryGetValue("ItemList", out List<InventoryItem> itemList))
+            {
+                LoadInventoryDataSetSlot(itemList);
+            }
+        }
+    }
+    private void LoadInventoryDataSetSlot(List<InventoryItem> itemList)
+    {
+        foreach (InventoryItem item in itemList)
+        {
+            MakeSlot(GetItemDetails(item.itemCode));
+        }
+    }
+    #endregion
 }
