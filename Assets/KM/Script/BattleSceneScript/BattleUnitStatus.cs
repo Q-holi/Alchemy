@@ -16,6 +16,7 @@ public class BattleUnitStatus : MonoBehaviour
 
     private void Awake()
     {
+        highLight.SetActive(false);
         SetHpBar();
         SetSpeedBar();
     }
@@ -67,15 +68,17 @@ public class BattleUnitStatus : MonoBehaviour
     private void OnMouseOver()
     {
         if (!BattleSceneManager.Instance.targeting)
+        {
             BattleSceneManager.Instance.targeting = true;
+            highLight.SetActive(true);
+        }
         else
             return;
-        
-        Debug.Log(this.name);
     }
 
     private void OnMouseExit()
     {
+        highLight.SetActive(false);
         BattleSceneManager.Instance.targeting = false;
     }
 

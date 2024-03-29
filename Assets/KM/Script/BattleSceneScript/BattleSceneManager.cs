@@ -9,6 +9,7 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
     public static SortedDictionary<string, BattleCharacterData> unitDB =
         new SortedDictionary<string, BattleCharacterData>();
 
+    [SerializeField] private GameObject battleUnitPrefab;
     [SerializeField] private InventoryManager potionList;
     public bool targeting;      // 선택된 대상이 있는지 검사
     public static float turnTimeScale = 1.0f;      // 턴 관리용 타임스케일 변수
