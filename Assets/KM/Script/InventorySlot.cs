@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.U2D;
 using TMPro;
 using UnityEngine.EventSystems;
 
@@ -17,22 +16,36 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     [SerializeField] private Image coverImage;           // MouseOver 할때 강조효과
 
     private GameObject selectItem;  // 드래그시, 복사된 아이템
-    private InventoryList inventory;
+    private InventoryManager inventory;
+
+    public Item GetItem { get => item; }
 
     private void Awake()
     {
-        inventory = gameObject.GetComponentInParent<InventoryList>();
+        inventory = gameObject.GetComponentInParent<InventoryManager>();
         coverImage.gameObject.SetActive(false);
     }
 
-    // 아이템 정보 초기화
-    public void ItemInit(Item info)
+    /// <summary>
+    /// 인벤토리 슬롯 아이템 정보 초기화
+    /// </summary>
+    public void ItemInit(Item item)
     {
-        item = info;
-        iconImage.sprite = item.itemData.sprite;
+        // Item 에 count(갯수) 를 저장하기때문에 Item 형태로 받아와야 함
+        this.item = item;
+        iconImage.sprite = InventoryManager.itemDB[item.itemkey].sprite;
         itemCount.text = item.count.ToString();
-        itemFrame.color = UtilFunction.GetColor(item.itemData.rating);
+        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+
+
     }
+    public void ItemInit(ItemDetails itemDetail)
+    {
+
+        iconImage.sprite = itemDetail.sprite;
+
+    }
+
 
     public void OnBeginDrag(PointerEventData eventData) // 드래그 시작시
     {
@@ -40,25 +53,20 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0)
             return;
 
-        // 아이템 정보 넘겨주기
-        inventory.SelectItem = item;
         coverImage.gameObject.SetActive(true);
 
         // 드래그 아이템 복사본 생성
         selectItem = Instantiate(inventory.SelectItemPrefab,
         UtilFunction.ScreenToWorldPos(), Quaternion.identity);
-        // 아이템 정보 설정 << 다시 생각해보기
-        selectItem.GetComponent<SelectItem>().SetItemIcon((Collection)item);
+        // 아이템 정보 설정
+        // 아이템을 생성한뒤 이벤트를 등록하므로, 반드시 복사본을 먼저 만들 것
+        InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
+        InventoryEventHandler.OnUseItem(item.itemkey, true);
     }
 
-    public void OnDrag(PointerEventData eventData)  // 드래그 중
+    public void OnDrag(PointerEventData eventData)
     {
-        if (item.count <= 0 || selectItem == null)
-            return;
-
-        selectItem.transform.position = UtilFunction.ScreenToWorldPos();
-        // 아이템 정보 넘겨주기
-        inventory.SelectItem = item;
+        // 아이템 드래그를 인식하려면 아무 기능이 없더라도 있어야 함
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝 (해당 스크립트가 포함된 오브젝트에서 호출)
@@ -67,11 +75,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (item.count <= 0 || selectItem == null)
             return;
 
-        selectItem.GetComponent<SelectItem>().ItemRigidbody.gravityScale = 10;
+        InventoryEventHandler.OnItemDragging(item.itemkey, inventory.isDragging);
 
         if (UtilFunction.Detectray(inventory.gameObject.name))
         {
-            Debug.Log("Item Use Cancel");
+            InventoryEventHandler.OnUseItem(item.itemkey, false);
             Destroy(selectItem);
         }
 
@@ -80,16 +88,19 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
 
     public void OnPointerEnter(PointerEventData eventData)  // 마우스 올렸을때
     {
-        if (inventory.isDragging)
+        if (inventory.isDragging)       // 드래그 중일땐 인식 X
             return;
-        inventory.SelectItem = item;
+
+        InventoryEventHandler.OnMouse?.Invoke(item);
         coverImage.gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)   // 마우스 빠졌을때
     {
-        if (inventory.isDragging)
+        if (inventory.isDragging)       // 드래그 중일땐 인식 X
             return;
         coverImage.gameObject.SetActive(false);
     }
+
+
 }

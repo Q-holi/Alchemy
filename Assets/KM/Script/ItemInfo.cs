@@ -15,8 +15,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDetail;    // 아이템 설명
     [SerializeField] private GameObject stackPrefab;        // 아이템 옵션 표기를 위한 스택 프리팹
 
-    [SerializeField] private InventoryList inventory;       // 인벤토리 정보 불러오기
-    private Item item;    // 중복 검증을 위한 아이템 데이터
+    [SerializeField] private InventoryManager inventory;       // 인벤토리 정보 불러오기
     private List<GameObject> stackList = new List<GameObject>();    // 아이템 옵션 리스트
 
     private void Awake()
@@ -30,19 +29,20 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(false);
     }
 
-    private void Update()
+    private void Start()
     {
-        // 선택한 아이템이 있으면, 아이템 정보 출력
-        if (inventory.SelectItem != null &&
-            inventory.SelectItem != item)
-            ShowItemInfo((Collection)inventory.SelectItem);
-        else
-            return;
+        InventoryEventHandler.OnMouse += ShowItemInfo;
+    }
+    private void OnDestroy()
+    {
+        InventoryEventHandler.OnMouse -= ShowItemInfo;
     }
 
-    public void ShowItemInfo(Item info)
+    /// <summary>
+    /// 넘겨받은 아이템 정보 출력
+    /// </summary>
+    public void ShowItemInfo(Item item)
     {
-        item = info;
         // 아이템 정보 표시를 위해 정보창 정보 visible
         itemFrame.gameObject.SetActive(true);
         itemIcon.gameObject.SetActive(true);
@@ -52,23 +52,26 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = UtilFunction.GetColor(info.itemData.rating);
-        itemIcon.sprite = info.itemData.sprite;
-        itemName.text = info.itemData.itemName;
-        itemName.color = UtilFunction.GetColor(info.itemData.rating);
-        itemRank.text = info.itemData.rating.ToString();
-        itemRank.color = UtilFunction.GetColor(info.itemData.rating);
+        itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemIcon.sprite = InventoryManager.itemDB[item.itemkey].sprite;
+        itemName.text = InventoryManager.itemDB[item.itemkey].itemName;
+        itemName.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemRank.text = InventoryManager.itemDB[item.itemkey].rating.ToString();
+        itemRank.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
+        itemDetail.text = InventoryManager.itemDB[item.itemkey].detail;
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)
             Destroy(stack);
         stackList.Clear();
 
-        Collection temp = (Collection)info;
-        BuildStack((int)temp.options.x, Color.red);
-        BuildStack((int)temp.options.y, Color.green);
-        BuildStack((int)temp.options.z, Color.blue);
-        BuildStack((int)temp.options.w, Color.white);
+        if (item is Collection collection)
+        {
+            BuildStack((int)collection.r, Color.red);
+            BuildStack((int)collection.g, Color.green);
+            BuildStack((int)collection.b, Color.blue);
+            BuildStack((int)collection.a, Color.white);
+        }
     }
 
     private void BuildStack(int count, Color color)

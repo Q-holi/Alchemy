@@ -11,7 +11,7 @@ public enum Rating
     Epic,
     Legend
 }
-
+[System.Serializable]
 public class BaseItemData : ScriptableObject
 {
     public int keyCode;
@@ -19,5 +19,4 @@ public class BaseItemData : ScriptableObject
     public Sprite sprite;
     public Rating rating;
     public string detail;
-    public int count;
 }

@@ -8,7 +8,7 @@ public class CaulDron : MonoBehaviour
 {
     [SerializeField] private Image contentAmount;               // 가마솥 내용물의 양(이미지)
     [SerializeField] private TextMeshProUGUI contentAmountTxt;  // 가마솥 내용물의 양(텍스트)
-    [SerializeField] private List<Collection> ingredientList;   // 가마솥에 넣은 재료 리스트
+    [SerializeField] private List<BaseItemData> ingredientList;   // 가마솥에 넣은 재료 리스트
 
     [SerializeField] private int maxStack = 10;                 // 최대 가마솥의 수용량
 
@@ -17,11 +17,14 @@ public class CaulDron : MonoBehaviour
         contentAmountTxt.text = "0 / " + maxStack.ToString();
     }
 
-    public bool UpdateContent(Collection item)
+    /// <summary>
+    /// 가마솥에 재료가 추가되면 관련 정보 업데이트
+    /// </summary>
+    public bool UpdateContent(int keyCode)
     {
         // 가마솥 수용량 체크
         if (ingredientList.Count < maxStack)
-            ingredientList.Add(item);
+            ingredientList.Add(InventoryManager.itemDB[keyCode]);
         else
             return false;
 
@@ -31,14 +34,14 @@ public class CaulDron : MonoBehaviour
 
         // 가마솥 수용체 색 설정
         Color stackColor = new Color(0, 0, 0);
-        foreach (Collection ingredient in ingredientList)
+        foreach (BaseCollectionData ingredient in ingredientList)
         {
-            float optiomAmount = ingredient.options.x + ingredient.options.y +
-                                 ingredient.options.z + ingredient.options.w;
+            float optiomAmount = ingredient.r + ingredient.b +
+                                 ingredient.g + ingredient.a;
 
-            stackColor.r += ingredient.options.x / optiomAmount;
-            stackColor.g += ingredient.options.y / optiomAmount;
-            stackColor.b += ingredient.options.z / optiomAmount;
+            stackColor.r += ingredient.r / optiomAmount;
+            stackColor.g += ingredient.g / optiomAmount;
+            stackColor.b += ingredient.b / optiomAmount;
         }
         contentAmount.color = new Color(stackColor.r / ingredientList.Count,
                                         stackColor.g / ingredientList.Count,
