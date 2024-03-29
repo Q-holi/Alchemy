@@ -13,12 +13,13 @@ public enum InventoryFilterType
 //-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public static SortedDictionary<int, BaseItemData> itemDB = new SortedDictionary<int, BaseItemData>();         // 아이템 DB
+    [SerializeField] private SO_ItemList itemList = null;   // 인벤토리 아이템 DB 데이터
+    private Dictionary<int, ItemDetails> itemDetailsDictionary;     // 데이터로드에 사용할 아이템 DB
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
 
-    private List<Item> items = new List<Item>();            // 실제 인벤토리의 아이템들
+    public List<InventoryItem> inventoryLists = new List<InventoryItem>();      // 인벤토리 아이템 리스트
     private List<GameObject> slotList = new List<GameObject>(); // 현재 인벤토리에 생성된 아이템 슬롯들
 
     [SerializeField] private GameObject selectItemPrefab;   // 복사될 오브젝트
@@ -28,25 +29,21 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
 
-    #region SW
     private string _iSaveableUniqueID; //--<GenerateGUID>().GUID값을 받는다.
     public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
 
     private GameObjectSave _gameObjectSave; // 씬에 저장된 아이템 리스트를 들고있는 객체
     public GameObjectSave GameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
-    public List<InventoryItem> inventoryLists = new List<InventoryItem>();
-    private Dictionary<int, ItemDetails> itemDetailsDictionary;     // <아이템코드, 아이템데이터> 형식의 딕셔너리
-    [SerializeField] private SO_ItemList itemList = null;
-    #endregion
+
 
     protected override void Awake()
     {
         base.Awake();
         ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
         GameObjectSave = new GameObjectSave();
-        ItemDBLoad();
-        //CreateItemDetailsDictionary();
-        TempItemGenerater();
+        //ItemDBLoad();
+        CreateItemDetailsDictionary();
+        //TempItemGenerater();
     }
 
     #region Event Setting
@@ -63,70 +60,29 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     #endregion
 
-    #region ItemDB Load
-    /// <summary>
-    /// Scriptable Object 불러와서 itemDB 생성
-    /// </summary>
-    private void ItemDBLoad(string filepath = "")
-    {
-        string path = "Assets/Scriptable Object/Items";
-        if (filepath != "") // 파일경로를 입력해줬다면 그 경로를 검사
-            path = filepath;
-
-        string[] files = Directory.GetFiles(path);         // 파일 목록
-        string[] directories = Directory.GetDirectories(path);        // 하위폴더 목록
-
-        // 폴더내의 파일들 검사
-        foreach (string filePath in files)
-        {
-            // .asset 파일인지 확인
-            if (filePath.EndsWith(".asset"))
-            {
-                // ScriptableObject 데이터 로드
-                BaseItemData obj = LoadScriptableObject(filePath);
-                if (obj != null)
-                    itemDB.Add(obj.keyCode, obj);
-            }
-        }
-
-        // 재귀함수로 하위폴더 아이템 검사
-        foreach (string subDirectory in directories)
-            ItemDBLoad(subDirectory);
-    }
-
-    /// <summary>
-    /// 파일이 BaseItemData 형식인지 확인
-    /// </summary>
-    private BaseItemData LoadScriptableObject(string filePath)
-    {
-        return UnityEditor.AssetDatabase.LoadAssetAtPath(filePath, typeof(BaseItemData)) as BaseItemData;
-    }
-    #endregion
-
     #region KM
     /// <summary>
     /// 인벤토리 데이터로 인벤토리 정보 로드
     /// externData 에 다른 List 를 넘겨주면, 그 List로 인벤토리 초기화
     /// </summary>
-    public void InventorySlotInit(InventoryFilterType filter, List<Item> externData = null)
+    public void InventorySlotInit(InventoryFilterType filter, List<InventoryItem> externData = null)
     {
-        List<Item> initList = items;
+        List<InventoryItem> initList = inventoryLists;
         if (externData != null)
             initList = externData;
 
         SlotListInit();
         inventoryFilter = filter;
 
-        foreach (Item item in initList)
+        foreach (InventoryItem item in initList)
         {
-            MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
+            MakeSlot(GetItemDetails(item.itemCode));
         }
-        //foreach (InventoryItem item in inventoryLists)
-        //{
-        //    MakeSlot(GetItemDetails(item.itemCode));
-        //}
     }
 
+    /// <summary>
+    /// 인벤토리 슬롯 생성하기
+    /// </summary>
     private void MakeSlot(ItemDetails itemDetail)
     {
         if (itemDetail != null)   // 왜인지 모르겠는데 null 인 Item 이 하나 생성됨. 나중에 알아보기
@@ -150,34 +106,20 @@ public class InventoryManager : Singleton<InventoryManager>
     }
 
     /// <summary>
-    /// 인벤토리 슬롯 생성하기
-    /// </summary>
-    private void MakeSlot(Item item)
-    {
-        if (item != null)   // 왜인지 모르겠는데 null 인 Item 이 하나 생성됨. 나중에 알아보기
-        {
-            GameObject slot = Instantiate(slotPrefab, slotTransform);
-            slot.GetComponent<InventorySlot>().ItemInit(item);
-            slotList.Add(slot);
-        }
-        return;
-    }
-
-    /// <summary>
     /// 아이템 사용시 인벤토리 데이터 업데이트
     /// </summary>
     private void ItemUse(int keyCode, bool isUse)
     {
         if (isUse)
         {
-            items.Find(x => x.itemkey == keyCode).count--;
+            inventoryLists.Find(x => x.itemCode == keyCode).itemQuantity--;
             // 아이템 키에 해당하는 아이템 찾아서, 그 슬롯의 정보 업데이트
             foreach (GameObject slot in slotList)
             {
                 if (keyCode == slot.GetComponent<InventorySlot>().GetItem.itemkey)
                 {
                     slot.GetComponent<InventorySlot>().
-                        ItemInit(items.Find(x => x.itemkey == keyCode));
+                        ItemInit(GetItemDetails(inventoryLists.Find(x => x.itemCode == keyCode).itemCode));
                     break;
                 }
             }
