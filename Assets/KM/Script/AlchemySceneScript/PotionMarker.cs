@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PotionMarker : MonoBehaviour
 {
     // 원본 포션 데이터
     [SerializeField] private Potion potion;
+    [SerializeField] private Sprite potionImg;
+    public SpriteRenderer markerImg;
+
+    private void Awake()
+    {
+        markerImg = gameObject.GetComponent<SpriteRenderer>();
+        markerImg.sprite = potionImg;
+    }
 
     public IEnumerator MovePotionCorutine(Vector3 startPos, Vector3 endPos)
     {

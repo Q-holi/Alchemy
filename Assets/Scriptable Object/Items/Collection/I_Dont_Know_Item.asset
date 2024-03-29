@@ -17,5 +17,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 725847955a9d5854a8cc269b73a3d40b, type: 3}
   rating: 2
   detail: I Have No Idea Item
-  count: 22
-  options: {x: 0, y: 0, z: 1, w: 1}
+  r: 0
+  g: 0
+  b: 1
+  a: 0

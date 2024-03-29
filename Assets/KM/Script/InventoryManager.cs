@@ -13,9 +13,7 @@ public enum InventoryFilterType
 //-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
-
     public static SortedDictionary<int, BaseItemData> itemDB = new SortedDictionary<int, BaseItemData>();         // 아이템 DB
-
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -29,15 +27,15 @@ public class InventoryManager : Singleton<InventoryManager>
     public bool isDragging = false;     // 아이템 드래그 감지
 
     public GameObject SelectItemPrefab { get => selectItemPrefab; }
-    #endregion
+
     #region SW
     private string _iSaveableUniqueID; //--<GenerateGUID>().GUID값을 받는다.
     public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
 
-    private GameObjectSave _gameObjectSave;
+    private GameObjectSave _gameObjectSave; // 씬에 저장된 아이템 리스트를 들고있는 객체
     public GameObjectSave GameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
     public List<InventoryItem> inventoryLists = new List<InventoryItem>();
-    private Dictionary<int, ItemDetails> itemDetailsDictionary;
+    private Dictionary<int, ItemDetails> itemDetailsDictionary;     // <아이템코드, 아이템데이터> 형식의 딕셔너리
     [SerializeField] private SO_ItemList itemList = null;
     #endregion
 
@@ -47,7 +45,7 @@ public class InventoryManager : Singleton<InventoryManager>
         ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
         GameObjectSave = new GameObjectSave();
         ItemDBLoad();
-        CreateItemDetailsDictionary();
+        //CreateItemDetailsDictionary();
         TempItemGenerater();
     }
 
@@ -119,14 +117,14 @@ public class InventoryManager : Singleton<InventoryManager>
         SlotListInit();
         inventoryFilter = filter;
 
-        //foreach (Item item in initList)
-        //{
-        //    MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
-        //}
-        foreach (InventoryItem item in inventoryLists)
+        foreach (Item item in initList)
         {
-            MakeSlot(GetItemDetails(item.itemCode));
+            MakeSlot(UtilFunction.InventoryItemTypeFilter(item, inventoryFilter));
         }
+        //foreach (InventoryItem item in inventoryLists)
+        //{
+        //    MakeSlot(GetItemDetails(item.itemCode));
+        //}
     }
 
     private void MakeSlot(ItemDetails itemDetail)
@@ -239,11 +237,6 @@ public class InventoryManager : Singleton<InventoryManager>
         InventorySlotInit(inventoryFilter, tempList);
     }
 
-    private void SortDictionary()
-    { 
-    
-    }
-
     /// <summary>
     /// 임시 데이터 생성용, 나중에 지울것
     /// </summary>
@@ -284,10 +277,10 @@ public class InventoryManager : Singleton<InventoryManager>
 
         foreach (ItemDetails itemDetails in itemList.itemDetails)
         {
-            //InventoryItem tempItem = new InventoryItem();
-            //tempItem.itemCode = itemDetails.itemCode;
-            //tempItem.itemQuantity = 10;
-            //inventoryLists.Add(tempItem);
+            InventoryItem tempItem = new InventoryItem();
+            tempItem.itemCode = itemDetails.itemCode;
+            tempItem.itemQuantity = 10;
+            inventoryLists.Add(tempItem);
             itemDetailsDictionary.Add(itemDetails.itemCode, itemDetails);
         }
     }
@@ -303,7 +296,6 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public void LoadItemSaveData(GameSave gameSave)
     {
-
         if (gameSave.gameObjectData.TryGetValue(ISaveableUniqueID, out GameObjectSave gameObjectSave))
         {
             GameObjectSave = gameObjectSave;

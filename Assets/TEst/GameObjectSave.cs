@@ -10,6 +10,7 @@ public class GameObjectSave
     {
         itemData = new Dictionary<string, ItemSave>();
     }
+
     public GameObjectSave(Dictionary<string, ItemSave> itemData)
     {
         this.itemData = itemData;

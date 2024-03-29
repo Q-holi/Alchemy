@@ -6,6 +6,8 @@ using TMPro;
 
 public class CaulDron : MonoBehaviour
 {
+    public PotionMarker tempMarker;
+
     [SerializeField] private Image contentAmount;               // 가마솥 내용물의 양(이미지)
     [SerializeField] private TextMeshProUGUI contentAmountTxt;  // 가마솥 내용물의 양(텍스트)
     [SerializeField] private List<BaseItemData> ingredientList;   // 가마솥에 넣은 재료 리스트
@@ -46,6 +48,11 @@ public class CaulDron : MonoBehaviour
         contentAmount.color = new Color(stackColor.r / ingredientList.Count,
                                         stackColor.g / ingredientList.Count,
                                         stackColor.b / ingredientList.Count);
+
+        tempMarker.markerImg.color = new Color(stackColor.r / ingredientList.Count,
+                                        stackColor.g / ingredientList.Count,
+                                        stackColor.b / ingredientList.Count);
+
         return true;
     }
 }

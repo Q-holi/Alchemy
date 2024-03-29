@@ -9,13 +9,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     protected override void Awake()
     {
         base.Awake();
-      
     }
 
     private void Start()
     {
         LoadDataFromFile();
     }
+
     public void SaveDataToFile()
     {
         gameSave = new GameSave();

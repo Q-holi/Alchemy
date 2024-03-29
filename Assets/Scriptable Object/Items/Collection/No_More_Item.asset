@@ -17,5 +17,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 40112d9fe1338cf4e976eeb47e5f3fd1, type: 3}
   rating: 3
   detail: I Can't Make More Item
-  count: 33
-  options: {x: 1, y: 0, z: 0, w: 1}
+  r: 1
+  g: 1
+  b: 0
+  a: 0

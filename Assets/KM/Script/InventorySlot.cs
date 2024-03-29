@@ -34,8 +34,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         iconImage.sprite = InventoryManager.itemDB[item.itemkey].sprite;
         itemCount.text = item.count.ToString();
         itemFrame.color = UtilFunction.GetColor(InventoryManager.itemDB[item.itemkey].rating);
-
-
     }
     public void ItemInit(ItemDetails itemDetail)
     {
