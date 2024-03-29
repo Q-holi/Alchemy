@@ -1,23 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Unity.Android.Types;
+using System;
 
 public class AlchemySceneManager : MonoBehaviour
 {
-    public static AlchemySceneManager instance;
+    [SerializeField] private InventoryManager ingredientList;
 
-    [SerializeField] private InventoryList ingredientList;
-    public InventoryList IngredientList { get => ingredientList; }
-
-    private void Start()
+    private void OnEnable()
     {
-        if (instance == null)
-            instance = this;
-
-        List<Collection> ingredientData = ingredientList.Inventory.inventoryData.collections;
-        ingredientList.InventoryInit(ingredientData);
+        ingredientList.InventorySlotInit(InventoryFilterType.Collection);
     }
 }

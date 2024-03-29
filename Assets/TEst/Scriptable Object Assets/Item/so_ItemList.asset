@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37d844ea2d760d43adbba1bb7971ff0, type: 3}
+  m_Name: so_ItemList
+  m_EditorClassIdentifier: 
+  itemDetails:
+  - itemCode: 1001
+    name: AAA
+    sprite: {fileID: 21300000, guid: 209d561d9d09b3247b98c63cb2747ee6, type: 3}
+    detail: A
+    itemRating: 0
+    potion: 0
+    collection: 1
+    tool: 0
+    itmeOption: 00000000000000000000000001000000
+  - itemCode: 1002
+    name: BBB
+    sprite: {fileID: 21300000, guid: 9786fef103e94a44faea2fde9f4a495d, type: 3}
+    detail: B
+    itemRating: 1
+    potion: 0
+    collection: 1
+    tool: 0
+    itmeOption: 00000000010000000000000000000000
+  - itemCode: 1003
+    name: CCC
+    sprite: {fileID: 21300000, guid: 1eecacf6f643e354898d7a98c6c86e74, type: 3}
+    detail: C
+    itemRating: 2
+    potion: 1
+    collection: 0
+    tool: 0
+    itmeOption: 
+  - itemCode: 1004
+    name: DDD
+    sprite: {fileID: 21300000, guid: 725847955a9d5854a8cc269b73a3d40b, type: 3}
+    detail: D
+    itemRating: 3
+    potion: 0
+    collection: 1
+    tool: 0
+    itmeOption: 00000000000000000100000000000000

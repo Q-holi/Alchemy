@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
 
-public abstract class Item
+public class Item
 {
-    public BaseItemData itemData;
-    public int count;
+    [SerializeField] public int itemkey;
+    [SerializeField] public int count = 50;
 
-    public Item(BaseItemData data) { itemData = data; }
-
-    public void SetAmount(int amount) { count = amount; }
+    public Item(int keyCode) { itemkey = keyCode; }
 }
