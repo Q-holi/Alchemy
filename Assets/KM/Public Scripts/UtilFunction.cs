@@ -78,26 +78,4 @@ public class UtilFunction
         }
         return Color.white;
     }
-
-    /*
-    /// <summary>
-    /// 아이템의 유형을 검사해서 자동으로 알맞는 아이템 타입으로 다운 캐스팅
-    /// </summary>
-    public static Item InventoryItemTypeFilter(ItemDetails item, InventoryFilterType filter)
-    {
-        switch (filter)
-        {
-            case InventoryFilterType.Collection when item is Collection collection:
-                return collection;
-            case InventoryFilterType.Potion when item is Potion potion:
-                return potion;
-            case InventoryFilterType.Tool when item is Tool tool:
-                return tool;
-            default:
-                return null;
-        }
-    }
-    */
-    //--다운캐스팅을 수정 해야 함 SO안 bool값으로 확인 가능
-
 }

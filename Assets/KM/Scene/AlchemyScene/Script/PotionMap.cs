@@ -6,7 +6,7 @@ public class PotionMap : MonoBehaviour
 {
     // 확대, 축소 기능 추후 제작
 
-    [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();    // 포션 옵션의 위치 설정
+    [SerializeField] private List<Vector3> optionPoint = new List<Vector3>();    // 포션 옵션의 위치 설정 (현재는 무작위 생성중)
     [SerializeField] private GameObject markerPrefab;   // 옵션 마커 프리팹
 
     private void Start()

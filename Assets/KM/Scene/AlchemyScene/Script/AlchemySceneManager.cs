@@ -9,6 +9,6 @@ public class AlchemySceneManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //ingredientList.InventorySlotInit(InventoryFilterType.Collection);
+        ingredientList.InventorySlotInit(InventoryFilterType.Collection);
     }
 }

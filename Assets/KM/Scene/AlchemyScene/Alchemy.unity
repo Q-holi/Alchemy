@@ -841,9 +841,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 229365964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19722723800d7445b3e36e438d1f8f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ecf86f4a9becd84889f9be1e2a1830e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemFrame: {fileID: 1087908323}
+  itemIcon: {fileID: 1380734367}
+  itemName: {fileID: 1203936977}
+  itemRank: {fileID: 1983683649}
+  itemOption: {fileID: 640459197}
+  itemDetail: {fileID: 2129911137}
+  stackPrefab: {fileID: 1651204546045026914, guid: 2f2442d79c30dc442a67ac78a033cd98,
+    type: 3}
 --- !u!1 &261426242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,9 +1308,9 @@ GameObject:
   m_Component:
   - component: {fileID: 496504809}
   - component: {fileID: 496504810}
-  - component: {fileID: 496504812}
   - component: {fileID: 496504814}
   - component: {fileID: 496504813}
+  - component: {fileID: 496504816}
   - component: {fileID: 496504815}
   m_Layer: 5
   m_Name: InventoryContent
@@ -1354,18 +1362,6 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &496504812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496504808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db366c36af9a12e45abccc049c57343b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &496504813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,9 +1409,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 496504808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f58869c9e9b6824383a262b2c2de3f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 366b6e0e41927db47941d7c682d25b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemList: {fileID: 11400000, guid: 9cacb19eb2cc9c54aab324c976954269, type: 2}
+  slotTransform: {fileID: 496504809}
+  slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
+    type: 3}
+  inventoryLists: []
+  selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
+    type: 3}
+  isDragging: 0
+--- !u!114 &496504816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496504808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4f61173759a2a45983066ecf7bca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gUID: b026bd37-fe4f-4dd6-b444-9492d7cd7ce5
 --- !u!1 &640459197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,9 +1708,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 686707611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 661d1bc674aeab74dbcfb2d0dcd034ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 767a035bc385138429955af494b11f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filterOptions: {fileID: 686707613}
+  orderBtn: {fileID: 341322993}
+  filter: 0
+  orderType: 0
 --- !u!1 &790152332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,7 +1861,7 @@ GameObject:
   - component: {fileID: 808213802}
   - component: {fileID: 808213800}
   m_Layer: 0
-  m_Name: MapRenderTargetCamera
+  m_Name: PotionMapRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3917,7 +3938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440495815c1add540ab707ca6efc5cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientList: {fileID: 496504812}
+  ingredientList: {fileID: 496504815}
 --- !u!1 &1532151469
 GameObject:
   m_ObjectHideFlags: 0

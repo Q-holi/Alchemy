@@ -16,8 +16,6 @@ public class UseIngredient : MonoBehaviour
 
         if (caulDron.UpdateContent(key)) // 가마솥 내용물 업데이트
         {
-            Debug.Log("Use Item : " + InventoryManager.Instance.GetItemDetails(key).name);
-
             // 아이템 옵션의 효과 (포션의 이동거리)
             Vector3 lineVector = new Vector3(item.itemOption[0] - item.itemOption[2],
                                      item.itemOption[1] - item.itemOption[3], 0.0f) / 10.0f;
@@ -32,7 +30,6 @@ public class UseIngredient : MonoBehaviour
         else
         {
             InventoryEventHandler.OnUseItem(key, false);
-            Debug.Log("Use Item Fail");
         }
 
         Destroy(collision.gameObject);
