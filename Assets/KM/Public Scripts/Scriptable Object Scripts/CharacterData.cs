@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,8 +11,9 @@ public struct Status
     public int speed;
 }
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "Battle Data", menuName = "Battle System/Status Data", order = 1)]
-public class BattleCharacterData : ScriptableObject
+public class CharacterData
 {
     public Status defaultStatus;
     public Sprite sprite;

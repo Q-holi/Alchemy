@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BattleUnitStatus : MonoBehaviour
 {
-    [SerializeField] private BattleCharacterData defaultData;    // 기본 캐릭터 데이터
+    [SerializeField] private CharacterData defaultData;    // 기본 캐릭터 데이터
     [SerializeField] private Status currentData;             // 현재 캐릭터 데이터
 
     [SerializeField] private GameObject hpBarObj;      // 유닛 체력바

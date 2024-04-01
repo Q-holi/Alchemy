@@ -53,7 +53,7 @@ MonoBehaviour:
     name: RG
     sprite: {fileID: 21300000, guid: 7a43efb918471314890e093326e820a0, type: 3}
     detail: none
-    itemRating: 0
+    itemRating: 1
     potion: 0
     collection: 1
     tool: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
     name: GB
     sprite: {fileID: 21300000, guid: 439c9d7235caf5b4b88c054b7bf5bb4c, type: 3}
     detail: none
-    itemRating: 0
+    itemRating: 2
     potion: 0
     collection: 1
     tool: 0
@@ -71,17 +71,17 @@ MonoBehaviour:
     name: BA
     sprite: {fileID: 21300000, guid: 437f197a32e05644789d597cdb759945, type: 3}
     detail: none
-    itemRating: 0
+    itemRating: 3
     potion: 0
     collection: 1
     tool: 0
     itemOption: 00000000000000000100000001000000
   - itemCode: 1008
-    name: GA
-    sprite: {fileID: 21300000, guid: e017792e44bcef64999722369fa91a0b, type: 3}
+    name: RA
+    sprite: {fileID: 21300000, guid: bbc773d3ea993e94185c38d90cc2465b, type: 3}
     detail: none
-    itemRating: 0
+    itemRating: 1
     potion: 0
     collection: 1
     tool: 0
-    itemOption: 00000000010000000000000001000000
+    itemOption: 01000000000000000000000001000000

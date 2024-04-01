@@ -30,6 +30,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     public void ItemInit(ItemDetails item)
     {
         int index = InventoryManager.Instance.SearchItem(item.itemCode);
+        itemData = InventoryManager.Instance.inventoryLists[index];
 
         iconImage.sprite = item.sprite;
         itemCount.text = InventoryManager.Instance.inventoryLists[index].itemQuantity.ToString();

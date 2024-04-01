@@ -8,7 +8,8 @@ using System;
 public class InventoryManager : Singleton<InventoryManager>
 {
     [SerializeField] private SO_ItemList itemList = null;   // 아이템 DB 데이터 받아오기
-    private SortedDictionary<int, ItemDetails> itemDetailsDictionary;     // 아이템 DB 데이터 접근 가능한 객체
+    private SortedDictionary<int, ItemDetails> itemDetailsDictionary
+        = new SortedDictionary<int, ItemDetails>();     // 아이템 DB 데이터 접근 가능한 객체
 
     [SerializeField] private Transform slotTransform;           // 슬롯 출력 위치
     [SerializeField] private GameObject slotPrefab;             // 재료 슬롯 프리팹
@@ -222,8 +223,6 @@ public class InventoryManager : Singleton<InventoryManager>
 
     private void CreateItemDetailsDictionary()
     {
-        itemDetailsDictionary = new SortedDictionary<int, ItemDetails>();
-
         foreach (ItemDetails itemDetails in itemList.itemDetails)
         {
             InventoryItem tempItem = new InventoryItem();
