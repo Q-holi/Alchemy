@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Battle Data", menuName = "Battle System/Buff Data", order = 1)]
-public class Buff : ScriptableObject
+public class Buff
 {
-    public string name;    // 버프 이름
+    public string buffName;    // 버프 이름
     public bool isBuff;    // 버프 유형
 
     public int duration;   // 지속시간

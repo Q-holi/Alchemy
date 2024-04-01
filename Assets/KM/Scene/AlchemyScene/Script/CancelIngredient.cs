@@ -8,7 +8,6 @@ public class CancelIngredient : MonoBehaviour
     {
         int key = collision.gameObject.GetComponent<SelectItem>().GetIteminfo;
         InventoryEventHandler.OnUseItem(key, false);
-        Debug.Log("Use Item Cancel");
         Destroy(collision.gameObject);
     }
 }

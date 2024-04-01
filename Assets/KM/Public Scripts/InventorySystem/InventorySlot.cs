@@ -29,12 +29,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
     /// </summary>
     public void ItemInit(ItemDetails item)
     {
+        int index = InventoryManager.Instance.SearchItem(item.itemCode);
+
         iconImage.sprite = item.sprite;
-
-        itemData = InventoryManager.Instance.inventoryLists.Find(x => x.itemCode == item.itemCode);
-        if (!itemData.Equals(default(InventoryItem)))
-            itemCount.text = itemData.itemQuantity.ToString();
-
+        itemCount.text = InventoryManager.Instance.inventoryLists[index].itemQuantity.ToString();
         itemFrame.color = UtilFunction.GetColor(item.itemRating);
     }
 
@@ -82,7 +80,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IBeginDragHand
         if (InventoryManager.Instance.isDragging)       // 드래그 중일땐 인식 X
             return;
 
-        InventoryEventHandler.OnMouse?.Invoke(InventoryManager.Instance.GetItemDetails(itemData.itemCode));
+        InventoryEventHandler.OnMouse?.Invoke(itemData.itemCode);
         coverImage.gameObject.SetActive(true);
     }
 

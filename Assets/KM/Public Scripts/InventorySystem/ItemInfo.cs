@@ -15,7 +15,6 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDetail;    // 아이템 설명
     [SerializeField] private GameObject stackPrefab;        // 아이템 옵션 표기를 위한 스택 프리팹
 
-    [SerializeField] private InventoryManager inventory;       // 인벤토리 정보 불러오기
     private List<GameObject> stackList = new List<GameObject>();    // 아이템 옵션 리스트
 
     private void Awake()
@@ -41,8 +40,10 @@ public class ItemInfo : MonoBehaviour
     /// <summary>
     /// 넘겨받은 아이템 정보 출력
     /// </summary>
-    public void ShowItemInfo(ItemDetails item)
+    public void ShowItemInfo(int keyCode)
     {
+        ItemDetails targetItem = InventoryManager.Instance.GetItemDetails(keyCode);
+
         // 아이템 정보 표시를 위해 정보창 정보 visible
         itemFrame.gameObject.SetActive(true);
         itemIcon.gameObject.SetActive(true);
@@ -52,25 +53,25 @@ public class ItemInfo : MonoBehaviour
         itemDetail.gameObject.SetActive(true);
 
         // 아이템 정보 설정
-        itemFrame.color = UtilFunction.GetColor(item.itemRating);
-        itemIcon.sprite = item.sprite;
-        itemName.text = item.name;
-        itemName.color = UtilFunction.GetColor(item.itemRating);
-        itemRank.text = item.ToString();
-        itemRank.color = UtilFunction.GetColor(item.itemRating);
-        itemDetail.text = item.detail;
+        itemFrame.color = UtilFunction.GetColor(targetItem.itemRating);
+        itemIcon.sprite = targetItem.sprite;
+        itemName.text = targetItem.name;
+        itemName.color = UtilFunction.GetColor(targetItem.itemRating);
+        itemRank.text = targetItem.ToString();
+        itemRank.color = UtilFunction.GetColor(targetItem.itemRating);
+        itemDetail.text = targetItem.detail;
 
         // 스택 출력전, 스택 리스트 초기화
         foreach (GameObject stack in stackList)
             Destroy(stack);
         stackList.Clear();
 
-        if (item.collection)
+        if (targetItem.collection)
         {
-            BuildStack((int)item.itemOption[0], Color.red);
-            BuildStack((int)item.itemOption[1], Color.green);
-            BuildStack((int)item.itemOption[2], Color.blue);
-            BuildStack((int)item.itemOption[3], Color.white);
+            BuildStack((int)targetItem.itemOption[0], Color.red);
+            BuildStack((int)targetItem.itemOption[1], Color.green);
+            BuildStack((int)targetItem.itemOption[2], Color.blue);
+            BuildStack((int)targetItem.itemOption[3], Color.white);
         }
     }
 

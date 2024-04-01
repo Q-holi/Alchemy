@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PotionMarker : MonoBehaviour
 {
     // 원본 포션 데이터
-    //[SerializeField] private Potion potion;
+    // 포션이 추가되면 원본 데이터를 추가할 것
     [SerializeField] private Sprite potionImg;
     public SpriteRenderer markerImg;
 
@@ -16,6 +16,9 @@ public class PotionMarker : MonoBehaviour
         markerImg.sprite = potionImg;
     }
 
+    /// <summary>
+    /// 실제 포션 마커를 움직이는 코드
+    /// </summary>
     public IEnumerator MovePotionCorutine(Vector3 startPos, Vector3 endPos)
     {
         float elapsedTime = 0.0f;
@@ -34,6 +37,6 @@ public class PotionMarker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // 포션이 효과를 얻었을때
     {
-        //potion = collision.gameObject.GetComponent<MarkerOption>().GetEnchant(potion);
+
     }
 }
