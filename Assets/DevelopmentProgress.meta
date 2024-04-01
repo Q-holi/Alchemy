@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DevelopmentProgress.meta
 guid: 09aed8be036fbf24d8aba11a0d50db39
+========
+guid: 10f7253e7a82450428ff6d979435772f
+>>>>>>>> d14931a (Merge branch 'KM_Branch' of https://github.com/Q-holi/Alchemy into KM_Branch):Assets/KM/Scene/BattleScene/Script.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
