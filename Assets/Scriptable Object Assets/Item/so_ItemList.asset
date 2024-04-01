@@ -9,43 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37d844ea2d760d43adbba1bb7971ff0, type: 3}
+  m_Script: {fileID: 11500000, guid: b433390ce55f3604bb5efeb8368d66af, type: 3}
   m_Name: so_ItemList
   m_EditorClassIdentifier: 
   itemDetails:
-  - itemCode: 1001
-    name: AAA
-    sprite: {fileID: 21300000, guid: 209d561d9d09b3247b98c63cb2747ee6, type: 3}
-    detail: A
+  - itemCode: 1111
+    name: asd
+    sprite: {fileID: 21300000, guid: f1c1130a4645a634b84db45d704135e4, type: 3}
+    detail: 
     itemRating: 0
     potion: 0
-    collection: 1
-    tool: 0
-    itemOption: 01000000000000000000000000000000
-  - itemCode: 1002
-    name: BBB
-    sprite: {fileID: 21300000, guid: 9786fef103e94a44faea2fde9f4a495d, type: 3}
-    detail: B
-    itemRating: 1
-    potion: 0
-    collection: 1
-    tool: 0
-    itemOption: 00000000010000000000000000000000
-  - itemCode: 1003
-    name: CCC
-    sprite: {fileID: 21300000, guid: 1eecacf6f643e354898d7a98c6c86e74, type: 3}
-    detail: C
-    itemRating: 2
-    potion: 1
     collection: 0
     tool: 0
     itemOption: 
-  - itemCode: 1004
-    name: DDD
-    sprite: {fileID: 21300000, guid: 725847955a9d5854a8cc269b73a3d40b, type: 3}
-    detail: D
-    itemRating: 3
+  - itemCode: 2133
+    name: qwe
+    sprite: {fileID: 21300000, guid: 7a43efb918471314890e093326e820a0, type: 3}
+    detail: 
+    itemRating: 0
     potion: 0
-    collection: 1
+    collection: 0
     tool: 0
-    itemOption: 00000000000000000100000000000000
+    itemOption: 
+  - itemCode: 567567
+    name: zxc
+    sprite: {fileID: 21300000, guid: 69d4f9498becc6e48bac1349c123582b, type: 3}
+    detail: 
+    itemRating: 0
+    potion: 0
+    collection: 0
+    tool: 0
+    itemOption: 
+  - itemCode: 456
+    name: hjk
+    sprite: {fileID: 21300000, guid: c8d42321610f2fe4381e3ffcc921cc9a, type: 3}
+    detail: 
+    itemRating: 0
+    potion: 0
+    collection: 0
+    tool: 0
+    itemOption: 

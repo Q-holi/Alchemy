@@ -4,12 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum ItemFilterType
-{
-    Name,
-    Capacity,
-    Rating
-}
+
 
 public class ItemFilter : MonoBehaviour
 {

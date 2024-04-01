@@ -844,15 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19722723800d7445b3e36e438d1f8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemFrame: {fileID: 1087908323}
-  itemIcon: {fileID: 1380734367}
-  itemName: {fileID: 1203936977}
-  itemRank: {fileID: 1983683649}
-  itemOption: {fileID: 640459197}
-  itemDetail: {fileID: 2129911137}
-  stackPrefab: {fileID: 1651204546045026914, guid: 2f2442d79c30dc442a67ac78a033cd98,
-    type: 3}
-  inventory: {fileID: 496504812}
 --- !u!1 &261426242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,14 +1366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db366c36af9a12e45abccc049c57343b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotTransform: {fileID: 496504809}
-  slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
-    type: 3}
-  selectItemPrefab: {fileID: 8275107198391624566, guid: 8d3180510d10f6944a7da4bafba7e108,
-    type: 3}
-  isDragging: 0
-  inventoryLists: []
-  itemList: {fileID: 11400000, guid: 9cacb19eb2cc9c54aab324c976954269, type: 2}
 --- !u!114 &496504813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1433,7 +1416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f58869c9e9b6824383a262b2c2de3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gUID: 2a01318e-f6d1-4082-9d3e-9e73926c26f9
 --- !u!1 &640459197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,6 +1476,71 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!1 &661602645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661602648}
+  - component: {fileID: 661602647}
+  - component: {fileID: 661602646}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &661602646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661602645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366b6e0e41927db47941d7c682d25b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemList: {fileID: 11400000, guid: 9cacb19eb2cc9c54aab324c976954269, type: 2}
+  slotTransform: {fileID: 1974386744}
+  slotPrefab: {fileID: 7877114060126032848, guid: 028d1be51a9ce6544bbb182f2d804c85,
+    type: 3}
+  inventoryLists: []
+  selectItemPrefab: {fileID: 0}
+  isDragging: 0
+--- !u!114 &661602647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661602645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4f61173759a2a45983066ecf7bca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gUID: d2e98cc3-958b-4a8e-b35b-f3785f39a2ea
+--- !u!4 &661602648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661602645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.717524, y: 10.423898, z: -0.3629662}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &686707611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,10 +1694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661d1bc674aeab74dbcfb2d0dcd034ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filterOptions: {fileID: 686707613}
-  orderBtn: {fileID: 341322993}
-  filter: 0
-  orderType: 0
 --- !u!1 &790152332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1923,7 +1966,7 @@ GameObject:
   m_Component:
   - component: {fileID: 874858556}
   - component: {fileID: 874858555}
-  - component: {fileID: 874858554}
+  - component: {fileID: 874858557}
   m_Layer: 0
   m_Name: TestGameSaveLoadManager
   m_TagString: Untagged
@@ -1931,19 +1974,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &874858554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874858553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f58869c9e9b6824383a262b2c2de3f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gUID: 04a41b12-0f0c-4cd4-884d-8f21908dfd5e
 --- !u!114 &874858555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1971,6 +2001,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &874858557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874858553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4f61173759a2a45983066ecf7bca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gUID: 8480b947-a1a5-4ae3-8b33-e83c427c6bb8
 --- !u!1 &881570666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,10 +4361,6 @@ MonoBehaviour:
   optionPoint: []
   markerPrefab: {fileID: 5662340049527132074, guid: a421428f02793214291204f2a9ace972,
     type: 3}
-  potionDB:
-  - {fileID: 11400000, guid: 51ee55d5edcffa44b928f12fe84559e0, type: 2}
-  - {fileID: 11400000, guid: 2e1950c1240da9042b6a900e9c3b0b73, type: 2}
-  - {fileID: 11400000, guid: 3da0e8bc5cdfb30428ca98d5fb3a6aea, type: 2}
 --- !u!1 &1743111799
 GameObject:
   m_ObjectHideFlags: 0
@@ -4484,12 +4523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341f66c909a2eb342b4e410808a7e319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potion:
-    itemkey: 0
-    count: 0
-    amount: 0
-    duration: 0
-    enchantPotions: []
   potionImg: {fileID: 21300000, guid: 3df06d715358b4b4c96c3e205de0913e, type: 3}
   markerImg: {fileID: 0}
 --- !u!1 &1770672533
@@ -5299,3 +5332,4 @@ SceneRoots:
   - {fileID: 808213803}
   - {fileID: 1718391200}
   - {fileID: 874858556}
+  - {fileID: 661602648}

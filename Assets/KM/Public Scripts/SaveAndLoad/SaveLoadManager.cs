@@ -13,7 +13,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
     private void Start()
     {
-        LoadDataFromFile();
+       LoadDataFromFile();
     }
 
     public void SaveDataToFile()
