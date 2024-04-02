@@ -24,7 +24,6 @@ public class SpeedBar : MonoBehaviour
         {
             currentTurnGauge = getTurnGauge;
             isReady = true;
-            BattleEventHandler.GetTurn();
         }
     }
 }

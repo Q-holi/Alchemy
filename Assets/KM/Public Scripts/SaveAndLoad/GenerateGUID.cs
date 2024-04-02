@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteAlways]//-- 에디터를 실행시키지 않아도 스크립트 컴포넌트의 콜백 함수가 실행된다
+//[ExecuteAlways]//-- 에디터를 실행시키지 않아도 스크립트 컴포넌트의 콜백 함수가 실행된다
 public class GenerateGUID : MonoBehaviour
 {
     [SerializeField]

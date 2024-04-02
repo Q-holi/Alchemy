@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(GenerateGUID))]
+//[RequireComponent(typeof(GenerateGUID))]
 //-- 클래스가 GenerateGUID 컴포넌트를 필요로 한다는 것을 나타냅니다.
 public class InventoryManager : Singleton<InventoryManager>
 {
@@ -33,7 +33,7 @@ public class InventoryManager : Singleton<InventoryManager>
     protected override void Awake()
     {
         base.Awake();
-        ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
+        //ISaveableUniqueID = GetComponent<GenerateGUID>().GUID;
         GameObjectSave = new GameObjectSave();
         CreateItemDetailsDictionary();
     }
@@ -248,7 +248,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             GameObjectSave = gameObjectSave;
         }
-
+    
         if (GameObjectSave.itemData.TryGetValue("TestSaveScene", out ItemSave itemSave))//--sceneSave ->  Dictionary<string, List<SceneItem>> SceneItem 리스트를 가져온다.
         {
             if (itemSave.listItemDictionary != null && itemSave.listItemDictionary.TryGetValue("ItemList", out List<InventoryItem> itemList))

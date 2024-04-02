@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b433390ce55f3604bb5efeb8368d66af, type: 3}
-  m_Name: so_ItemList
+  m_Name: SO_ItemList
   m_EditorClassIdentifier: 
   itemDetails:
   - itemCode: 1000
     name: R
-    sprite: {fileID: 21300000, guid: 9786fef103e94a44faea2fde9f4a495d, type: 3}
-    detail: none
+    sprite: {fileID: 0}
+    detail: R
     itemRating: 0
     potion: 0
     collection: 1
@@ -24,63 +24,63 @@ MonoBehaviour:
     itemOption: 01000000000000000000000000000000
   - itemCode: 1001
     name: G
-    sprite: {fileID: 21300000, guid: 369a965661cc8a74092ab3086a12c2b6, type: 3}
-    detail: none
-    itemRating: 0
+    sprite: {fileID: 0}
+    detail: G
+    itemRating: 1
     potion: 0
     collection: 1
     tool: 0
     itemOption: 00000000010000000000000000000000
   - itemCode: 1002
     name: B
-    sprite: {fileID: 21300000, guid: 65caa41332a450f43a5eca9e7af0fd95, type: 3}
-    detail: none
-    itemRating: 0
+    sprite: {fileID: 0}
+    detail: 
+    itemRating: 2
     potion: 0
     collection: 1
     tool: 0
     itemOption: 00000000000000000100000000000000
-  - itemCode: 1004
+  - itemCode: 1003
     name: A
-    sprite: {fileID: 21300000, guid: 5a09dc7fee1f52f4fa5a12e7a3092f25, type: 3}
-    detail: none
+    sprite: {fileID: 0}
+    detail: A
     itemRating: 0
     potion: 0
     collection: 1
     tool: 0
     itemOption: 00000000000000000000000001000000
-  - itemCode: 1005
+  - itemCode: 1004
     name: RG
-    sprite: {fileID: 21300000, guid: 7a43efb918471314890e093326e820a0, type: 3}
-    detail: none
-    itemRating: 1
-    potion: 0
-    collection: 1
-    tool: 0
-    itemOption: 01000000010000000000000000000000
-  - itemCode: 1006
-    name: GB
-    sprite: {fileID: 21300000, guid: 439c9d7235caf5b4b88c054b7bf5bb4c, type: 3}
-    detail: none
+    sprite: {fileID: 0}
+    detail: RG
     itemRating: 2
     potion: 0
     collection: 1
     tool: 0
+    itemOption: 01000000010000000000000000000000
+  - itemCode: 1005
+    name: GB
+    sprite: {fileID: 0}
+    detail: GB
+    itemRating: 1
+    potion: 0
+    collection: 1
+    tool: 0
     itemOption: 00000000010000000100000000000000
-  - itemCode: 1007
+  - itemCode: 1006
     name: BA
-    sprite: {fileID: 21300000, guid: 437f197a32e05644789d597cdb759945, type: 3}
-    detail: none
+    sprite: {fileID: 0}
+    detail: BA
     itemRating: 3
     potion: 0
     collection: 1
     tool: 0
     itemOption: 00000000000000000100000001000000
-  - itemCode: 1008
+  - itemCode: 1007
     name: RA
-    sprite: {fileID: 21300000, guid: bbc773d3ea993e94185c38d90cc2465b, type: 3}
-    detail: none
-    itemRating: 1
+    sprite: {fileID: 0}
+    detail: RA
+    itemRating: 0
     potion: 0
     collection: 1
     tool: 0
