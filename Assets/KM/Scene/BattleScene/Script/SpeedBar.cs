@@ -17,13 +17,8 @@ public class SpeedBar : MonoBehaviour
 
     public void ReturnOrder()
     {
-        if (isReady)
-        {
-            currentTurnGauge = 0;
-            isReady = false;
-        }
-        else
-            return;
+        currentTurnGauge = 0;
+        isReady = false;
     }
 
     private void Update()

@@ -36,7 +36,8 @@ MonoBehaviour:
       atkPower: 5
       defPower: 2
       speed: 10
-    sprite: {fileID: 1356691845, guid: 123e12450a1c82e40a146668bd11baf6, type: 3}
+    sprite: {fileID: 3863635566180601805, guid: bb22e9cd7a3f50c41aa55c47dd8c2975,
+      type: 3}
   - defaultStatus:
       name: Slime
       hp: 30
