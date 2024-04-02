@@ -28,7 +28,8 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
 
     private void Start()
     {
-        BattleEventHandler.GetTurn += OnSomebodyTurn;
+        BattleEventHandler.GetOrder += OnBringOrder;
+        BattleEventHandler.ReturnOrder += OnReturnOrder;
 
         InventoryManager.Instance.InventorySlotInit(InventoryFilterType.Potion);
         SetBattleScene(battleUnits);
@@ -44,9 +45,14 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
         }
     }
 
-    private void OnSomebodyTurn()
+    private void OnBringOrder()
     {
         turnTimeScale = 0.0f;
+    }
+
+    private void OnReturnOrder()
+    {
+        turnTimeScale = 1.0f;
     }
 
     private void CreateTempChracterData()

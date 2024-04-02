@@ -5,5 +5,6 @@ using UnityEngine;
 
 public static class BattleEventHandler
 {
-    public static Action GetTurn;
+    public static Action GetOrder;
+    public static Action ReturnOrder;
 }

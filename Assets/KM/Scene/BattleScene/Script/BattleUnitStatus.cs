@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,8 @@ public class BattleUnitStatus : MonoBehaviour
     {
         if (speedBar.isReady)
         {
-            BattleEventHandler.GetTurn();
+            BattleEventHandler.GetOrder();
+            AttackTarget();
         }
 
 
@@ -99,8 +101,11 @@ public class BattleUnitStatus : MonoBehaviour
     /// 유닛이 공격시 호출되는 함수
     /// </summary>
     private void AttackTarget()
-    { 
-        
+    {
+        Debug.Log(defaultData.defaultStatus.name + " : 공격");
+        speedBar.ReturnOrder();
+
+        BattleEventHandler.ReturnOrder();
     }
 
     /// <summary>
