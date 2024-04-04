@@ -435,8 +435,7 @@ public class MapGenerator : MonoBehaviour
             int randomHeight = UnityEngine.Random.Range(0, height);
             if (map[randomWidth, randomHeight] == 0)    // 해당 타일이 바닥일경우 멈추기
             { 
-                spawnPoint = new Vector3((-width / 2 + randomWidth + .5f),
-                                         (-height / 2 + randomHeight) + .5f);
+                spawnPoint = new Vector3((-width / 2 + randomWidth + .5f), (-height / 2 + randomHeight) + .5f, -0.2f);
                 tempobj.transform.position = spawnPoint;
                 break;
             }
