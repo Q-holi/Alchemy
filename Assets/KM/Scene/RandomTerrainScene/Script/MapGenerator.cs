@@ -10,10 +10,14 @@ public enum TileType
 { 
     FLOOR = 0,
     WALL,
-    DECO
+    DECO,
+    NORMAL_COLLECT,
+    RARE_COLLECT,
+    EPIC_COLLECT,
+    LEGEND_COLLECT
 }
 
-[ExecuteAlways]
+//[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
     // 타일을 그릴 타일 맵
@@ -21,12 +25,14 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private Tilemap floorTileMap;
     [SerializeField] private Tilemap grassTileMap;
     [SerializeField] private Tilemap decoTileMap;
+    [SerializeField] private Tilemap collectableItemTileMap;
 
     // 타일맵에 그려질 타일 스프라이트
     [SerializeField] private Tile wallTile;
     [SerializeField] private RuleTile floorTile;
     [SerializeField] private Tile[] grassTile = new Tile[4];
     [SerializeField] private Tile[] decoTile = new Tile[7];
+    [SerializeField] private Tile[] collectingTile = new Tile[4];
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -46,9 +52,16 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int wallThresholdSize; // 제거할 벽 타일의 크기
     [SerializeField] private int roomThresholdSize; // 제거할 방 타일의 크기
 
+    // 채집물 생성 확률
+    [SerializeField] private float normalObj;
+    [SerializeField] private float rareObj;
+    [SerializeField] private float epicObj;
+    [SerializeField] private float LegendObj;
+
     private int[,] map;
     [SerializeField] private GameObject tempobj;    // 스폰지점 표시하는 오브젝트
     public Vector3 spawnPoint;
+    private bool isMaking;
 
     // 타일의 좌표
     struct Coord
@@ -71,7 +84,7 @@ public class MapGenerator : MonoBehaviour
     private void Update()
     {
         // 클릭할때마다 새로운 맵으로 변경
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isMaking)
             GenerateMap();
     }
 
@@ -80,6 +93,8 @@ public class MapGenerator : MonoBehaviour
     /// </summary>
     private void GenerateMap()
     {
+        isMaking = true;
+
         map = new int[width, height];
         RandomFillMap();
 
@@ -94,7 +109,13 @@ public class MapGenerator : MonoBehaviour
             SmoothDeco();
 
         DrawTile();
+        RandomSpawnCollecter(normalObj, TileType.NORMAL_COLLECT);
+        RandomSpawnCollecter(rareObj, TileType.RARE_COLLECT);
+        RandomSpawnCollecter(epicObj, TileType.EPIC_COLLECT);
+        RandomSpawnCollecter(LegendObj, TileType.LEGEND_COLLECT);
         SetSpawnPoint();
+
+        isMaking = false;
     }
 
     /// <summary>
@@ -250,6 +271,45 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void RandomSpawnCollecter(float rating, TileType rank)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] != (int)TileType.WALL)
+                {
+                    map[x, y] = (UnityEngine.Random.Range(0f, 1f) < rating) ? (int)rank : map[x,y]; // 바닥인지 장식인지 결정
+                }
+            }
+        }
+
+        collectableItemTileMap.ClearAllTiles();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector3Int pos = new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
+                switch (map[x, y])
+                {
+                    case (int)TileType.NORMAL_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[0]);
+                        break;
+                    case (int)TileType.RARE_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[1]);
+                        break;
+                    case (int)TileType.EPIC_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[2]);
+                        break;
+                    case (int)TileType.LEGEND_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[3]);
+                        break;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// 주변 타일을 검사해서 지형을 뭉개 다듬는 함수
     /// </summary>
@@ -339,6 +399,18 @@ public class MapGenerator : MonoBehaviour
                         break;
                     case (int)TileType.DECO:
                         grassTileMap.SetTile(pos, grassTile[UnityEngine.Random.Range(0, grassTile.Length)]);
+                        break;
+                    case (int)TileType.NORMAL_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[0]);
+                        break;
+                    case (int)TileType.RARE_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[1]);
+                        break;
+                    case (int)TileType.EPIC_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[2]);
+                        break;
+                    case (int)TileType.LEGEND_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[3]);
                         break;
                 }
 
