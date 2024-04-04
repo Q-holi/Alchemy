@@ -345,7 +345,7 @@ public class MapGenerator : MonoBehaviour
                 // 벽이 아니면 랜덤으로 장식물 심기
                 if (map[x, y] != (int)TileType.WALL)
                 {
-                    if (UnityEngine.Random.Range(0f, 1f) < 0.3f)
+                    if (UnityEngine.Random.Range(0f, 1f) < 0.2f)
                         decoTileMap.SetTile(pos, decoTile[UnityEngine.Random.Range(0, decoTile.Length)]);
                 }
             }
