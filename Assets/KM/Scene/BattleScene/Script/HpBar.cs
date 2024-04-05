@@ -9,12 +9,12 @@ public class HpBar : MonoBehaviour
     [SerializeField] private Image currentHpImg;
     [SerializeField] private Image currentShield;
     [SerializeField] private TextMeshProUGUI currentHpTxt;
-    [SerializeField] private TextMeshProUGUI defenseTxt;
+    [SerializeField] private TextMeshProUGUI currentDefTxt;
 
     private int maxHp;
 
     public int SetMaxHp { set => maxHp = value; }
-    public int SetDefensePower { set => defenseTxt.text = value.ToString(); }
+    public int SetDef { set => currentDefTxt.text = value.ToString(); }
 
     public void UpdateHpBar(int hp, int shield)
     {
@@ -22,9 +22,13 @@ public class HpBar : MonoBehaviour
             hp = maxHp;
 
         currentHpImg.fillAmount = hp / maxHp;
-        currentShield.fillAmount = shield / maxHp;
 
-        if(currentShield.fillAmount > 1)
+        if(shield != 0) // 방어도가 있을때만 방어도를 표시
+            currentShield.fillAmount = shield / maxHp;
+        else
+            currentShield.fillAmount = 0;
+
+        if (currentShield.fillAmount > 1)
             currentShield.fillAmount = 1;
 
         currentHpTxt.text = (hp + shield).ToString() + " / " + maxHp.ToString();

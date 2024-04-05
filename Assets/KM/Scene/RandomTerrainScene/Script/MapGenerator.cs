@@ -6,15 +6,33 @@ using Unity.Mathematics;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.Tilemaps;
 
+public enum TileType
+{ 
+    FLOOR = 0,
+    WALL,
+    DECO,
+    NORMAL_COLLECT,
+    RARE_COLLECT,
+    EPIC_COLLECT,
+    LEGEND_COLLECT
+}
+
+//[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
-    // 타일맵을 그릴 타일
+    // 타일을 그릴 타일 맵
     [SerializeField] private Tilemap wallTileMap;
     [SerializeField] private Tilemap floorTileMap;
+    [SerializeField] private Tilemap grassTileMap;
+    [SerializeField] private Tilemap decoTileMap;
+    [SerializeField] private Tilemap collectableItemTileMap;
 
-    // 타일맵에 그려질 타일
+    // 타일맵에 그려질 타일 스프라이트
     [SerializeField] private Tile wallTile;
     [SerializeField] private RuleTile floorTile;
+    [SerializeField] private Tile[] grassTile = new Tile[4];
+    [SerializeField] private Tile[] decoTile = new Tile[7];
+    [SerializeField] private Tile[] collectingTile = new Tile[4];
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -25,14 +43,27 @@ public class MapGenerator : MonoBehaviour
 
     // 지형의 랜덤률(?) 결정
     [Range(0, 100)]
-    [SerializeField] private int randomFillPercent;
+    [SerializeField] private int randomRoomRange;
+
+    // 바닥의 랜덤률 결정
+    [Range(0, 100)]
+    [SerializeField] private int randomDecoRange;
+
     [SerializeField] private int wallThresholdSize; // 제거할 벽 타일의 크기
     [SerializeField] private int roomThresholdSize; // 제거할 방 타일의 크기
 
-    private int[,] map;
-    [SerializeField] private GameObject tempobj;
-    public Vector3 spawnPoint;
+    // 채집물 생성 확률
+    [SerializeField] private float normalObj;
+    [SerializeField] private float rareObj;
+    [SerializeField] private float epicObj;
+    [SerializeField] private float LegendObj;
 
+    private int[,] map;
+    [SerializeField] private GameObject tempobj;    // 스폰지점 표시하는 오브젝트
+    public Vector3 spawnPoint;
+    private bool isMaking;
+
+    // 타일의 좌표
     struct Coord
     {
         public int tileX;
@@ -52,25 +83,44 @@ public class MapGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        // 클릭할때마다 새로운 맵으로 변경
+        if (Input.GetMouseButtonDown(0) && !isMaking)
             GenerateMap();
     }
 
+    /// <summary>
+    /// 실제 맵 생성하기
+    /// </summary>
     private void GenerateMap()
     {
+        isMaking = true;
+
         map = new int[width, height];
         RandomFillMap();
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 5; i++)
             SmoothMap();
 
         ProcessMap();
 
+        RandomFillDecoTile();
+
+        for (int i = 0; i < 3; i++)
+            SmoothDeco();
+
         DrawTile();
+        RandomSpawnCollecter(normalObj, TileType.NORMAL_COLLECT);
+        RandomSpawnCollecter(rareObj, TileType.RARE_COLLECT);
+        RandomSpawnCollecter(epicObj, TileType.EPIC_COLLECT);
+        RandomSpawnCollecter(LegendObj, TileType.LEGEND_COLLECT);
         SetSpawnPoint();
+
+        isMaking = false;
     }
 
-    // 부자연스러운 작은 공간이나 섬 제거
+    /// <summary>
+    /// 부자연스러운 작은 공간이나 섬 제거
+    /// </summary>
     private void ProcessMap()
     {
         List<List<Coord>> wallRegions = GetRegions(1);  // 공간이 벽인 타일 검사
@@ -80,7 +130,7 @@ public class MapGenerator : MonoBehaviour
             if (wallRegion.Count < wallThresholdSize)   // 영역의 크기가 벽 제거크기보다 작다면
             {
                 foreach (Coord tile in wallRegion)
-                    map[tile.tileX, tile.tileY] = 0;    // 타일을 바닥으로 만듦
+                    map[tile.tileX, tile.tileY] = (int)TileType.FLOOR;    // 타일을 바닥으로 만듦
             }
         }
 
@@ -91,12 +141,14 @@ public class MapGenerator : MonoBehaviour
             if (roomRegion.Count < roomThresholdSize)   // 영역의 크기가 방 제거크기보다 작다면
             {
                 foreach (Coord tile in roomRegion)
-                    map[tile.tileX, tile.tileY] = 1;    // 타일을 벽으로 만듦
+                    map[tile.tileX, tile.tileY] = (int)TileType.WALL;    // 타일을 벽으로 만듦
             }
         }
     }
 
-    // 생성된 방의 영역 체크
+    /// <summary>
+    /// 생성된 방의 영역 체크
+    /// </summary>
     private List<List<Coord>> GetRegions(int tileType)
     {
         List<List<Coord>> regions = new List<List<Coord>>();    // 검사한 맵의 영역(범위)
@@ -121,7 +173,9 @@ public class MapGenerator : MonoBehaviour
         return regions;
     }
 
-    // 홍수 흐름 알고리즘
+    /// <summary>
+    /// 홍수 흐름 알고리즘
+    /// </summary>
     private List<Coord> GetResionTiles(int startX, int startY)
     {
         List<Coord> tiles = new List<Coord>();  // 검사할 타일들이 추가될 변수
@@ -159,13 +213,17 @@ public class MapGenerator : MonoBehaviour
         return tiles;
     }
 
-    // 출력할 맵의 범위 안인지 검사
+    /// <summary>
+    /// 출력할 맵의 범위 안인지 검사
+    /// </summary>
     private bool IsInMapRange(int x, int y)
     {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    // 맵을 랜덤하게 채움
+    /// <summary>
+    /// 맵을 랜덤하게 채움
+    /// </summary>
     private void RandomFillMap()
     {
         // 시드를 사용할것인지 체크
@@ -181,31 +239,122 @@ public class MapGenerator : MonoBehaviour
                 if (x == 0 || x == width - 1 || y == 0 || y == height - 1) // 맵의 최외곽은 항상 벽
                     map[x, y] = 1;
                 else
-                    map[x, y] = (pseudoRandom.Next(0, 100) < randomFillPercent) ? 1 : 0; // 벽인지 지형인지 결정
+                    map[x, y] = (pseudoRandom.Next(0, 100) < randomRoomRange) ? (int)TileType.WALL : (int)TileType.FLOOR; // 벽인지 지형인지 결정
             }
         }
     }
 
-    // 주변 타일을 검사해서 지형을 뭉개 다듬는 함수
+    /// <summary>
+    /// 랜덤하게 장식 바닥 생성
+    /// </summary>
+    private void RandomFillDecoTile()
+    {
+        // 시드를 사용할것인지 체크
+        if (useRandomSeed)
+            seed = Time.time.ToString();
+
+        // 시드를 사용하면 일정한 모양을 생성할수 있다.
+        System.Random pseudoRandom = new System.Random(seed.GetHashCode());
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] == 0)
+                {
+                    int neighbourWallTiles = GetSurroundingTileCount(x, y, TileType.WALL);
+                    if (neighbourWallTiles >= 1)    // 주변 8칸중에 벽이 한칸이라도 있으면 그대로 바닥으로 인식
+                        map[x, y] = 0;
+                    else if (neighbourWallTiles < 1) // 아니라면 그 타일은 확률적으로 장식 타일
+                        map[x, y] = (pseudoRandom.Next(0, 100) < randomDecoRange) ? (int)TileType.DECO : (int)TileType.FLOOR; // 바닥인지 장식인지 결정
+                }
+            }
+        }
+    }
+
+    private void RandomSpawnCollecter(float rating, TileType rank)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] != (int)TileType.WALL)
+                {
+                    map[x, y] = (UnityEngine.Random.Range(0f, 1f) < rating) ? (int)rank : map[x,y]; // 바닥인지 장식인지 결정
+                }
+            }
+        }
+
+        collectableItemTileMap.ClearAllTiles();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector3Int pos = new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
+                switch (map[x, y])
+                {
+                    case (int)TileType.NORMAL_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[0]);
+                        break;
+                    case (int)TileType.RARE_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[1]);
+                        break;
+                    case (int)TileType.EPIC_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[2]);
+                        break;
+                    case (int)TileType.LEGEND_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[3]);
+                        break;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 주변 타일을 검사해서 지형을 뭉개 다듬는 함수
+    /// </summary>
     private void SmoothMap()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                int neighbourWallTiles = GetSurroundingWallCount(x, y);
-                if (neighbourWallTiles > 4) // 주변 8칸중 막힌 공간이 4개보다 많으면 벽으로 전환
-                    map[x, y] = 1;
-                else if (neighbourWallTiles < 4) // 아니라면 그 타일은 여전히 방
-                    map[x, y] = 0;
+                int neighbourWallTiles = GetSurroundingTileCount(x, y, TileType.WALL);
+                if (neighbourWallTiles > 4) // 주변 8칸중 벽이 4개보다 많으면 벽으로 전환
+                    map[x, y] = (int)TileType.WALL;
+                else if (neighbourWallTiles < 4) // 아니라면 그 타일은 바닥
+                    map[x, y] = (int)TileType.FLOOR;
             }
         }
     }
 
-    // 지점 주변의 벽 갯수 검사
-    private int GetSurroundingWallCount(int gridX, int gridY)
+    /// <summary>
+    /// 장식바닥 타일 다듬는 함수
+    /// </summary>
+    private void SmoothDeco()
     {
-        int wallCount = 0;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (GetSurroundingTileCount(x, y, TileType.WALL) < 1)
+                {
+                    int neighbourWallTiles = GetSurroundingTileCount(x, y, TileType.FLOOR);
+                    if (neighbourWallTiles > 4) // 주변 8칸중 바닥이 4개보다 많으면 벽으로 전환
+                        map[x, y] = (int)TileType.FLOOR;
+                    else if (neighbourWallTiles < 4) // 아니라면 그 타일은 바닥
+                        map[x, y] = (int)TileType.DECO;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 주변의 타일을 계산하는 함수
+    /// </summary>
+    private int GetSurroundingTileCount(int gridX, int gridY, TileType tiletype)
+    {
+        int tileCount = 0;
         // 선택된 지점의 주변 8칸 검사
         for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
         {
@@ -215,62 +364,78 @@ public class MapGenerator : MonoBehaviour
                 if (IsInMapRange(neighbourX, neighbourY))
                 {
                     if (neighbourX != gridX || neighbourY != gridY) // 자기 자신은 제외
-                        wallCount += map[neighbourX, neighbourY];
+                        if (map[neighbourX, neighbourY] == (int)tiletype) // 주변 타일이 벽이면 갯수 추가
+                            tileCount++;
                 }
                 else
-                    wallCount++;
+                    tileCount++;
             }
         }
-        return wallCount;
+        return tileCount;
     }
 
-    // 맵에 들어간 데이터를 gizmo 사용해 출력
-    //private void OnDrawGizmos()
-    //{
-    //    if (map != null)
-    //    {
-    //        for (int x = 0; x < width; x++)
-    //        {
-    //            for (int y = 0; y < height; y++)
-    //            {
-    //                Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
-    //                Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
-    //                Gizmos.DrawCube(pos, Vector3.one);
-    //            }
-    //        }
-    //    }
-    //}
-
-
-    // 맵 정보를 토대로 타일 출력
+    /// <summary>
+    /// 맵 정보를 토대로 타일 출력
+    /// </summary>
     public void DrawTile()
     {
         wallTileMap.ClearAllTiles();
         floorTileMap.ClearAllTiles();
+        grassTileMap.ClearAllTiles();
+        decoTileMap.ClearAllTiles();
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 Vector3Int pos = new Vector3Int((int)(-width / 2 + x), (int)(-height / 2 + y), 0);
-                if (map[x, y] == 1)
-                    wallTileMap.SetTile(pos, wallTile);
-                else
-                    floorTileMap.SetTile(pos, floorTile);
+                switch (map[x, y])
+                {
+                    case (int)TileType.FLOOR:
+                        floorTileMap.SetTile(pos, floorTile);
+                        break;
+                    case (int)TileType.WALL:
+                        wallTileMap.SetTile(pos, wallTile);
+                        break;
+                    case (int)TileType.DECO:
+                        grassTileMap.SetTile(pos, grassTile[UnityEngine.Random.Range(0, grassTile.Length)]);
+                        break;
+                    case (int)TileType.NORMAL_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[0]);
+                        break;
+                    case (int)TileType.RARE_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[1]);
+                        break;
+                    case (int)TileType.EPIC_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[2]);
+                        break;
+                    case (int)TileType.LEGEND_COLLECT:
+                        collectableItemTileMap.SetTile(pos, collectingTile[3]);
+                        break;
+                }
+
+                // 벽이 아니면 랜덤으로 장식물 심기
+                if (map[x, y] != (int)TileType.WALL)
+                {
+                    if (UnityEngine.Random.Range(0f, 1f) < 0.2f)
+                        decoTileMap.SetTile(pos, decoTile[UnityEngine.Random.Range(0, decoTile.Length)]);
+                }
             }
         }
     }
 
+    /// <summary>
+    /// 랜덤 스폰포인트 지정
+    /// </summary>
     public void SetSpawnPoint()
     {
         while (true)
         {
             int randomWidth = UnityEngine.Random.Range(0, width);
             int randomHeight = UnityEngine.Random.Range(0, height);
-            if (map[randomWidth, randomHeight] == 0)
+            if (map[randomWidth, randomHeight] == 0)    // 해당 타일이 바닥일경우 멈추기
             { 
-                spawnPoint = new Vector3((-width / 2 + randomWidth + .5f),
-                                         (-height / 2 + randomHeight) + .5f);
+                spawnPoint = new Vector3((-width / 2 + randomWidth + .5f), (-height / 2 + randomHeight) + .5f, -0.2f);
                 tempobj.transform.position = spawnPoint;
                 break;
             }

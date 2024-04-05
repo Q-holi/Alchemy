@@ -15,6 +15,12 @@ public class SpeedBar : MonoBehaviour
 
     public int SetSpeed { set => speed = value; }
 
+    public void ReturnOrder()
+    {
+        currentTurnGauge = 0;
+        isReady = false;
+    }
+
     private void Update()
     {
         currentTurnGauge += Time.deltaTime * speed * BattleSceneManager.turnTimeScale;
@@ -24,7 +30,6 @@ public class SpeedBar : MonoBehaviour
         {
             currentTurnGauge = getTurnGauge;
             isReady = true;
-            BattleEventHandler.GetTurn();
         }
     }
 }

@@ -35,9 +35,9 @@ RectTransform:
   - {fileID: 3596244363719397878}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.4, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1.078125, y: 0.875}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1690454856385295004
@@ -104,7 +104,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d507da413864620439991dad800ba9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultData: {fileID: 0}
+  defaultData:
+    defaultStatus:
+      name: 
+      hp: 0
+      shield: 0
+      atkPower: 0
+      defPower: 0
+      speed: 0
+    sprite: {fileID: 0}
   currentData:
     name: 
     hp: 0
@@ -115,6 +123,7 @@ MonoBehaviour:
   hpBarObj: {fileID: 0}
   speedBarObj: {fileID: 0}
   highLight: {fileID: 9004657735650947265}
+  unitSprite: {fileID: 1690454856385295004}
 --- !u!61 &3085125180423516117
 BoxCollider2D:
   m_ObjectHideFlags: 0

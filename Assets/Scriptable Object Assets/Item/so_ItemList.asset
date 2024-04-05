@@ -1,0 +1,312 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1066cd2fa4d15ee4eb880255f3a9d24f, type: 3}
+  m_Name: so_ItemList
+  m_EditorClassIdentifier: 
+  itemDetails:
+  - itemCode: 10000
+    itemType: 0
+    itemDescription: "\uCE90\uB2C8\uC5B8 \uB77C\uC774\uBE0C \uC624\uD06C"
+    itemSprite: {fileID: 21300000, guid: 730e572c78cf0244ca0db36bb8f3af7f, type: 3}
+    itemLongDescription: "\uC2EC\uC73C\uBA74 \uD070 \uCC38\uB098\uBB34\uAC00 \uB420\uAC83
+      \uAC19\uC740\uB370?!"
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10001
+    itemType: 1
+    itemDescription: "\uD638\uBC15"
+    itemSprite: {fileID: 21300000, guid: f0d720006ae6c9e468cc99a9f1713ba1, type: 3}
+    itemLongDescription: "\uC544\uC8FC \uB2EC\uB2EC\uD55C \uD638\uBC15\uC774\uB2E4.
+      \uD638\uBC15\uC8FD\uC744 \uD558\uBA74 \uB9DB\uC788\uC744\uC9C0\uB3C4?"
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 1
+    canBeCarried: 1
+  - itemCode: 10002
+    itemType: 1
+    itemDescription: "\uC625\uC218\uC218"
+    itemSprite: {fileID: 21300000, guid: 081b5033ea188cb48b5d44b99ab920bc, type: 3}
+    itemLongDescription: "\uC815\uB9D0 \uB9DB\uC788\uB294 \uC625\uC218\uC218 "
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 1
+    canBeCarried: 1
+  - itemCode: 10003
+    itemType: 2
+    itemDescription: "\uBB3C\uBFCC\uB9AC\uAC1C"
+    itemSprite: {fileID: 21300136, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uB9CE\uC740 \uC591\uC758 \uBB3C\uC744 \uC904\uC218\uC788\uB2E4."
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10004
+    itemType: 3
+    itemDescription: "\uAD2D\uC774"
+    itemSprite: {fileID: 21300052, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uC528\uC557\uC744 \uC2EC\uAE30 \uC88B\uAC8C \uB545\uC744
+      \uAC00\uAFB8\uC5B4\uC900\uB2E4."
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10005
+    itemType: 4
+    itemDescription: "\uBC8C\uBAA9 \uB3C4\uB07C"
+    itemSprite: {fileID: 21300010, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uB098\uBB34\uB97C \uC27D\uAC8C \uBC8C\uBAA9\uD574\uC900\uB2E4."
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10006
+    itemType: 0
+    itemDescription: "\uD30C\uC2A4\uB2D9 \uC528\uC557"
+    itemSprite: {fileID: 21300000, guid: 7da78110e28e0f74aaa3ef4a41f4c0ed, type: 3}
+    itemLongDescription: "\uD30C\uC2A4\uB2D9 \uC528\uC557 5\uC77C\uC774 \uC9C0\uB098\uBA74
+      \uC218\uD655\uD560\uC218 \uC788\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10007
+    itemType: 1
+    itemDescription: "\uD30C\uC2A4\uB2D9"
+    itemSprite: {fileID: 21300000, guid: 0a1268bf801d5304ebf16458d7309ac1, type: 3}
+    itemLongDescription: "\uBE44\uD0C0\uBBFC\uC774 \uB9CE\uC740 \uD30C\uC2A4\uB2D9\uC774\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 1
+    canBeCarried: 1
+  - itemCode: 10008
+    itemType: 1
+    itemDescription: "\uBC8C\uBAA9 \uB098\uBB34"
+    itemSprite: {fileID: 21300000, guid: e26dc0d638731ec47abe9c4b3cae62ac, type: 3}
+    itemLongDescription: "\uBC8C\uBAA9\uB41C \uB098\uBB34\uB2E4. \uC720\uC6A9\uD558\uAC8C
+      \uC0AC\uC6A9\uD560\uC218 \uC788\uC744\uAC70\uAC19\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10009
+    itemType: 0
+    itemDescription: "\uD30C\uC778"
+    itemSprite: {fileID: 21300000, guid: 5eb84bf51d351da428f95a1296f6a397, type: 3}
+    itemLongDescription: "\uC774\uC05C \uC18C\uB098\uBB34\uC758 \uC528\uC557\uC774\uB2E4."
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10010
+    itemType: 0
+    itemDescription: "\uB098\uBB34\uBFCC\uB9AC"
+    itemSprite: {fileID: 7154603021615155856, guid: d241c496741a12d4290e12ba81dd6724, type: 3}
+    itemLongDescription: "\uC0AC\uC6A9\uCC98\uB97C \uBAA8\uB974\uACA0\uB2E4??"
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10011
+    itemType: 0
+    itemDescription: "\uB098\uBB34\uBFCC\uB9AC2"
+    itemSprite: {fileID: -341119608263849502, guid: 5d22327a2a3d2a049a8a59a708d527fe, type: 3}
+    itemLongDescription: "\uC774\uAC83\uB3C4 \uC65C\uC788\uB294\uAC70\uC9C0??"
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10012
+    itemType: 7
+    itemDescription: "\uBC14\uAD6C\uB2C8"
+    itemSprite: {fileID: 21300504, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uB2E4\uC591\uD55C \uC791\uBB3C\uC744 \uB2F4\uC744\uC218
+      \uC788\uB294 \uBC14\uAD6C"
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10013
+    itemType: 5
+    itemDescription: "\uACE1\uAD2D\uC774"
+    itemSprite: {fileID: 21300094, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uAC15\uCCA0\uB85C\uB41C \uACE1\uAD2D\uC774 \uB2E4\uC591\uD55C
+      \uAD11\uBB3C\uC744 \uCE98\uC218 \uC788\uC744\uAC70\uAC19\uB2E4."
+    itemUseGridRadius: 1
+    itemUseRadius: 0
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10014
+    itemType: 0
+    itemDescription: "\uBC14\uC704"
+    itemSprite: {fileID: 21300000, guid: 4fb548784c08c2c40b86a99493efa98d, type: 3}
+    itemLongDescription: 
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10015
+    itemType: 1
+    itemDescription: "\uBC14\uC704\uB3CC"
+    itemSprite: {fileID: 21300000, guid: 7700e9e59e6f58e4598ea8f2e5a84cc1, type: 3}
+    itemLongDescription: "\uBC14\uC704\uB3CC\uC744 \uBAA8\uC73C\uBA74 \uC720\uC6A9\uD558\uAC8C
+      \uC0AC\uC6A9\uD560\uC218 \uC788\uC744\uAC70\uAC19\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10016
+    itemType: 0
+    itemDescription: "\uBC14\uC7042"
+    itemSprite: {fileID: 21300000, guid: ffd3a07e9702a614284d1e5a4be9f532, type: 3}
+    itemLongDescription: 
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10017
+    itemType: 6
+    itemDescription: "\uB0AB"
+    itemSprite: {fileID: 21300506, guid: 853ac38383c680342ac7e688bf29b197, type: 3}
+    itemLongDescription: "\uC791\uBB3C\uC744 \uC218\uD655\uD560\uB54C \uB3C4\uC6C0\uC744
+      \uC8FC\uB294 \uB0AB\uC774\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 1.5
+    isStartingItem: 1
+    canBePickedUp: 1
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10018
+    itemType: 8
+    itemDescription: "\uD480"
+    itemSprite: {fileID: 21300000, guid: 207ad99171e171b418bcaaa396d5a6f6, type: 3}
+    itemLongDescription: 
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10019
+    itemType: 8
+    itemDescription: "\uD4802"
+    itemSprite: {fileID: 21300000, guid: e452dd2aa629f624390a9ba516a7c47e, type: 3}
+    itemLongDescription: 
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10020
+    itemType: 1
+    itemDescription: "\uC7A1\uCD08"
+    itemSprite: {fileID: 21300000, guid: 25925800440b0e84f9533a314ddca6b5, type: 3}
+    itemLongDescription: "\uC815\uB9D0 \uADF8\uB0E5 \uC7A1\uCD08\uC774\uB2E4."
+    itemUseGridRadius: 2
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 1
+    canBeDropped: 1
+    canBeEaten: 0
+    canBeCarried: 1
+  - itemCode: 10021
+    itemType: 8
+    itemDescription: "\uC120\uC778\uC7A5"
+    itemSprite: {fileID: 21300000, guid: 37e09848a493a0a4b89a743f73f75963, type: 3}
+    itemLongDescription: "\uAC81\uB098 \uC544\uD508 \uC120\uC778\uC7A5\uC774\uB2E4."
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10022
+    itemType: 9
+    itemDescription: "\uC758\uC790"
+    itemSprite: {fileID: 21300000, guid: 2a61f48c8f2dfed4da6f2f8e2485ee15, type: 3}
+    itemLongDescription: "\uC758\uC790"
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0
+  - itemCode: 10023
+    itemType: 9
+    itemDescription: "\uD14C\uC774"
+    itemSprite: {fileID: 21300000, guid: 60f7a57556be87841a8cabc94054df28, type: 3}
+    itemLongDescription: 
+    itemUseGridRadius: 0
+    itemUseRadius: 0
+    isStartingItem: 0
+    canBePickedUp: 0
+    canBeDropped: 0
+    canBeEaten: 0
+    canBeCarried: 0

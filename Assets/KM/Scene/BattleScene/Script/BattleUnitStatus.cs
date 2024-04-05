@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class BattleUnitStatus : MonoBehaviour
     [SerializeField] private GameObject hpBarObj;      // 유닛 체력바
     [SerializeField] private GameObject speedBarObj;   // 유닛의 턴
     [SerializeField] private GameObject highLight;     // 유닛 선택 강조표시 이미지
+    [SerializeField] private SpriteRenderer unitSprite; // 유닛 이미지
 
     private HpBar hpBar;
     private SpeedBar speedBar;
@@ -17,8 +19,17 @@ public class BattleUnitStatus : MonoBehaviour
     private void Awake()
     {
         highLight.SetActive(false);
-        SetHpBar();
-        SetSpeedBar();
+    }
+
+    private void Update()
+    {
+        if (speedBar.isReady)
+        {
+            BattleEventHandler.GetOrder();
+            AttackTarget();
+        }
+
+
     }
 
     /// <summary>
@@ -27,6 +38,10 @@ public class BattleUnitStatus : MonoBehaviour
     public void SetBattleData(string name)
     {
         defaultData = BattleSceneManager.unitDB[name];
+        if (currentData.name == null)
+            currentData = defaultData.defaultStatus;
+
+        unitSprite.sprite = defaultData.sprite;
 
         SetHpBar();
         SetSpeedBar();
@@ -45,7 +60,7 @@ public class BattleUnitStatus : MonoBehaviour
         hpBarObj.transform.position = hpPos;
         hpBar = hpBarObj.GetComponent<HpBar>();
 
-        hpBar.SetDefensePower = defaultData.defaultStatus.defPower;
+        hpBar.SetDef = defaultData.defaultStatus.defPower;
         hpBar.SetMaxHp = defaultData.defaultStatus.hp;
         hpBar.UpdateHpBar(defaultData.defaultStatus.hp, defaultData.defaultStatus.shield);
     }
@@ -86,8 +101,11 @@ public class BattleUnitStatus : MonoBehaviour
     /// 유닛이 공격시 호출되는 함수
     /// </summary>
     private void AttackTarget()
-    { 
-        
+    {
+        Debug.Log(defaultData.defaultStatus.name + " : 공격");
+        speedBar.ReturnOrder();
+
+        BattleEventHandler.ReturnOrder();
     }
 
     /// <summary>

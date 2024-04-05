@@ -95,7 +95,7 @@ MonoBehaviour:
   currentHpImg: {fileID: 3738698150387876429}
   currentShield: {fileID: 7501369147329886845}
   currentHpTxt: {fileID: 2310740987684714517}
-  defenseTxt: {fileID: 2848142098348821340}
+  currentDefTxt: {fileID: 2848142098348821340}
 --- !u!1 &4084888355299457906
 GameObject:
   m_ObjectHideFlags: 0
