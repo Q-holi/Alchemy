@@ -47,7 +47,6 @@ public class InventoryManager : Singleton<InventoryManager>
         for (int i = 0; i < (int)InventoryLocation.count; i++)
             inventoryLists[i] = new List<InventoryItem>();
 
-
         inventoryListCapacityIntArray = new int[(int)InventoryLocation.count];
 
         inventoryListCapacityIntArray[(int)InventoryLocation.player] = Settings.playerInventoryCapacity;
@@ -73,8 +72,6 @@ public class InventoryManager : Singleton<InventoryManager>
             tempitem.itemQuantity = 10;
             inventoryLists[1].Add(tempitem);
         }
-
-
     }
 
     /// <summary>
@@ -110,7 +107,6 @@ public class InventoryManager : Singleton<InventoryManager>
             AddItemAtPosition(inventoryList, itemCode);
 
         EventHandler.CallInventoryUpdatedEvent(inventoryLocation, inventoryLists[(int)inventoryLocation]);
-
     }
     /// <summary>
     /// 해당하는 인벤토리에 아이템이 없을 시 해당 인벤토리에 itemCode와 수량 =1을 List.add 를 진행한다. 
