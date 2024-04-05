@@ -29,7 +29,7 @@ public class UseIngredient : MonoBehaviour
         }
         else
         {
-            InventoryEventHandler.OnUseItem(key, false);
+            Debug.Log("Item Use Failed");
         }
 
         Destroy(collision.gameObject);

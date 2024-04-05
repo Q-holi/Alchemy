@@ -28,7 +28,7 @@ public class SelectItem : MonoBehaviour
     {
         itemKey = keyCode;
         isDragging = dragging;
-        uiIcon.GetComponent<Image>().sprite = InventoryManager.Instance.GetItemDetails(itemKey).sprite;
+        uiIcon.GetComponent<Image>().sprite = InventoryManager.Instance.GetItemDetails(itemKey).itemSprite;
         uiIcon.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         itemRigidbody.gravityScale = 0;
     }

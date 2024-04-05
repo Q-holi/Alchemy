@@ -31,7 +31,7 @@ public class BattleSceneManager : Singleton<BattleSceneManager>
         BattleEventHandler.GetOrder += OnBringOrder;
         BattleEventHandler.ReturnOrder += OnReturnOrder;
 
-        InventoryManager.Instance.InventorySlotInit(InventoryFilterType.Potion);
+        //InventoryManager.Instance.InventorySlotInit(InventoryFilterType.Potion);
         SetBattleScene(battleUnits);
     }
 
