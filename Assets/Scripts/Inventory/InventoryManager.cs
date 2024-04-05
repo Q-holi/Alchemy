@@ -11,6 +11,7 @@ public class InventoryManager : Singleton<InventoryManager>
     //--Assets/Scriptable Object Assets/Item/so_ItemList.asset 에 있는 스크립터블 오브젝트
     [SerializeField] private SO_ItemList itemList = null;
     private Dictionary<int, ItemDetails> itemDetailsDictionary;
+
     [HideInInspector] public int[] inventoryListCapacityIntArray;
 
     private int[] selectInventoryItem;
@@ -25,6 +26,7 @@ public class InventoryManager : Singleton<InventoryManager>
         CreateInventoryLists();
         //--아이템 딕셔너리 생성
         CreateItemDetailsDictionary();
+        TemporaryItemAdd();
 
         selectInventoryItem = new int[(int)InventoryLocation.count];
         for (int i = 0; i < selectInventoryItem.Length; i++)
@@ -60,6 +62,19 @@ public class InventoryManager : Singleton<InventoryManager>
 
         foreach (ItemDetails itemDetails in itemList.itemDetails)
             itemDetailsDictionary.Add(itemDetails.itemCode, itemDetails);
+    }
+
+    private void TemporaryItemAdd()
+    {
+        foreach (ItemDetails itemData in itemDetailsDictionary.Values)
+        {
+            InventoryItem tempitem = new InventoryItem();
+            tempitem.itemCode = itemData.itemCode;
+            tempitem.itemQuantity = 10;
+            inventoryLists[1].Add(tempitem);
+        }
+
+
     }
 
     /// <summary>
