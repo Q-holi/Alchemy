@@ -7,8 +7,8 @@ public struct Cell
     {
         Invalid,
         Empty,//비어있는 공간->흙
-        StartPlant,//--식물의 뿌리가 생성되는 위치
-        Plant,//--식물의 뿌리가 생성
+        StartPlant,//--식물의 뿌리 시작점
+        Plant,//--식물의 뿌리
         Number,//--지뢰찾기의 뿌리의 위치를 알려줄 번호 추구 변경예정
         CUT,//--깊게 파기로 인한 뿌리 짦림
     }
