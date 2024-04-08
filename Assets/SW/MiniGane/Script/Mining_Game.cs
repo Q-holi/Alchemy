@@ -107,7 +107,7 @@ public class Mining_Game : MonoBehaviour
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
 
-        if (cell.revealed)
+        if (cell.isRevealed)
             return;
 
         if (cell.type == Cell.Type.Invalid || cell.type == Cell.Type.Empty)
@@ -120,7 +120,7 @@ public class Mining_Game : MonoBehaviour
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
             shallowDigCount--;
-            cell.revealed = true;
+            cell.isRevealed = true;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
             surfaceBoard.Draw(surfaceState);
         }
@@ -145,14 +145,14 @@ public class Mining_Game : MonoBehaviour
 
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
-            cell.revealed = true;
+            cell.isRevealed = true;
             cell.type = Cell.Type.CUT;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
             Debug.LogError("뿌리 짤림");
         }
         else
         {
-            cell.revealed = true;
+            cell.isRevealed = true;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
         }
 
@@ -163,9 +163,9 @@ public class Mining_Game : MonoBehaviour
             int yOffset = directions[i, 1];
 
             cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset);
-            if (cell.type == Cell.Type.Empty || cell.revealed)
+            if (cell.type == Cell.Type.Empty || cell.isRevealed)
             {
-                cell.revealed = true;
+                cell.isRevealed = true;
                 surfaceState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
             }
         }
@@ -195,8 +195,8 @@ public class Mining_Game : MonoBehaviour
             {
                 surfaceState[x, y].type = Cell.Type.Plant;
                 underState[x, y].type = Cell.Type.Plant;
-                surfaceState[x, y].revealed = true;
-                underState[x, y].revealed = true;
+                surfaceState[x, y].isRevealed = true;
+                underState[x, y].isRevealed = true;
             }
         }
     }

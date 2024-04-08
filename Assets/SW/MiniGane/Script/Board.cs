@@ -14,10 +14,10 @@ public class Board : MonoBehaviour
     [SerializeField] public RuleTile cutPlant;          // 뿌리가 잘린 타일 이미지
     [SerializeField] public RuleTile expansionPlant;    // 뿌리 타일
 
-
     private void OnMouseDown()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log(gameObject.name);
     }
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class Board : MonoBehaviour
     }
     private RuleTile GetTile(Cell cell)
     {
-        if (cell.revealed) 
+        if (cell.isRevealed) 
             return GetRevealedTile(cell);
         else 
             return tileUnknow;
