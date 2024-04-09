@@ -11,8 +11,8 @@ public class Mining_Game : MonoBehaviour
     [SerializeField] private int width = 14;
     [SerializeField] private int height = 14;
 
-    [SerializeField] private Board surfaceBoard;
-    [SerializeField] private Board underBoard;
+    [SerializeField] private Surface surfaceBoard;
+    [SerializeField] private Under underBoard;
 
     [SerializeField] private Cell[,] surfaceState;
     [SerializeField] private Cell[,] underState;
@@ -33,17 +33,17 @@ public class Mining_Game : MonoBehaviour
 
     private void Awake()
     {
-        Board[] childBoard = gameObject.GetComponentsInChildren<Board>();
+        Transform[] childBoard = gameObject.GetComponentsInChildren<Transform>();
 
-        foreach (Board child in childBoard)
+        foreach (Transform child in childBoard)
         {
             switch (child.gameObject.name)
             {
-                case "UnkownTileMap":
-                    surfaceBoard = child;
+                case "SurfaceTileMap":
+                    surfaceBoard = child.gameObject.GetComponent<Surface>();
                     break;
-                case "RootTileMap":
-                    underBoard = child;
+                case "UnderTileMap":
+                    underBoard = child.gameObject.GetComponent<Under>();
                     break;
             }
         }
@@ -78,11 +78,7 @@ public class Mining_Game : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GenerateCells();//--게임에 필요한 셀 생성
-            GenerateCenter();
-            GenerateStartRoot();
-            surfaceBoard.CountCellsType(surfaceState, out emptyCount, out plantCount);
-            surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
+            NewGame();
         }
     }
 
@@ -95,7 +91,6 @@ public class Mining_Game : MonoBehaviour
 
     private void ShallowDig()
     {
-
         if (shallowDigCount == 0)
             return;
 
@@ -148,12 +143,14 @@ public class Mining_Game : MonoBehaviour
             cell.isRevealed = true;
             cell.type = Cell.Type.CUT;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
+            underState[cellPosition.x, cellPosition.y] = cell;
             Debug.LogError("뿌리 짤림");
         }
         else
         {
             cell.isRevealed = true;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
+            underState[cellPosition.x, cellPosition.y] = cell;
         }
 
         // 주변 타일 반복 처리
@@ -167,6 +164,7 @@ public class Mining_Game : MonoBehaviour
             {
                 cell.isRevealed = true;
                 surfaceState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
+                underState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
             }
         }
         surfaceBoard.Draw(surfaceState);
@@ -193,9 +191,9 @@ public class Mining_Game : MonoBehaviour
         {
             for (int y = 5; y < 9; y++)
             {
-                surfaceState[x, y].type = Cell.Type.Plant;
-                underState[x, y].type = Cell.Type.Plant;
+                surfaceState[x, y].type = Cell.Type.Center;
                 surfaceState[x, y].isRevealed = true;
+                underState[x, y].type = Cell.Type.Center;
                 underState[x, y].isRevealed = true;
             }
         }
@@ -210,7 +208,11 @@ public class Mining_Game : MonoBehaviour
         {
             //--{4,5~8} 좌 시작 지점 생성
             underState[4, resultYPos].type = Cell.Type.StartPlant;
+            underState[4, resultYPos].nextCell = Cell.CalcDirection(new Vector2Int(4, resultYPos), 
+                                                                    new Vector2Int(3, resultYPos));
             underState[3, resultYPos].type = Cell.Type.StartPlant;
+            underState[3, resultYPos].prevCell = Cell.CalcDirection(new Vector2Int(3, resultYPos),
+                                                                    new Vector2Int(4, resultYPos));
             //state[4, resultYPos].revealed = true;
             startPlantPos.Add(new Vector3Int(3, resultYPos, expansionLengh));
 
@@ -220,7 +222,11 @@ public class Mining_Game : MonoBehaviour
         {
             //--{9,5~8} 우 시작 지점 생성
             underState[9, resultYPos].type = Cell.Type.StartPlant;
+            underState[9, resultYPos].nextCell = Cell.CalcDirection(new Vector2Int(9, resultYPos),
+                                                                    new Vector2Int(10, resultYPos));
             underState[10, resultYPos].type = Cell.Type.StartPlant;
+            underState[10, resultYPos].prevCell = Cell.CalcDirection(new Vector2Int(10, resultYPos),
+                                                                    new Vector2Int(9, resultYPos));
             //state[9, resultYPos].revealed = true;
             startPlantPos.Add(new Vector3Int(10, resultYPos, expansionLengh));
         }
@@ -231,7 +237,11 @@ public class Mining_Game : MonoBehaviour
         {
             //--{5~8,4} 상 시작 지점 생성
             underState[resultXPos, 4].type = Cell.Type.StartPlant;
+            underState[resultXPos, 4].nextCell = Cell.CalcDirection(new Vector2Int(resultXPos, 4),
+                                                                    new Vector2Int(resultXPos, 3));
             underState[resultXPos, 3].type = Cell.Type.StartPlant;
+            underState[resultXPos, 3].prevCell = Cell.CalcDirection(new Vector2Int(resultXPos, 3),
+                                                                    new Vector2Int(resultXPos, 4));
             //state[resultXPos, 4].revealed = true;
             startPlantPos.Add(new Vector3Int(resultXPos, 3, expansionLengh));
         }
@@ -241,7 +251,11 @@ public class Mining_Game : MonoBehaviour
         {
             //--{5~8,9} 하 시작 지점 생성
             underState[resultXPos, 9].type = Cell.Type.StartPlant;
+            underState[resultXPos, 9].nextCell = Cell.CalcDirection(new Vector2Int(resultXPos, 9),
+                                                                    new Vector2Int(resultXPos, 10));
             underState[resultXPos, 10].type = Cell.Type.StartPlant;
+            underState[resultXPos, 10].prevCell = Cell.CalcDirection(new Vector2Int(resultXPos, 10),
+                                                                    new Vector2Int(resultXPos, 9));
             //state[resultXPos, 9].revealed = true;
             startPlantPos.Add(new Vector3Int(resultXPos, 10, expansionLengh));
         }
@@ -255,11 +269,11 @@ public class Mining_Game : MonoBehaviour
     }
 
 
-    private void ExpansionRoot(int posX, int posY, int expansionLengh)
+    private void ExpansionRoot(int posX, int posY, int expansionLength)
     {
         List<Vector2Int> expansionPos = new List<Vector2Int>();
 
-        if (expansionLengh == 0)
+        if (expansionLength == 0)
             return;
 
         //--검사 시작
@@ -280,13 +294,22 @@ public class Mining_Game : MonoBehaviour
 
         //--expansionPos에 추가된 확장 가능한 위치중 랜덤함 위치를 선택해서 확장시킨다.
         int randomPos = UnityEngine.Random.Range(0, expansionPos.Count);
-        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].number = expansionLengh;
+        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].number = expansionLength;
         underState[expansionPos[randomPos].x, expansionPos[randomPos].y].type = Cell.Type.Number;
+
+        // 확장 셀 기준 이전 셀은 (확장 셀 - 기준 셀)
+        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].prevCell =
+            Cell.CalcDirection(new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y), new Vector2Int(posX, posY));
+
+        // 이전 셀 기준 다음 셀은 (이전 셀 - 현재 셀)
+        underState[posX, posY].nextCell =
+            Cell.CalcDirection(new Vector2Int(posX, posY), new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y));
+
         //state[expansionPos[randomPos].x, expansionPos[randomPos].y].revealed = true;
         //---------------------------------------------------------------------
 
         //--확장하려고 하는 뿌리의 길이 만큼 재귀함수 호출 (확장이 된 좌표를 기준으로 다시 위치 설정)
-        ExpansionRoot(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLengh - 1);
+        ExpansionRoot(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLength - 1);
 
     }
     
