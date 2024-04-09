@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[ExecuteAlways]
 public class Mining_Game : MonoBehaviour
 {
     [SerializeField] private int width = 14;
@@ -56,8 +55,22 @@ public class Mining_Game : MonoBehaviour
 
     private void NewGame()
     {
-        surfaceState = new Cell[width, height];
+        Transform[] childBoard = gameObject.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in childBoard)
+        {
+            switch (child.gameObject.name)
+            {
+                case "SurfaceTileMap":
+                    surfaceBoard = child.gameObject.GetComponent<Surface>();
+                    break;
+                case "UnderTileMap":
+                    underBoard = child.gameObject.GetComponent<Under>();
+                    break;
+            }
+        }
         underState = new Cell[width, height];
+        surfaceState = new Cell[width, height];
         GenerateCells();//--게임에 필요한 셀 생성
         GenerateCenter();
         GenerateStartRoot();
@@ -72,9 +85,9 @@ public class Mining_Game : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonDown(1))    // 좌클릭 깊게 파기
+        if (Input.GetMouseButtonDown(1))    // 우클릭 얇게 파기
             ShallowDig();
-        else if (Input.GetMouseButtonUp(0)) // 우클릭 얕게 파기
+        else if (Input.GetMouseButtonUp(0)) // 좌클릭 깊게 파기
             DeepDig();
 
 
@@ -89,16 +102,15 @@ public class Mining_Game : MonoBehaviour
         if (IsValid(x, y)) return surfaceState[x, y];
         else return new Cell();
     }
-
+    /// <summary>
+    /// 얕게 파기란 한칸을 파는걸 의미 한다.
+    /// 만약 얕게 파기를 실행했으나 그대로이면 그 부분은 아무것도 없는 흙인 부분이다. 만약 얕게 파기 실행 시 한칸이 겉어지고 뿌리가 있으면 그 부분 1칸만 흙을 치우고 뿌리를 노출시킨다.
+    /// </summary>
     private void ShallowDig()
     {
         if (shallowDigCount == 0)
             return;
 
-        //-- 마우스 우 클릭 얕게 파기
-        /* 얕게 파기란 한칸을 파는걸 의미 한다.
-         * 만약 얕게 파기를 실행했으나 그대로이면 그 부분은 아무것도 없는 흙인 부분이다. 만약 얕게 파기 실행 시 한칸이 겉어지고 뿌리가 있으면 그 부분 1칸만 흙을 치우고 뿌리를 노출시킨다.
-         */
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
@@ -120,13 +132,12 @@ public class Mining_Game : MonoBehaviour
             surfaceBoard.Draw(surfaceState);
         }
     }
-
+    /// <summary>
+    /// 마우스 왼클릭이 깊게 파기 깊게 파기란 9칸을 파는걸 의미 한다. 만약 9칸중 흑으로 덮인 부분그대로 있으면 그 부분은 뿌리가 있는것이다.
+    /// </summary>
     private void DeepDig()
     {
-        //-- 마우스 왼클릭이 깊게 파기
-        /* 깊게 파기란 9칸을 파는걸 의미 한다. 
-         만약 9칸중 흑으로 덮인 부분그대로 있으면 그 부분은 뿌리가 있는것이다.
-         */
+
         // 주변 타일의 상대적 위치를 상수로 정의
         int[,] directions = new int[,] 
         {
@@ -180,6 +191,8 @@ public class Mining_Game : MonoBehaviour
                 Cell cell = new Cell();
                 cell.position = new Vector3Int(x, y, 0);
                 cell.type = Cell.Type.Empty;
+                cell.prevCell = new Vector2Int(-1, -1);
+                cell.nextCell = new Vector2Int(-1, -1);
                 surfaceState[x, y] = cell;
                 underState[x, y] = cell;
             }
@@ -204,7 +217,7 @@ public class Mining_Game : MonoBehaviour
     {
         List<Vector3Int> startPlantPos = new List<Vector3Int>(); //x-> x축,y-> y축,z-> 뿌리의 길이 
 
-        int resultYPos = UnityEngine.Random.Range(5, 9);
+        int resultYPos = UnityEngine.Random.Range(6, 9);
         //int expansionLengh = UnityEngine.Random.Range(_minExpansionLengh, _maxExpansionLengh);//--뿌리의 길이 랜덤으로 생성
         {
             //--{4,5~8} 좌 시작 지점 생성
@@ -290,7 +303,10 @@ public class Mining_Game : MonoBehaviour
         if (IsValid(posX + 1, posY) && underState[posX + 1, posY].type == Cell.Type.Empty) //--우
             expansionPos.Add(new Vector2Int(posX + 1, posY));
 
-        if (expansionPos.Count == 0) { NewGame(); return; }//-- 확장 가능성이 없으면 새롭게 다시 시작
+        if (expansionPos.Count == 0) {
+            NewGame(); 
+            return; 
+        }//-- 확장 가능성이 없으면 새롭게 다시 시작
 
 
         //--expansionPos에 추가된 확장 가능한 위치중 랜덤함 위치를 선택해서 확장시킨다.

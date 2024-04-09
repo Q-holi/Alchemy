@@ -3433,7 +3433,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56d70452945bd7b4ea29f532c5311e30, type: 2}
   - {fileID: 11400000, guid: 5d3b5486e386761438d0887f50ac0b0d, type: 2}
   - {fileID: 11400000, guid: 46d0e3a7a40cbaf4893af7e48ef8a66d, type: 2}
-  - {fileID: 11400000, guid: 3e0aee4d2128bd449837189ce03d69ed, type: 2}
+  - {fileID: 11400000, guid: d30ad971bd0425d45a0e457a1d72d0d6, type: 2}
   dirtTile: {fileID: 11400000, guid: ecdca3a928dfd3242b189828ad64567d, type: 2}
   cutPlant: {fileID: 11400000, guid: c33c277c04daa174ea2316e511f5ffd6, type: 2}
 --- !u!213 &1850681221
@@ -5995,9 +5995,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb387291a2ebcf14bad56ead4df8e2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileUnknow: {fileID: 11400000, guid: 76c179af37edfca4ea46a2488896e159, type: 2}
-  cutPlant: {fileID: 11400000, guid: 07f3aaf939235884198405397d844594, type: 2}
-  expansionPlant: {fileID: 11400000, guid: 5c7a3af94dca36046b29bc191777a274, type: 2}
+  tileUnknow: {fileID: 11400000, guid: cc0a055497f23d84d992e46c1ef97a85, type: 2}
+  cutPlant: {fileID: 11400000, guid: c33c277c04daa174ea2316e511f5ffd6, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

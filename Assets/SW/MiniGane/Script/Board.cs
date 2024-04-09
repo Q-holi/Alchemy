@@ -5,7 +5,6 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[ExecuteAlways]
 public class Board : MonoBehaviour
 {
     [SerializeField] public Tilemap tilemap {  get; private set; }//-- set은 비공개 처리 
