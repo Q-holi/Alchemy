@@ -5,28 +5,19 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[ExecuteAlways]
 public class Board : MonoBehaviour
 {
     [SerializeField] public Tilemap tilemap {  get; private set; }//-- set은 비공개 처리 
 
-    [SerializeField] public Tile tileUnknow;
-    [SerializeField] public Tile tileEmpty;
-    [SerializeField] public Tile tilePlant;
-    [SerializeField] public Tile startPlant;
-    [SerializeField] public Tile cutPlant;
-    [SerializeField] public Tile expansionPlant1;
-    [SerializeField] public Tile expansionPlant2;
-    [SerializeField] public Tile expansionPlant3;
-    [SerializeField] public Tile expansionPlant4;
-    [SerializeField] public Tile expansionPlant5;
-    [SerializeField] public Tile expansionPlant6;
-    [SerializeField] public Tile expansionPlant7;
-    [SerializeField] public Tile expansionPlant8;
-
+    [SerializeField] public RuleTile tileUnknow;        // 확인되지 않은 위치의 타일
+    [SerializeField] public RuleTile cutPlant;          // 뿌리가 잘린 타일 이미지
+    [SerializeField] public RuleTile expansionPlant;    // 뿌리 타일
 
     private void OnMouseDown()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log(gameObject.name);
     }
     private void Awake()
     {
@@ -62,37 +53,23 @@ public class Board : MonoBehaviour
             }
         }
     }
-    private Tile GetTile(Cell cell)
+    private RuleTile GetTile(Cell cell)
     {
-        if (cell.revealed) return GetRevealedTile(cell);
-        else return tileUnknow;
+        if (cell.isRevealed) 
+            return GetRevealedTile(cell);
+        else 
+            return tileUnknow;
         
     }
-    private Tile GetRevealedTile(Cell cell)
+    private RuleTile GetRevealedTile(Cell cell)
     {
         switch(cell.type)
         {
-            case Cell.Type.Empty: return tileEmpty;
-            case Cell.Type.Plant: return tilePlant;
-            case Cell.Type.StartPlant: return startPlant;
+            case Cell.Type.Empty: return null;
+            case Cell.Type.Plant: return expansionPlant;
+            case Cell.Type.StartPlant: return expansionPlant;
             case Cell.Type.CUT: return cutPlant;
-            case Cell.Type.Number: return GetCountPlant(cell);
-            default: return null;
-        }
-    }
-
-    private Tile GetCountPlant(Cell cell)
-    {
-        switch(cell.number) 
-        {
-            case 1: return expansionPlant1;
-            case 2: return expansionPlant2;
-            case 3: return expansionPlant3;
-            case 4: return expansionPlant4;
-            case 5: return expansionPlant5;
-            case 6: return expansionPlant6;
-            case 7: return expansionPlant7;
-            case 8: return expansionPlant8;
+            case Cell.Type.Number: return expansionPlant;
             default: return null;
         }
     }

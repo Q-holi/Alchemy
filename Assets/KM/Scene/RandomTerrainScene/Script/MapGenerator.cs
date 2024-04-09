@@ -3,36 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.Mathematics;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.Tilemaps;
 
 public enum TileType
 { 
     FLOOR = 0,
     WALL,
-    DECO,
+    GRASS,
     NORMAL_COLLECT,
     RARE_COLLECT,
     EPIC_COLLECT,
     LEGEND_COLLECT
 }
 
-//[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
     // 타일을 그릴 타일 맵
     [SerializeField] private Tilemap wallTileMap;
     [SerializeField] private Tilemap floorTileMap;
     [SerializeField] private Tilemap grassTileMap;
-    [SerializeField] private Tilemap decoTileMap;
     [SerializeField] private Tilemap collectableItemTileMap;
+    [SerializeField] private Transform objList;
+    private List<GameObject> decoObj = new List<GameObject>();
 
     // 타일맵에 그려질 타일 스프라이트
-    [SerializeField] private Tile wallTile;
+    [SerializeField] private Tile[] wallTile = new Tile[4];
     [SerializeField] private RuleTile floorTile;
     [SerializeField] private Tile[] grassTile = new Tile[4];
-    [SerializeField] private Tile[] decoTile = new Tile[7];
     [SerializeField] private Tile[] collectingTile = new Tile[4];
+    [SerializeField] private GameObject[] decoPrefab = new GameObject[4];
 
     // 맵의 크기
     [SerializeField] private int width;
@@ -47,7 +46,7 @@ public class MapGenerator : MonoBehaviour
 
     // 바닥의 랜덤률 결정
     [Range(0, 100)]
-    [SerializeField] private int randomDecoRange;
+    [SerializeField] private int randomGrassRange;
 
     [SerializeField] private int wallThresholdSize; // 제거할 벽 타일의 크기
     [SerializeField] private int roomThresholdSize; // 제거할 방 타일의 크기
@@ -103,7 +102,7 @@ public class MapGenerator : MonoBehaviour
 
         ProcessMap();
 
-        RandomFillDecoTile();
+        RandomFillGrassTile();
 
         for (int i = 0; i < 3; i++)
             SmoothDeco();
@@ -247,7 +246,7 @@ public class MapGenerator : MonoBehaviour
     /// <summary>
     /// 랜덤하게 장식 바닥 생성
     /// </summary>
-    private void RandomFillDecoTile()
+    private void RandomFillGrassTile()
     {
         // 시드를 사용할것인지 체크
         if (useRandomSeed)
@@ -265,7 +264,7 @@ public class MapGenerator : MonoBehaviour
                     if (neighbourWallTiles >= 1)    // 주변 8칸중에 벽이 한칸이라도 있으면 그대로 바닥으로 인식
                         map[x, y] = 0;
                     else if (neighbourWallTiles < 1) // 아니라면 그 타일은 확률적으로 장식 타일
-                        map[x, y] = (pseudoRandom.Next(0, 100) < randomDecoRange) ? (int)TileType.DECO : (int)TileType.FLOOR; // 바닥인지 장식인지 결정
+                        map[x, y] = (pseudoRandom.Next(0, 100) < randomGrassRange) ? (int)TileType.GRASS : (int)TileType.FLOOR; // 바닥인지 장식인지 결정
                 }
             }
         }
@@ -343,7 +342,7 @@ public class MapGenerator : MonoBehaviour
                     if (neighbourWallTiles > 4) // 주변 8칸중 바닥이 4개보다 많으면 벽으로 전환
                         map[x, y] = (int)TileType.FLOOR;
                     else if (neighbourWallTiles < 4) // 아니라면 그 타일은 바닥
-                        map[x, y] = (int)TileType.DECO;
+                        map[x, y] = (int)TileType.GRASS;
                 }
             }
         }
@@ -382,7 +381,10 @@ public class MapGenerator : MonoBehaviour
         wallTileMap.ClearAllTiles();
         floorTileMap.ClearAllTiles();
         grassTileMap.ClearAllTiles();
-        decoTileMap.ClearAllTiles();
+
+        foreach (GameObject deco in decoObj)
+            Destroy(deco);
+        decoObj.Clear();
 
         for (int x = 0; x < width; x++)
         {
@@ -395,9 +397,17 @@ public class MapGenerator : MonoBehaviour
                         floorTileMap.SetTile(pos, floorTile);
                         break;
                     case (int)TileType.WALL:
-                        wallTileMap.SetTile(pos, wallTile);
+                        wallTileMap.SetTile(pos, wallTile[UnityEngine.Random.Range(0, wallTile.Length)]);
+
+                        // 벽에는 장식 조금 추가
+                        if (UnityEngine.Random.Range(0f, 1f) < 0.1f)
+                        {
+                            GameObject obj = Instantiate(decoPrefab[UnityEngine.Random.Range(0, decoPrefab.Length)], objList);
+                            obj.transform.position = pos;
+                            decoObj.Add(obj);
+                        }
                         break;
-                    case (int)TileType.DECO:
+                    case (int)TileType.GRASS:
                         grassTileMap.SetTile(pos, grassTile[UnityEngine.Random.Range(0, grassTile.Length)]);
                         break;
                     case (int)TileType.NORMAL_COLLECT:
@@ -414,12 +424,6 @@ public class MapGenerator : MonoBehaviour
                         break;
                 }
 
-                // 벽이 아니면 랜덤으로 장식물 심기
-                if (map[x, y] != (int)TileType.WALL)
-                {
-                    if (UnityEngine.Random.Range(0f, 1f) < 0.2f)
-                        decoTileMap.SetTile(pos, decoTile[UnityEngine.Random.Range(0, decoTile.Length)]);
-                }
             }
         }
     }
