@@ -48,10 +48,12 @@ public class Mining_Game : MonoBehaviour
             }
         }
     }
+
     private void Start()
     {
         NewGame();
     }
+
     private void NewGame()
     {
         surfaceState = new Cell[width, height];
@@ -88,7 +90,6 @@ public class Mining_Game : MonoBehaviour
         else return new Cell();
     }
 
-
     private void ShallowDig()
     {
         if (shallowDigCount == 0)
@@ -111,7 +112,6 @@ public class Mining_Game : MonoBehaviour
             return;
         }
 
-
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
             shallowDigCount--;
@@ -120,6 +120,7 @@ public class Mining_Game : MonoBehaviour
             surfaceBoard.Draw(surfaceState);
         }
     }
+
     private void DeepDig()
     {
         //-- 마우스 왼클릭이 깊게 파기
