@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[ExecuteAlways]
 public class Mining_Game : MonoBehaviour
 {
     [SerializeField] private int width = 14;
@@ -16,7 +17,7 @@ public class Mining_Game : MonoBehaviour
 
     [SerializeField] private Cell[,] surfaceState;
     [SerializeField] private Cell[,] underState;
-
+    private bool testCheck = false;
     /*
     //-- 확장하려는 뿌리 길이 값 (최소, 최대)
     //-----------------------------------------------------
@@ -54,10 +55,22 @@ public class Mining_Game : MonoBehaviour
         NewGame();
     }
 
-    private void NewGame()
+    public void NewGame()
     {
+        testCheck = false;
+
         surfaceState = new Cell[width, height];
         underState = new Cell[width, height];
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                surfaceState[i, j].CellInit();
+                underState[i, j].CellInit();
+            }
+        }
+
         GenerateCells();//--게임에 필요한 셀 생성
         GenerateCenter();
         GenerateStartRoot();
@@ -65,13 +78,17 @@ public class Mining_Game : MonoBehaviour
 
         underBoard.CountCellsType(underState, out emptyCount, out plantCount);
 
-        surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
-        underBoard.Draw(underState);
+        if (testCheck)
+            NewGame();
+        else
+        {
+            surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
+            underBoard.Draw(underState);
+        }
     }
 
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(1))    // 좌클릭 깊게 파기
             ShallowDig();
         else if (Input.GetMouseButtonUp(0)) // 우클릭 얕게 파기
@@ -264,15 +281,70 @@ public class Mining_Game : MonoBehaviour
         //-- 이후 각 시작점을 기준으로 뿌리를 생성
 
         foreach (var item in startPlantPos)
+        {
+            //StartCoroutine(ExpansionRoot(item.x, item.y, item.z));
             ExpansionRoot(item.x, item.y, item.z);
-
+        }
         //--뿌리 확장 반복 
     }
 
+    /*
+    IEnumerator ExpansionRoot(int posX, int posY, int expansionLength)
+    {
+        surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
+        underBoard.Draw(underState);
+        yield return new WaitForSeconds(1);
+
+        List<Vector2Int> expansionPos = new List<Vector2Int>();
+        expansionPos.Clear();
+
+        if (expansionLength == 0)
+            yield return null;
+
+        //--검사 시작
+        if (IsValid(posX, posY + 1) && underState[posX, posY + 1].type == Cell.Type.Empty) //--상 
+            expansionPos.Add(new Vector2Int(posX, posY + 1));
+
+        if (IsValid(posX, posY - 1) && underState[posX, posY - 1].type == Cell.Type.Empty) //--하
+            expansionPos.Add(new Vector2Int(posX, posY - 1));
+
+        if (IsValid(posX - 1, posY) && underState[posX - 1, posY].type == Cell.Type.Empty) //--좌
+            expansionPos.Add(new Vector2Int(posX - 1, posY));
+
+        if (IsValid(posX + 1, posY) && underState[posX + 1, posY].type == Cell.Type.Empty) //--우
+            expansionPos.Add(new Vector2Int(posX + 1, posY));
+
+        if (expansionPos.Count == 0) { testCheck = true; yield return null; }//-- 확장 가능성이 없으면 새롭게 다시 시작
+
+
+        //--expansionPos에 추가된 확장 가능한 위치중 랜덤함 위치를 선택해서 확장시킨다.
+        int randomPos = UnityEngine.Random.Range(0, expansionPos.Count);
+        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].number = expansionLength;
+        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].type = Cell.Type.Number;
+
+        underState[expansionPos[randomPos].x, expansionPos[randomPos].y].prevCell =
+            Cell.CalcDirection(new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y), new Vector2Int(posX, posY));
+
+        underState[posX, posY].nextCell =
+            Cell.CalcDirection(new Vector2Int(posX, posY), new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y));
+
+        //state[expansionPos[randomPos].x, expansionPos[randomPos].y].revealed = true;
+        //---------------------------------------------------------------------
+
+        //--확장하려고 하는 뿌리의 길이 만큼 재귀함수 호출 (확장이 된 좌표를 기준으로 다시 위치 설정)
+        if (expansionLength - 1 > 0)
+        {
+            StartCoroutine(ExpansionRoot(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLength - 1));
+        }
+        else
+            yield return null;
+    }
+    */
 
     private void ExpansionRoot(int posX, int posY, int expansionLength)
     {
         List<Vector2Int> expansionPos = new List<Vector2Int>();
+        expansionPos.Clear();
 
         if (expansionLength == 0)
             return;
@@ -290,7 +362,7 @@ public class Mining_Game : MonoBehaviour
         if (IsValid(posX + 1, posY) && underState[posX + 1, posY].type == Cell.Type.Empty) //--우
             expansionPos.Add(new Vector2Int(posX + 1, posY));
 
-        if (expansionPos.Count == 0) { NewGame(); return; }//-- 확장 가능성이 없으면 새롭게 다시 시작
+        if (expansionPos.Count == 0) { testCheck = true; return; }//-- 확장 가능성이 없으면 새롭게 다시 시작
 
 
         //--expansionPos에 추가된 확장 가능한 위치중 랜덤함 위치를 선택해서 확장시킨다.
@@ -298,11 +370,9 @@ public class Mining_Game : MonoBehaviour
         underState[expansionPos[randomPos].x, expansionPos[randomPos].y].number = expansionLength;
         underState[expansionPos[randomPos].x, expansionPos[randomPos].y].type = Cell.Type.Number;
 
-        // 확장 셀 기준 이전 셀은 (확장 셀 - 기준 셀)
         underState[expansionPos[randomPos].x, expansionPos[randomPos].y].prevCell =
             Cell.CalcDirection(new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y), new Vector2Int(posX, posY));
 
-        // 이전 셀 기준 다음 셀은 (이전 셀 - 현재 셀)
         underState[posX, posY].nextCell =
             Cell.CalcDirection(new Vector2Int(posX, posY), new Vector2Int(expansionPos[randomPos].x, expansionPos[randomPos].y));
 
@@ -311,9 +381,8 @@ public class Mining_Game : MonoBehaviour
 
         //--확장하려고 하는 뿌리의 길이 만큼 재귀함수 호출 (확장이 된 좌표를 기준으로 다시 위치 설정)
         ExpansionRoot(expansionPos[randomPos].x, expansionPos[randomPos].y, expansionLength - 1);
-
     }
-    
+
     private void EndGame()
     {
 

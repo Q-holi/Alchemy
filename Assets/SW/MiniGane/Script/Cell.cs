@@ -1,5 +1,7 @@
 
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public struct Cell 
 {
@@ -21,6 +23,18 @@ public struct Cell
     [SerializeField] public int cutCount; //-- 식물의 뿌리가 몇번 정도 잘렸는지 카운트
     [SerializeField] public Vector2Int prevCell;
     [SerializeField] public Vector2Int nextCell;
+
+
+    public void CellInit()
+    {
+        position = Vector3Int.zero;
+        type = Type.Invalid;
+        number = 0;
+        isRevealed = false;
+        cutCount = 0;
+        prevCell = Vector2Int.zero;
+        nextCell = Vector2Int.zero;
+    }
 
     public static Vector2Int CalcDirection(Vector2Int target, Vector2Int compare)
     {

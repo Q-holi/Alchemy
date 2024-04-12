@@ -59,7 +59,7 @@ public class Under : MonoBehaviour
         {
             case Cell.Type.Empty: return dirtTile;
             case Cell.Type.Center: return cutPlant;
-            case Cell.Type.StartPlant: return Numbertile(cell);
+            case Cell.Type.StartPlant: return expansionPlant[6];
             case Cell.Type.CUT: return cutPlant;
             case Cell.Type.Number: return Numbertile(cell);
             default: return null;

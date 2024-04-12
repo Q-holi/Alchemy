@@ -6,16 +6,18 @@ public static class Settings
     public const float targetAlpha = 0.45f;
 
     public const float gridCellSize = 1.0f;
+    public static Vector2 cursorSize = Vector2.one;
 
     //-- 플레이어 걷기 뛰기 속도
     public const float runSpeed = 5.0f;
     public const float walkSpeed = 2.0f;
+    public static float useToolAnimationPause = 0.25f;
+    public static float afterUseToolAnimationPause = 0.2f;
 
     //--인벤토리 칸
     public static int playerInventoryCapacity = 24;
     public static int playerMAxInventoryCapacity = 48;
-
-
+    
     public static int xInput;
     public static int yInput;
     public static int isWalking;

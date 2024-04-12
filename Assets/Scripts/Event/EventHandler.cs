@@ -12,6 +12,14 @@ public delegate void MovementDelegate(float inputX, float inputY, bool isWalking
 
 public static class EventHandler
 {
+
+    //Drop selected item Event
+    public static event Action DropSelectedItemEvent;
+    public static void CallDropSelectedItemEvent()
+    {
+        if(DropSelectedItemEvent != null)
+            DropSelectedItemEvent();
+    }
     public static event MovementDelegate movementEvent;
     public static void CallMovementEvent(float inputX, float inputY, bool isWalking, bool isRunning, bool isIdle, bool isCarrying, ToolEffect toolEffect,
     bool isUsingToolRight, bool isUsingToolLeft, bool isUsingToolUp, bool isUsingToolDown,
