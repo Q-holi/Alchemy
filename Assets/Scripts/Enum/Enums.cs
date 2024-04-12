@@ -81,12 +81,12 @@ public enum AnimationName
 
 public enum CharacterPartAnimator
 {
-    body,
-    arms,
-    hair,
-    tool,
-    hat,
-    count
+    Body,
+    Arms,
+    Hair,
+    Tool,
+    Hat,
+    Count
 }
 
 public enum PartVariantColour

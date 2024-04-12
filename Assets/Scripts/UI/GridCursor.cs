@@ -73,13 +73,13 @@ public class GridCursor : MonoBehaviour
 
     private void SetCursorValidity(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)
     {
-        //SetCursorToValid();
+        SetCursorToValid();
 
         // Check item use radius is valid
         if (Mathf.Abs(cursorGridPosition.x - playerGridPosition.x) > ItemUseGridRadius
         || Mathf.Abs(cursorGridPosition.y - playerGridPosition.y) > ItemUseGridRadius)
         {
-            //SetCursorToInvalid();
+            SetCursorToInvalid();
             return;
         }
         // Get selected item details
@@ -87,14 +87,123 @@ public class GridCursor : MonoBehaviour
 
         if (itemDetails == null)
         {
-
-            //SetCursorToInvalid();
+            SetCursorToInvalid();
             return;
         }
         // Get grid property details at cursor position
         GridPropertyDetails gridPropertyDetails = GridPropertiesManager.Instance.GetGridPropertyDetails(cursorGridPosition.x, cursorGridPosition.y);
-
+        if (gridPropertyDetails != null)
+        {
+            // Determine cursor validity based on inventory item selected and grid property details
+            switch (itemDetails.itemType)
+            {
+                case ItemType.Seed:
+                    if (!IsCursorValidForSeed(gridPropertyDetails))
+                    {
+                        SetCursorToInvalid();
+                        return;
+                    }
+                    break;
+                case ItemType.Commodity:
+                    if (!IsCursorValidForCommodity(gridPropertyDetails))
+                    {
+                        SetCursorToInvalid();
+                        return;
+                    }
+                    break;
+                case ItemType.Hoeing_tool:
+                    if (!IsCursorValidForTool(gridPropertyDetails,itemDetails))
+                    {
+                        SetCursorToInvalid();
+                        return;
+                    }
+                    break;
+                case ItemType.none:
+                    break;
+                case ItemType.count:
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            SetCursorToInvalid();
+            return;
+        }
     }
+
+    private bool IsCursorValidForTool(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails)
+    {
+        switch (itemDetails.itemType)
+        {
+            case ItemType.Hoeing_tool:
+                if (gridPropertyDetails.isDiggable == true && gridPropertyDetails.daysSinceDug == -1)
+                {
+                    Vector3 cursorWorldPosition = new Vector3(GetWorldPositionForCursor().x + 0.5f, GetWorldPositionForCursor().y + 0.5f, 0f);
+
+                    // Get list of items at cursor location
+                    List<Item> itemList = new List<Item>();
+
+                    HelperMethods.GetComponentsAtBoxLocation<Item>(out itemList, cursorWorldPosition, Settings.cursorSize, 0f);
+
+                    // Loop through items found to see if any are reapable type - we are not going to let the player dig where there are reapable scenary items
+                    bool foundReapable = false;
+
+                    foreach (Item item in itemList)
+                    {
+                        if (InventoryManager.Instance.GetItemDetails(item.ItemCode).itemType == ItemType.Reapable_scenary)
+                        {
+                            foundReapable = true;
+                            break;
+                        }
+                    }
+
+                    if (foundReapable)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    private Vector3 GetWorldPositionForCursor()
+    {
+        return grid.CellToWorld(GetGridPositionForCursor());
+    }
+
+    private bool IsCursorValidForSeed(GridPropertyDetails gridPropertyDetails)
+    {
+        return gridPropertyDetails.canDropItem;
+    }
+    private bool IsCursorValidForCommodity(GridPropertyDetails gridPropertyDetails)
+    {
+
+        return gridPropertyDetails.canDropItem;
+    }
+
+    private void SetCursorToInvalid()
+    {
+        cursorImage.sprite = redCursorSprite;
+        CursorPositionIsValid = false;
+    }
+
+    private void SetCursorToValid()
+    {
+        cursorImage.sprite = greenCursorSprite;
+        CursorPositionIsValid = true;
+    }
+
 
     public void DisableCursor()
     {
@@ -106,13 +215,13 @@ public class GridCursor : MonoBehaviour
         cursorImage.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         CursorIsEnabled = true;
     }
-    private Vector3Int GetGridPositionForCursor()
+    public Vector3Int GetGridPositionForCursor()
     {
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -mainCamera.transform.position.z));
         return grid.WorldToCell(worldPosition);
     }
 
-    private Vector3Int GetGridPositionForPlayer()
+    public Vector3Int GetGridPositionForPlayer()
     {
         return grid.WorldToCell(Player.Instance.transform.position);
     }
