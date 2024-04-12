@@ -11,6 +11,7 @@ public class UI_InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     #region 변수
     private Camera _camera;
     private Canvas parentCanvas;
+    private GridCursor gridCursor;
     private Transform parentItem;
     private GameObject draggedItem;
 
@@ -36,23 +37,31 @@ public class UI_InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     private void OnEnable()
     {
         EventHandler.AfterSceneLoadEvent += SceneLoaded;
+        EventHandler.DropSelectedItemEvent += DropSelectedItemAtMousePosition;
     }
     private void Start()
     {
         _camera = Camera.main;
+        gridCursor = GameObject.FindObjectOfType<GridCursor>(); 
     }
     private void OnDisable()
     {
         EventHandler.AfterSceneLoadEvent -= SceneLoaded;
+        EventHandler.DropSelectedItemEvent -= DropSelectedItemAtMousePosition;
     }
-    #endregion
 
+    #endregion
+    private void ClearCursor()
+    {
+        gridCursor.DisableCursor();
+        gridCursor.SelectedItemType = ItemType.none;    
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (itemDetails != null)
         {
             // Disable keyboard input
-            //Player.Instance.DisablePlayerInputAndResetMovement();
+            Player.Instance.DisablePlayerInputAndResetMovement();
 
             // Instatiate gameobject as dragged item
             draggedItem = Instantiate(inventoryBar.inventoryBarDraggedItem, inventoryBar.transform);
@@ -96,20 +105,19 @@ public class UI_InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 }
             }
             // Enable player input
-            //Player.Instance.EnablePlayerInput();
+            Player.Instance.EnablePlayerInput();
         }
     }
     private void DropSelectedItemAtMousePosition()
     {
         if (itemDetails != null && isSelected)
         {
-            Vector3 worldPosition = _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -_camera.transform.position.z));
+            //Vector3Int gridPosition = GridPropertiesManager.Instance.grid.WorldToCell(worldPosition);
+            //GridPropertyDetails gridPropertyDetails = GridPropertiesManager.Instance.GetGridPropertyDetails(gridPosition.x, gridPosition.y);
 
-            Vector3Int gridPosition = GridPropertiesManager.Instance.grid.WorldToCell(worldPosition);
-            GridPropertyDetails gridPropertyDetails = GridPropertiesManager.Instance.GetGridPropertyDetails(gridPosition.x, gridPosition.y);
-
-            if (gridPropertyDetails != null && gridPropertyDetails.canDropItem)
+            if (gridCursor.CursorPositionIsValid)
             {
+                Vector3 worldPosition = _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -_camera.transform.position.z));
                 // Create item from prefab at mouse position
                 GameObject itemGameObject = Instantiate(itemPrefab, new Vector3(worldPosition.x, worldPosition.y - Settings.gridCellSize / 2.0f,worldPosition.z), Quaternion.identity, parentItem);
                 Item item = itemGameObject.GetComponent<Item>();
@@ -193,24 +201,45 @@ public class UI_InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     {
         inventoryBar.ClearHighlightOnInventorySlots();
 
-        // Highlight item on inventory bar
+        // 선택한  InventorySolt 하이라이트 활성화 
         isSelected = true;
 
         // Set highlighted inventory slots
         inventoryBar.SetHighlightedInventorySlots();
 
+        // Set use radius for cursors
+        gridCursor.ItemUseGridRadius = itemDetails.itemUseGridRadius;
+
+        // If item requires a grid cursor then enable cursor
+        if (itemDetails.itemUseGridRadius > 0)
+            gridCursor.EnableCursor();
+        else
+            gridCursor.DisableCursor();
+
+        gridCursor.SelectedItemType = itemDetails.itemType;
+
         // Set item selected in inventory
         InventoryManager.Instance.SetSelectedInventoryItem(InventoryLocation.player, itemDetails.itemCode);
+
+        //--인벤토리Slot에서 선택한 아이템이 들수있는 아이템인지 확인 후 플레이어에게 아이템코드를 넘겨준다.
+        if(itemDetails.canBeDropped == true)
+            Player.Instance.ShowCarriedItem(itemDetails.itemCode);
+        else
+            Player.Instance.ClearCarriedItem();
     }
 
     private void ClearSelectedItem()
     {
+        ClearCursor();
+         
         inventoryBar.ClearHighlightOnInventorySlots();
 
         isSelected = false;
 
         // set no item selected in inventory
         InventoryManager.Instance.ClearSelectedInventoryItem(InventoryLocation.player);
+
+        Player.Instance.ClearCarriedItem();
     }
 
     public void SceneLoaded()

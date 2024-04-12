@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-
+[RequireComponent(typeof(GenerateGUID))]
 public class SaveLoadManager : Singleton<SaveLoadManager>
 {
     public GameSave gameSave;
