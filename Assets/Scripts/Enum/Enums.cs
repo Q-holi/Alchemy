@@ -127,7 +127,8 @@ public enum SceneName
 {
     Farm,
     Scene2_Field,
-    Scene3_Cabin
+    Scene3_Cabin,
+    Forest
 }
 public enum ItemRating
 {

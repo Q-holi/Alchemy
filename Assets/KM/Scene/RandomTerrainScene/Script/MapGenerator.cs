@@ -16,6 +16,7 @@ public enum TileType
     LEGEND_COLLECT
 }
 
+[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
     // 타일을 그릴 타일 맵
