@@ -16,7 +16,6 @@ public enum TileType
     LEGEND_COLLECT
 }
 
-[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
     // 타일을 그릴 타일 맵
@@ -401,7 +400,7 @@ public class MapGenerator : MonoBehaviour
                         wallTileMap.SetTile(pos, wallTile[UnityEngine.Random.Range(0, wallTile.Length)]);
 
                         // 벽에는 장식 조금 추가
-                        if (UnityEngine.Random.Range(0f, 1f) < 0.1f)
+                        if (UnityEngine.Random.Range(0f, 1f) < 0.05f)
                         {
                             GameObject obj = Instantiate(decoPrefab[UnityEngine.Random.Range(0, decoPrefab.Length)], objList);
                             obj.transform.position = pos;
