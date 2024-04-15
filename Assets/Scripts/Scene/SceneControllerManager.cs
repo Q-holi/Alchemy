@@ -57,7 +57,6 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
         SaveLoadManager.Instance.StoreCurrentSceneData();
 
         // Set player position
-
         Player.Instance.gameObject.transform.position = spawnPosition;
 
         // Call before scene unload event.
@@ -68,6 +67,12 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
 
         // Start loading the given scene and wait for it to finish.
         yield return StartCoroutine(LoadSceneAndSetActive(sceneName));
+
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += OnSceneLoaded;
+        // 씬 로드 완료 시 호출될 콜백 함수
+
+        if (EventHandler.CallSetSpawnPointEvent() != Vector3.zero)
+            Player.Instance.gameObject.transform.position = EventHandler.CallSetSpawnPointEvent();
 
         // Call after scene load event
         EventHandler.CallAfterSceneLoadEvent();
@@ -129,5 +134,17 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
     {
         if (!isFading)
             StartCoroutine(FadeAndSwitchScenes(sceneName, spawnPosition));
+    }
+
+    private void OnSceneLoaded(AsyncOperation operation)
+    {
+        // 로드된 씬에 있는 특정 게임 오브젝트의 스크립트를 실행하는 예시
+        GameObject loadedSceneRoot = SceneManager.GetSceneByName("Forest").GetRootGameObjects()[0];
+        MapGenerator yourScript = loadedSceneRoot.GetComponent<MapGenerator>();
+        if (yourScript != null)
+        {
+            // 특정 스크립트의 함수 호출 등 실행
+            yourScript.GenerateMap();
+        }
     }
 }
