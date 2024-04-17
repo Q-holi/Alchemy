@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using UnityEditor;
@@ -29,6 +30,9 @@ public class Mining_Game : MonoBehaviour
     [SerializeField] private int shallowDigCount = 25;
     [SerializeField] private int emptyCount;
     [SerializeField] private int plantCount;
+
+    [SerializeField] private TextMeshProUGUI remainDigCounter;
+    [SerializeField] private TextMeshProUGUI remainTileCounter;
 
     private bool IsValid(int x, int y) { return x >= 0 && x < width && y >= 0 && y < height; }
 
