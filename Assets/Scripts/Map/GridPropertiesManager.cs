@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,16 +9,20 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(GenerateGUID))]
 public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
 {
+    #region 변수
     private Transform cropParentTransform;
     private Tilemap groundDecoration1;
     private Tilemap groundDecoration2;
     public Grid grid;
     [SerializeField] private Dictionary<string, GridPropertyDetails> gridPropertyDictionary;
+    [SerializeField] private SO_CropDetailsList so_CropDetailsList = null;
     [SerializeField] private SO_GridProperties[] so_gridPropertiesArray = null;
     [SerializeField] private Tile[] dugGround = null;
+    [SerializeField] private Tile[] waterGround = null;
+    #endregion
+
     private string _iSaveableUniqueID;
     public string ISaveableUniqueID { get { return _iSaveableUniqueID; } set { _iSaveableUniqueID = value; } }
-
     private GameObjectSave _gameObjectSave;
     public GameObjectSave GameObjectSave { get { return _gameObjectSave; } set { _gameObjectSave = value; } }
 
@@ -34,12 +39,15 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
     {
         ISaveableRegister();
         EventHandler.AfterSceneLoadEvent += AfterSceneLoaded;
+        EventHandler.AdvanceGameDayEvent += AdvancDay;
     }
     private void OnDisable()
     {
         ISaveableDeregister();
         EventHandler.AfterSceneLoadEvent -= AfterSceneLoaded;
+        EventHandler.AdvanceGameDayEvent -= AdvancDay;
     }
+
     private void Start()
     {
         InitialiseGridProperties();
@@ -51,11 +59,97 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
         groundDecoration1.ClearAllTiles();
         groundDecoration2.ClearAllTiles();
     }
+    private void ClearDisplayAllPlantedCrops()
+    {
+        // Destroy all crops in scene
+        Crop[] cropArray;
+        cropArray = FindObjectsOfType<Crop>();
+        foreach (Crop crop in cropArray)
+        {
+            Destroy(crop.gameObject);
+        }
+    }
     private void ClearDisplayGridPropertyDetails()
     {
         ClearDisplayGroundDecorations();
+
+        ClearDisplayAllPlantedCrops();
+    }
+    private void DisplayGridPropertyDetails()
+    {
+        // Loop through all grid items
+        foreach (KeyValuePair<string, GridPropertyDetails> item in gridPropertyDictionary)
+        {
+            GridPropertyDetails gridPropertyDetails = item.Value;
+
+            DisplayDugGround(gridPropertyDetails);
+            DisplayWaterGround(gridPropertyDetails);
+            DisplayPlantedCrop(gridPropertyDetails);
+        }
     }
 
+    /// <summary>
+    /// ConnectDugGround(gridPropertyDetails) 호출
+    /// </summary>
+    /// <param name="gridPropertyDetails"></param>
+    public void DisplayDugGround(GridPropertyDetails gridPropertyDetails)
+    {
+        // Dug
+        if (gridPropertyDetails.daysSinceDug > -1)
+        {
+            ConnectDugGround(gridPropertyDetails);
+        }
+    }
+
+    public void DisplayWaterGround(GridPropertyDetails gridPropertyDetails)
+    {
+        // Dug
+        if (gridPropertyDetails.daysSinceWatered > -1)
+        {
+            ConnectWaterGround(gridPropertyDetails);
+        }
+    }
+
+    private void DisplayPlantedCrop(GridPropertyDetails gridPropertyDetails)
+    {
+        if(gridPropertyDetails.seedItemCode > -1)
+        {
+            // 작물 스크립트 오브젝에 있는 Detail내용을 가져온다.
+            CropDetails cropDetails = so_CropDetailsList.GetCropDetails(gridPropertyDetails.seedItemCode);
+
+            // ▼▼▼ 해당 작물에 대한 Prefab을 가져올 변수 
+            GameObject cropPrefab;
+            
+            int growthStages = cropDetails.growthDays.Length;//-- 성장에 필요한 일수의 배열길이를 가져오기 (각 배열 안에 다음 단계로 성장에 필요한 일수가 들어있다.)
+
+            int currentGrowthStage = 0;
+            int daysCounter = cropDetails.totalGrowthDays;//--성장에 필요한 총 일수를 가져온다.
+            for (int i = growthStages - 1; i >= 0; i--)
+            {
+                if (gridPropertyDetails.growthDays >= daysCounter)
+                {
+                    currentGrowthStage = i;
+                    break;
+                }
+                daysCounter = daysCounter - cropDetails.growthDays[i];
+            }
+            //-- so_CropDetailsList에서 성장단계별 Prefab가져오기
+            cropPrefab = cropDetails.growthPrefab[currentGrowthStage];
+            //-- 성장단계별 행당하는 Sprite이미지 가져오기
+            Sprite growthSprite = cropDetails.growthSprite[currentGrowthStage];
+
+            Vector3 worldPosition = groundDecoration2.CellToWorld(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY, 0));
+
+            worldPosition = new Vector3(worldPosition.x + Settings.gridCellSize / 2, worldPosition.y, worldPosition.z);
+
+            GameObject cropInstance = Instantiate(cropPrefab, worldPosition, Quaternion.identity);
+
+            cropInstance.GetComponentInChildren<SpriteRenderer>().sprite = growthSprite;
+            cropInstance.transform.SetParent(cropParentTransform);
+            cropInstance.GetComponent<Crop>().cropGridPosition = new Vector2Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY);
+
+        }
+    }
     private void InitialiseGridProperties()
     {
         // Loop through all gridproperties in the array
@@ -199,17 +293,23 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
         // Add scene save to game object scene data
         GameObjectSave.sceneData.Add(sceneName, sceneSave);
     }
+
     private void AfterSceneLoaded()
     {
+        if (GameObject.FindGameObjectWithTag(Tags.CropParentTransform) != null)
+        {
+            cropParentTransform = GameObject.FindGameObjectWithTag(Tags.CropParentTransform).transform;
+        }
+        else
+        {
+            cropParentTransform = null;
+        }
+
         grid = GameObject.FindAnyObjectByType<Grid>();
         // Get tilemaps
         groundDecoration1 = GameObject.FindGameObjectWithTag(Tags.GroundDecoration1).GetComponent<Tilemap>();
         groundDecoration2 = GameObject.FindGameObjectWithTag(Tags.GroundDecoration2).GetComponent<Tilemap>();
     }
-
-    /// <summary>
-    /// Set the grid property details to gridPropertyDetails for the tile at (gridX,gridY) for current scene
-    /// </summary>
 
     public void SetGridPropertyDetails(int gridX, int gridY, GridPropertyDetails gridPropertyDetails)
     {
@@ -217,42 +317,24 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
     }
 
     /// <summary>
-    /// Set the grid property details to gridPropertyDetails for the tile at (gridX,gridY) for the gridpropertyDictionary.
+    ///gridPropertyDictionary에 전달받은 gridPropertyDetails의 정보를 저장한다. 
     /// </summary>
+    /// <param name="gridX"></param>
+    /// <param name="gridY"></param>
+    /// <param name="gridPropertyDetails"></param>
+    /// <param name="gridPropertyDictionary"></param>
     public void SetGridPropertyDetails(int gridX, int gridY, GridPropertyDetails gridPropertyDetails, Dictionary<string, GridPropertyDetails> gridPropertyDictionary)
     {
-        // Construct key from coordinate
+        // gridPropertyDictionary에 접근 하기 위한 좌표 Key값
         string key = "x" + gridX + "y" + gridY;
 
         gridPropertyDetails.gridX = gridX;
         gridPropertyDetails.gridY = gridY;
 
-        // Set value
+        // gridPropertyDictionary에 변경된 gridPropertyDetail 을 적용시킨다. 
         gridPropertyDictionary[key] = gridPropertyDetails;
     }
 
-    private void DisplayGridPropertyDetails()
-    {
-        // Loop through all grid items
-        foreach (KeyValuePair<string, GridPropertyDetails> item in gridPropertyDictionary)
-        {
-            GridPropertyDetails gridPropertyDetails = item.Value;
-
-            DisplayDugGround(gridPropertyDetails);
-        }
-    }
-    /// <summary>
-    /// ConnectDugGround(gridPropertyDetails) 호출
-    /// </summary>
-    /// <param name="gridPropertyDetails"></param>
-    public void DisplayDugGround(GridPropertyDetails gridPropertyDetails)
-    {
-        // Dug
-        if (gridPropertyDetails.daysSinceDug > -1)
-        {
-            ConnectDugGround(gridPropertyDetails);
-        }
-    }
     /// <summary>
     /// 클릭한 지형포함 4방향 (상,하,좌,우) 총5지형을 검사 후 상황에 맞는 Tile로변경한다. 
     /// </summary>
@@ -295,6 +377,44 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
             groundDecoration1.SetTile(new Vector3Int(gridPropertyDetails.gridX + 1, gridPropertyDetails.gridY, 0), dugTile4);
         }
     }
+
+    private void ConnectWaterGround(GridPropertyDetails gridPropertyDetails)
+    {
+        // Select tile based on surrounding watered tiles
+
+        Tile wateredTile0 = SetWateredTile(gridPropertyDetails.gridX, gridPropertyDetails.gridY);
+        groundDecoration2.SetTile(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY, 0), wateredTile0);
+
+        // Set 4 tiles if watered surrounding current tile - up, down, left, right now that this central tile has been watered
+
+        GridPropertyDetails adjacentGridPropertyDetails;
+
+        adjacentGridPropertyDetails = GetGridPropertyDetails(gridPropertyDetails.gridX, gridPropertyDetails.gridY + 1);
+        if (adjacentGridPropertyDetails != null && adjacentGridPropertyDetails.daysSinceWatered > -1)
+        {
+            Tile wateredTile1 = SetWateredTile(gridPropertyDetails.gridX, gridPropertyDetails.gridY + 1);
+            groundDecoration2.SetTile(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY + 1, 0), wateredTile1);
+        }
+        adjacentGridPropertyDetails = GetGridPropertyDetails(gridPropertyDetails.gridX, gridPropertyDetails.gridY - 1);
+        if (adjacentGridPropertyDetails != null && adjacentGridPropertyDetails.daysSinceWatered > -1)
+        {
+            Tile wateredTile2 = SetWateredTile(gridPropertyDetails.gridX, gridPropertyDetails.gridY - 1);
+            groundDecoration2.SetTile(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY - 1, 0), wateredTile2);
+        }
+        adjacentGridPropertyDetails = GetGridPropertyDetails(gridPropertyDetails.gridX - 1, gridPropertyDetails.gridY);
+        if (adjacentGridPropertyDetails != null && adjacentGridPropertyDetails.daysSinceWatered > -1)
+        {
+            Tile wateredTile3 = SetWateredTile(gridPropertyDetails.gridX - 1, gridPropertyDetails.gridY);
+            groundDecoration2.SetTile(new Vector3Int(gridPropertyDetails.gridX - 1, gridPropertyDetails.gridY, 0), wateredTile3);
+        }
+        adjacentGridPropertyDetails = GetGridPropertyDetails(gridPropertyDetails.gridX + 1, gridPropertyDetails.gridY);
+        if (adjacentGridPropertyDetails != null && adjacentGridPropertyDetails.daysSinceWatered > -1)
+        {
+            Tile wateredTile4 = SetWateredTile(gridPropertyDetails.gridX + 1, gridPropertyDetails.gridY);
+            groundDecoration2.SetTile(new Vector3Int(gridPropertyDetails.gridX + 1, gridPropertyDetails.gridY, 0), wateredTile4);
+        }
+    }
+
     /// <summary>
     /// 클릭한 grid tile 밑 4방향(상,하,좌,우) tile이 변경되어 있는지 확인하고 상황에 맞는 타일은 선택하여 반환
     /// </summary>
@@ -381,6 +501,86 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
 
         #endregion Set appropriate tile based on whether surrounding tiles are dug or not
     }
+
+    private Tile SetWateredTile(int xGrid, int yGrid)
+    {
+        bool upWater = IsGridSquareWater(xGrid, yGrid + 1);
+        bool downWater = IsGridSquareWater(xGrid, yGrid - 1);
+        bool leftWater = IsGridSquareWater(xGrid - 1, yGrid);
+        bool rightWater = IsGridSquareWater(xGrid + 1, yGrid);
+
+        #region 주변 타일의 상태와 맞게 tile 이미지를 반환
+
+        if (!upWater && !downWater && !rightWater && !leftWater)
+        {
+            return waterGround[0];
+        }
+        else if (!upWater && downWater && rightWater && !leftWater)
+        {
+            return waterGround[1];
+        }
+        else if (!upWater && downWater && rightWater && leftWater)
+        {
+            return waterGround[2];
+        }
+        else if (!upWater && downWater && !rightWater && leftWater)
+        {
+            return waterGround[3];
+        }
+        else if (!upWater && downWater && !rightWater && !leftWater)
+        {
+            return waterGround[4];
+        }
+        else if (upWater && downWater && rightWater && !leftWater)
+        {
+            return waterGround[5];
+        }
+        else if (upWater && downWater && rightWater && leftWater)
+        {
+            return waterGround[6];
+        }
+        else if (upWater && downWater && !rightWater && leftWater)
+        {
+            return waterGround[7];
+        }
+        else if (upWater && downWater && !rightWater && !leftWater)
+        {
+            return waterGround[8];
+        }
+        else if (upWater && !downWater && rightWater && !leftWater)
+        {
+            return waterGround[9];
+        }
+        else if (upWater && !downWater && rightWater && leftWater)
+        {
+            return waterGround[10];
+        }
+        else if (upWater && !downWater && !rightWater && leftWater)
+        {
+            return waterGround[11];
+        }
+        else if (upWater && !downWater && !rightWater && !leftWater)
+        {
+            return waterGround[12];
+        }
+        else if (!upWater && !downWater && rightWater && !leftWater)
+        {
+            return waterGround[13];
+        }
+        else if (!upWater && !downWater && rightWater && leftWater)
+        {
+            return waterGround[14];
+        }
+        else if (!upWater && !downWater && !rightWater && leftWater)
+        {
+            return waterGround[15];
+        }
+
+        return null;
+
+        #endregion
+    }
+
     /// <summary>
     /// 전달해준 grid 속성중 땅을 호미로 파낸 부분인지 확인
     /// </summary>
@@ -403,5 +603,55 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
         {
             return false;
         }
+    }
+    private bool IsGridSquareWater(int xGrid, int yGrid)
+    {
+        GridPropertyDetails gridPropertyDetails = GetGridPropertyDetails(xGrid, yGrid);
+
+        if (gridPropertyDetails == null)
+        {
+            return false;
+        }
+        else if (gridPropertyDetails.daysSinceWatered > -1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private void AdvancDay(int gameYear, Season gmaeSeason, int gameDay, string gameDayOfWeek, int gameHour, int gameMinute, int gameSecond)
+    {
+        // Clear Display All Grid Property Details
+        ClearDisplayGridPropertyDetails();
+        // Loop through all scenes - by looping through all gridproperties in the array
+        foreach (SO_GridProperties so_GridProperties in so_gridPropertiesArray)
+        {
+            // Get gridpropertydetails dictionary for scene
+            if (GameObjectSave.sceneData.TryGetValue(so_GridProperties.sceneName.ToString(), out SceneSave sceneSave))
+            {
+                if (sceneSave.gridPropertyDetailsDictionary != null)
+                {
+                    for (int i = sceneSave.gridPropertyDetailsDictionary.Count - 1; i >= 0; i--)
+                    {
+                        KeyValuePair<string, GridPropertyDetails> item = sceneSave.gridPropertyDetailsDictionary.ElementAt(i);
+
+                        GridPropertyDetails gridPropertyDetails = item.Value;
+
+                        #region Update all grid properties to reflect the advance in the day
+                        // If ground is watered, then clear water
+                        if (gridPropertyDetails.daysSinceWatered > -1)
+                        {
+                            gridPropertyDetails.daysSinceWatered = -1;
+                        }
+                        // Set gridpropertydetails
+                        SetGridPropertyDetails(gridPropertyDetails.gridX, gridPropertyDetails.gridY, gridPropertyDetails, sceneSave.gridPropertyDetailsDictionary);
+                        #endregion Update all grid properties to reflect the advance in the day
+                    }
+                }
+            }
+        }
+        DisplayGridPropertyDetails();
     }
 }

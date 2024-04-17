@@ -17,9 +17,20 @@ public static class EventHandler
     public static event Action DropSelectedItemEvent;
     public static void CallDropSelectedItemEvent()
     {
-        if(DropSelectedItemEvent != null)
+        if (DropSelectedItemEvent != null)
             DropSelectedItemEvent();
     }
+
+    // Remove selected item from inventory
+    public static event Action RemoveSelectedItemFromInventoryEvent;
+    public static void CallRemoveSelectedItemFromInventoryEvent()
+    {
+        if (RemoveSelectedItemFromInventoryEvent != null)
+        {
+            RemoveSelectedItemFromInventoryEvent();
+        }
+    }
+
     public static event MovementDelegate movementEvent;
     public static void CallMovementEvent(float inputX, float inputY, bool isWalking, bool isRunning, bool isIdle, bool isCarrying, ToolEffect toolEffect,
     bool isUsingToolRight, bool isUsingToolLeft, bool isUsingToolUp, bool isUsingToolDown,

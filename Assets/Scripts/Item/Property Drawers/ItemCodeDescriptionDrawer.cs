@@ -44,7 +44,7 @@ public class ItemCodeDescriptionDrawer : PropertyDrawer
 
         SO_ItemList so_itemList;
 
-        so_itemList = AssetDatabase.LoadAssetAtPath("Assets/Scriptable Object Assets/Item/so_ItemList.asset", typeof(SO_ItemList)) as SO_ItemList;
+        so_itemList = AssetDatabase.LoadAssetAtPath("Assets/SW/Scriptable Object Assets/Item/so_ItemList.asset", typeof(SO_ItemList)) as SO_ItemList;
         //--지정한 경로에 있는 스크립터블 오브젝트 내용을 가져오기
 
         List<ItemDetails> itemDetailsList = so_itemList.itemDetails;
