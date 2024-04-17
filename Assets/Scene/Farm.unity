@@ -3256,11 +3256,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5593985624509267782, guid: b5ec72b628ab4b94f851c279535f462b,
         type: 3}
-      propertyPath: testPoint
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5593985624509267782, guid: b5ec72b628ab4b94f851c279535f462b,
-        type: 3}
       propertyPath: sceneNameGoTo
       value: 3
       objectReference: {fileID: 0}
