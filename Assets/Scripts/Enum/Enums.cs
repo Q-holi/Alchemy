@@ -88,7 +88,15 @@ public enum CharacterPartAnimator
     Hat,
     Count
 }
-
+public enum HarvestActionEffect
+{
+    DeciduousLeavesFalling,
+    PineConesFalling,
+    ChoppingTreeTrunk,
+    BreakingStone,
+    Reaping,
+    None
+}
 public enum PartVariantColour
 { 
     none,

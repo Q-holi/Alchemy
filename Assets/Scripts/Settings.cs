@@ -12,7 +12,9 @@ public static class Settings
     public const float runSpeed = 5.0f;
     public const float walkSpeed = 2.0f;
     public static float useToolAnimationPause = 0.25f;
+    public static float liftToolAnimationPause = 0.4f;
     public static float afterUseToolAnimationPause = 0.2f;
+    public static float afterLiftToolAnimationPause = 0.4f;
 
     //--인벤토리 칸
     public static int playerInventoryCapacity = 24;
