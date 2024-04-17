@@ -63,6 +63,7 @@ public class Player : Singleton<Player>
         characterAttributeCustomisationList = new List<CharacterAttribute>();
         camera = Camera.main;
     }
+
     private void Start()
     {
         gridCursor = FindObjectOfType<GridCursor>();
@@ -87,8 +88,8 @@ public class Player : Singleton<Player>
             false, false, false, false);
         }
         #endregion
-
     }
+
     private void FixedUpdate()
     {
         PlayerMovement();
@@ -170,7 +171,7 @@ public class Player : Singleton<Player>
         isIdle = false;
         movementSpeed = Settings.runSpeed;
 
-        // ??????怨룹꽑 ??????꾩렮維싧젆?
+        // 플레이어가 바라보는 방향
         if (xInput < 0)
             playerDirection = Direction.LEFT;
         else if (xInput > 0)
