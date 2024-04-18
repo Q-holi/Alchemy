@@ -10,7 +10,7 @@ public class TilemapGridProperties : MonoBehaviour
     private Tilemap tilemap;
     [SerializeField] private SO_GridProperties gridProperties = null;
     [SerializeField] private GridBoolProperty gridBoolProperty = GridBoolProperty.diggable;
-    // Start is called before the first frame update
+
     private void OnEnable()
     {
         if (!Application.IsPlaying(gameObject))
@@ -39,7 +39,7 @@ public class TilemapGridProperties : MonoBehaviour
 
     private void UpdateGridProperties()
     {
-        // Compress timemap bounds
+        // 타일맵의 바운딩 박스를 최소 크기로 압축하여, 비어있는 영역이나 빈 타일이 있는 경우에도 바운딩 박스를 최적화합니다
         tilemap.CompressBounds();
 
         // Only populate in the editor
