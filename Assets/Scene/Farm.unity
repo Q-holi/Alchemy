@@ -19497,7 +19497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &2402915947186562775
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -42948,7 +42948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3223489187492220951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43042,7 +43042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &3440161746346204387
 GameObject:
   m_ObjectHideFlags: 0
@@ -43728,7 +43728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &4068086407105098261
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -105354,7 +105354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6995980395588780217
 Transform:
   m_ObjectHideFlags: 0
