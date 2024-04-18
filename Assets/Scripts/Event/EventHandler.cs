@@ -12,6 +12,14 @@ public delegate void MovementDelegate(float inputX, float inputY, bool isWalking
 
 public static class EventHandler
 {
+    public static event Func<Vector3> SetSpawnPointEvent;
+    public static Vector3 CallSetSpawnPointEvent()
+    {
+        if (SetSpawnPointEvent != null)
+            return SetSpawnPointEvent();
+        else
+            return Vector3.zero;
+    }
 
     //Drop selected item Event
     public static event Action DropSelectedItemEvent;

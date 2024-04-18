@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Unity.Mathematics;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public enum TileType
 { 
@@ -16,7 +17,6 @@ public enum TileType
     LEGEND_COLLECT
 }
 
-[ExecuteAlways]
 public class MapGenerator : MonoBehaviour
 {
     // 타일을 그릴 타일 맵
@@ -76,7 +76,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         GenerateMap();
     }
@@ -91,7 +91,7 @@ public class MapGenerator : MonoBehaviour
     /// <summary>
     /// 실제 맵 생성하기
     /// </summary>
-    private void GenerateMap()
+    public void GenerateMap()
     {
         isMaking = true;
 
@@ -401,7 +401,7 @@ public class MapGenerator : MonoBehaviour
                         wallTileMap.SetTile(pos, wallTile[UnityEngine.Random.Range(0, wallTile.Length)]);
 
                         // 벽에는 장식 조금 추가
-                        if (UnityEngine.Random.Range(0f, 1f) < 0.1f)
+                        if (UnityEngine.Random.Range(0f, 1f) < 0.08f)
                         {
                             GameObject obj = Instantiate(decoPrefab[UnityEngine.Random.Range(0, decoPrefab.Length)], objList);
                             obj.transform.position = pos;
@@ -442,8 +442,14 @@ public class MapGenerator : MonoBehaviour
             { 
                 spawnPoint = new Vector3((-width / 2 + randomWidth + .5f), (-height / 2 + randomHeight) + .5f, -0.2f);
                 tempobj.transform.position = spawnPoint;
+                EventHandler.SetSpawnPointEvent += GetSpawnPoint;
                 break;
             }
         }
+    }
+
+    public Vector3 GetSpawnPoint()
+    {
+        return spawnPoint;
     }
 }
