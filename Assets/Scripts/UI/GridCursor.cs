@@ -32,6 +32,7 @@ public class GridCursor : MonoBehaviour
     private void OnEnable()
     {
         EventHandler.AfterSceneLoadEvent += SceneLoaded;
+        DisableCursor();
     }
     private void SceneLoaded()
     {

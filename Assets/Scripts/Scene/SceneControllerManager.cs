@@ -53,13 +53,10 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
         // Start fading to black and wait for it to finish before continuing.
         yield return StartCoroutine(Fade(1f));
 
-        // Store scene data
+        // 현재 씬 정보 저장
         SaveLoadManager.Instance.StoreCurrentSceneData();
 
-        // Set player position
-        Player.Instance.gameObject.transform.position = spawnPosition;
-
-        // Call before scene unload event.
+        // 씬이 unload 되기 전 필요한 이벤트들 실행
         EventHandler.CallBeforeSceneUnloadEvent();
 
         // Unload the current active scene.
@@ -68,17 +65,17 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
         // Start loading the given scene and wait for it to finish.
         yield return StartCoroutine(LoadSceneAndSetActive(sceneName));
 
-        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += OnSceneLoaded;
-        // 씬 로드 완료 시 호출될 콜백 함수
-
-        if (EventHandler.CallSetSpawnPointEvent() != Vector3.zero)
-            Player.Instance.gameObject.transform.position = EventHandler.CallSetSpawnPointEvent();
-
         // Call after scene load event
         EventHandler.CallAfterSceneLoadEvent();
 
         // Restore new scene data
         SaveLoadManager.Instance.RestoreCurrentSceneData();
+
+        // 플레이어 위치 지정
+        if(EventHandler.CallSetSpawnPointEvent() != Vector3.zero)
+            Player.Instance.gameObject.transform.position = EventHandler.CallSetSpawnPointEvent();
+        else
+            Player.Instance.gameObject.transform.position = spawnPosition;
 
         // Start fading back in and wait for it to finish before exiting the function.
         yield return StartCoroutine(Fade(0f));
@@ -134,17 +131,5 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
     {
         if (!isFading)
             StartCoroutine(FadeAndSwitchScenes(sceneName, spawnPosition));
-    }
-
-    private void OnSceneLoaded(AsyncOperation operation)
-    {
-        // 로드된 씬에 있는 특정 게임 오브젝트의 스크립트를 실행하는 예시
-        GameObject loadedSceneRoot = SceneManager.GetSceneByName("Forest").GetRootGameObjects()[0];
-        MapGenerator yourScript = loadedSceneRoot.GetComponent<MapGenerator>();
-        if (yourScript != null)
-        {
-            // 특정 스크립트의 함수 호출 등 실행
-            yourScript.GenerateMap();
-        }
     }
 }

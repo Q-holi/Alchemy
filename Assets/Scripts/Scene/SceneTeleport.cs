@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(BoxCollider2D))]
 public class SceneTeleport : MonoBehaviour
 {
-    [SerializeField] private SceneName sceneNameGoTo = SceneName.Farm;
+    [SerializeField] private SceneName sceneNameGoTo;
     [SerializeField] private Vector3 scenePositionGoTo = new Vector3();
 
     private void OnTriggerStay2D(Collider2D collision)

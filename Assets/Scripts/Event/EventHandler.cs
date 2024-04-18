@@ -12,11 +12,11 @@ public delegate void MovementDelegate(float inputX, float inputY, bool isWalking
 
 public static class EventHandler
 {
-    public static event Func<Vector3> SetSpawnPointEvent;
+    public static event Func<Vector3> GetSpawnPointEvent;
     public static Vector3 CallSetSpawnPointEvent()
     {
-        if (SetSpawnPointEvent != null)
-            return SetSpawnPointEvent();
+        if (GetSpawnPointEvent != null)
+            return GetSpawnPointEvent();
         else
             return Vector3.zero;
     }
