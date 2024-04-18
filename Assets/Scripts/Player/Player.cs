@@ -232,6 +232,7 @@ public class Player : Singleton<Player>
                     break;
                 case ItemType.Watering_tool:
                 case ItemType.Hoeing_tool:
+                case ItemType.Reaping_tool:
                     ProcessPlayerClickInputTool(gridPropertyDetails, itemDetails, playerDirection);
                     break;
                 case ItemType.none:
@@ -258,6 +259,12 @@ public class Player : Singleton<Player>
                 if (gridCursor.CursorPositionIsValid)
                 {
                     WaterGroundAtCursor(gridPropertyDetails, playerDirection);
+                }
+                break;
+            case ItemType.Reaping_tool:
+                if (gridCursor.CursorPositionIsValid)
+                { 
+                    
                 }
                 break;
             default:
@@ -319,7 +326,6 @@ public class Player : Singleton<Player>
         StartCoroutine(WaterGroundAtCursorRoutine(playerDirection, gridPropertyDetails));
     }
 
-
     private IEnumerator WaterGroundAtCursorRoutine(Vector3Int playerDirection, GridPropertyDetails gridPropertyDetails)
     {
         PlayerInputIsDisabled = true;
@@ -367,6 +373,17 @@ public class Player : Singleton<Player>
 
         // After animation pause
         yield return afterLiftToolAnimationPause;
+
+        PlayerInputIsDisabled = false;
+        playerToolUseDisabled = false;
+    }
+
+    private void CollectPlant()
+    {
+        PlayerInputIsDisabled = true;
+        playerToolUseDisabled = true;
+
+
 
         PlayerInputIsDisabled = false;
         playerToolUseDisabled = false;
