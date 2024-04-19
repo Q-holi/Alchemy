@@ -72,7 +72,6 @@ public class Mining_Game : MonoBehaviour
         GenerateCells();//--게임에 필요한 셀 생성
         GenerateCenter();
         GenerateStartRoot();
-        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -10.0f);
 
         underBoard.CountCellsType(underState, out emptyCount, out plantCount);
 
@@ -152,6 +151,12 @@ public class Mining_Game : MonoBehaviour
 
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
+        if (!IsValid(cellPosition.x, cellPosition.y))
+        {
+            Debug.Log("Out of Index Range");
+            return;
+        }
+
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
 
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)

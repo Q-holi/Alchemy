@@ -263,8 +263,9 @@ public class Player : Singleton<Player>
                 break;
             case ItemType.Reaping_tool:
                 if (gridCursor.CursorPositionIsValid)
-                { 
-                    
+                {
+                    StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
+                    CollectPlant();
                 }
                 break;
             default:
@@ -382,11 +383,6 @@ public class Player : Singleton<Player>
     {
         PlayerInputIsDisabled = true;
         playerToolUseDisabled = true;
-
-
-
-        PlayerInputIsDisabled = false;
-        playerToolUseDisabled = false;
     }
 
     private Vector3Int GetPlayerClickDirection(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)

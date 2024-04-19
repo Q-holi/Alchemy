@@ -132,4 +132,9 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
         if (!isFading)
             StartCoroutine(FadeAndSwitchScenes(sceneName, spawnPosition));
     }
+
+    public IEnumerator MiniGameSceneLoad()
+    {
+        yield return SceneManager.LoadSceneAsync("MiniGameScene", LoadSceneMode.Additive);
+    }
 }
