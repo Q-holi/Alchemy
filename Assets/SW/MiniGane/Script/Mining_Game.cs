@@ -183,7 +183,7 @@ public class Mining_Game : MonoBehaviour
             return;
         }
 
-        Cell cell = GetCell(cellPosition.x, cellPosition.y, surfaceState);
+        Cell cell = GetCell(cellPosition.x, cellPosition.y, underState);
 
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
@@ -206,7 +206,7 @@ public class Mining_Game : MonoBehaviour
             int xOffset = directions[i, 0];
             int yOffset = directions[i, 1];
 
-            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset, surfaceState);
+            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset, underState);
             if (cell.type == Cell.Type.Empty || cell.isRevealed)
             {
                 cell.isRevealed = true;
