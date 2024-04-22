@@ -14,12 +14,19 @@ public class Under : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(gameObject.name);
     }
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
+    }
+
+    public void SetGridPos(int width, int height)
+    {
+        Vector3 gridPos = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().transform.position;
+        gridPos.z = 0.0f;
+        gridPos.x -= width / 2f;
+        gridPos.y -= height / 2f - 1.0f;
+        gameObject.transform.position = gridPos;
     }
 
     public void Draw(Cell[,] state)

@@ -79,6 +79,8 @@ public class Mining_Game : MonoBehaviour
             NewGame();
         else
         {
+            surfaceBoard.SetGridPos(width, height);
+            underBoard.SetGridPos(width, height);
             surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
             underBoard.Draw(underState);
         }
@@ -87,20 +89,33 @@ public class Mining_Game : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))    // 좌클릭 깊게 파기
+        {
             ShallowDig();
+            remainDigCounter.text = "남은 채굴 횟수 : " + shallowDigCount.ToString();
+            remainTileCounter.text = "남은 흙 타일 : " + emptyCount.ToString() + "\n" + "남은 뿌리 타일 : " + plantCount.ToString();
+        }
         else if (Input.GetMouseButtonUp(0)) // 우클릭 얕게 파기
+        { 
             DeepDig();
-
-
+            remainDigCounter.text = "남은 채굴 횟수 : " + shallowDigCount.ToString();
+            remainTileCounter.text = "남은 흙 타일 : " + emptyCount.ToString() + "\n" + "남은 뿌리 타일 : " + plantCount.ToString();
+        }
+            
         if (Input.GetKeyDown(KeyCode.R))
         {
             NewGame();
         }
     }
 
-    private Cell GetCell(int x, int y)
+    private void UpdateTileInfo()
     {
-        if (IsValid(x, y)) return surfaceState[x, y];
+        surfaceBoard.Draw(surfaceState);
+        underBoard.Draw(underState);
+    }
+
+    private Cell GetCell(int x, int y, Cell[,] boardState)
+    {
+        if (IsValid(x, y)) return boardState[x, y];
         else return new Cell();
     }
 
@@ -115,14 +130,21 @@ public class Mining_Game : MonoBehaviour
          */
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
-        Cell cell = GetCell(cellPosition.x, cellPosition.y);
+        Cell cell = GetCell(cellPosition.x, cellPosition.y, surfaceState);
 
         if (cell.isRevealed)
-            return;
+        {
+            cell = GetCell(cellPosition.x, cellPosition.y, underState);
+            if(cell.isRevealed)
+            { return; }
+        }
 
         if (cell.type == Cell.Type.Invalid || cell.type == Cell.Type.Empty)
         {
             shallowDigCount--;
+            cell.isRevealed = true;
+            surfaceState[cellPosition.x, cellPosition.y] = cell;
+            surfaceBoard.Draw(surfaceState);
             return;
         }
 
@@ -131,7 +153,11 @@ public class Mining_Game : MonoBehaviour
             shallowDigCount--;
             cell.isRevealed = true;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
+            cell.type = Cell.Type.CUT;
+            underState[cellPosition.x, cellPosition.y] = cell;
+            Debug.LogError("뿌리 짤림");
             surfaceBoard.Draw(surfaceState);
+            underBoard.Draw(underState);
         }
     }
 
@@ -157,14 +183,14 @@ public class Mining_Game : MonoBehaviour
             return;
         }
 
-        Cell cell = GetCell(cellPosition.x, cellPosition.y);
+        Cell cell = GetCell(cellPosition.x, cellPosition.y, surfaceState);
 
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
             cell.isRevealed = true;
             cell.type = Cell.Type.CUT;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
-            underState[cellPosition.x, cellPosition.y] = cell;
+            //underState[cellPosition.x, cellPosition.y] = cell;
             Debug.LogError("뿌리 짤림");
         }
         else
@@ -180,15 +206,16 @@ public class Mining_Game : MonoBehaviour
             int xOffset = directions[i, 0];
             int yOffset = directions[i, 1];
 
-            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset);
+            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset, surfaceState);
             if (cell.type == Cell.Type.Empty || cell.isRevealed)
             {
                 cell.isRevealed = true;
                 surfaceState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
-                underState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
+                //underState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
             }
         }
         surfaceBoard.Draw(surfaceState);
+        //underBoard.Draw(underState);
     }
 
     private void GenerateCells()
