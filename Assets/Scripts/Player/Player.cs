@@ -64,6 +64,7 @@ public class Player : Singleton<Player>
         // Initialise character attribute list
         characterAttributeCustomisationList = new List<CharacterAttribute>();
         camera = Camera.main;
+
     }
 
     private void Start()

@@ -190,7 +190,6 @@ public class Mining_Game : MonoBehaviour
             cell.isRevealed = true;
             cell.type = Cell.Type.CUT;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
-            //underState[cellPosition.x, cellPosition.y] = cell;
             Debug.LogError("뿌리 짤림");
         }
         else
@@ -211,11 +210,9 @@ public class Mining_Game : MonoBehaviour
             {
                 cell.isRevealed = true;
                 surfaceState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
-                //underState[cellPosition.x + xOffset, cellPosition.y + yOffset] = cell;
             }
         }
         surfaceBoard.Draw(surfaceState);
-        //underBoard.Draw(underState);
     }
 
     private void GenerateCells()

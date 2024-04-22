@@ -29,10 +29,12 @@ public class GridCursor : MonoBehaviour
     private void OnDisable()
     {
         EventHandler.AfterSceneLoadEvent -= SceneLoaded;
+        EventHandler.SetMiniGameScreen -= GetGridPositionForCursor;
     }
     private void OnEnable()
     {
         EventHandler.AfterSceneLoadEvent += SceneLoaded;
+        EventHandler.SetMiniGameScreen += GetGridPositionForCursor;
         DisableCursor();
     }
     private void SceneLoaded()

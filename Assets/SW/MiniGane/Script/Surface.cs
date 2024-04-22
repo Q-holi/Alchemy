@@ -22,7 +22,8 @@ public class Surface : MonoBehaviour
 
     public void SetGridPos(int width, int height)
     {
-        Vector3 gridPos = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().transform.position;
+        //Vector3 gridPos = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().transform.position;
+        Vector3 gridPos = EventHandler.CallSetMiniGameScreen();
         gridPos.z = 0.0f;
         gridPos.x -= width / 2f;
         gridPos.y -= height / 2f - 1.0f;
