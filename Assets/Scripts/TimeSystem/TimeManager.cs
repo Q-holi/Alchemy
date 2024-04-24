@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,13 +68,13 @@ public class TimeManager : Singleton<TimeManager>
                         EventHandler.CallAdvanceGameYearEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
                     }
                     EventHandler.CallAdvanceGameSeasonEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
+                    gameDayOfWeek = GetDayOfWeek();
+                    EventHandler.CallAdvanceGameDayEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
                 }
-                gameDayOfWeek = GetDayOfWeek();
-                EventHandler.CallAdvanceGameDayEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
+                EventHandler.CallAdvanceGameHourEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
             }
-            EventHandler.CallAdvanceGameHourEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
+            EventHandler.CallAdvanceGameMinuteEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
         }
-        EventHandler.CallAdvanceGameMinuteEvent(gameYear, gameSeason, gameDay, gameDayOfWeek, gameHour, gameMinute, gameSecond);
         //Debug.Log("Game Year: " + gameYear + "Game Season: " + gameSeason + "Game Day: " + gameDay + "Game Hour: " + gameHour + " Game Minute: " + gameMinute);
     }
 
@@ -107,6 +108,22 @@ public class TimeManager : Singleton<TimeManager>
 
             default:
                 return "";
+        }
+    }
+
+    public void TestAdvanceGameMinute()
+    {
+        for (int i = 0; i < 60; i++)
+        {
+            UpdateGameSecond();
+        }
+    }
+
+    public void TestAdvanceGameDay()
+    {
+        for (int i = 0; i < 86400; i++)
+        {
+            UpdateGameSecond();
         }
     }
 }

@@ -12,6 +12,7 @@ public class GridCursor : MonoBehaviour
     [SerializeField] private RectTransform cursorRectTransform = null;
     [SerializeField] private Sprite greenCursorSprite = null;
     [SerializeField] private Sprite redCursorSprite = null;
+    [SerializeField] private SO_CropDetailsList SO_cropDetailsList = null;
 
     private bool _cursorPositionIsValid = false;
     public bool CursorPositionIsValid { get => _cursorPositionIsValid; set => _cursorPositionIsValid = value; }
@@ -113,6 +114,7 @@ public class GridCursor : MonoBehaviour
                     break;
                 case ItemType.Watering_tool:
                 case ItemType.Hoeing_tool:
+                case ItemType.Collecting_tool:
                     if (!IsCursorValidForTool(gridPropertyDetails, itemDetails))
                     {
                         SetCursorToInvalid();
@@ -183,7 +185,38 @@ public class GridCursor : MonoBehaviour
                 {
                     return false;
                 }
+            case ItemType.Collecting_tool:
+                // Check if item can be harvested with item selected, check item is fully grown
 
+                // Check if seed planted
+                if (gridPropertyDetails.seedItemCode != -1)
+                {
+                    // Get crop details for seed
+                    CropDetails cropDetails = SO_cropDetailsList.GetCropDetails(gridPropertyDetails.seedItemCode);
+
+                    // if crop details found
+                    if (cropDetails != null)
+                    {
+                        // Check if crop fully grown
+                        if (gridPropertyDetails.growthDays >= cropDetails.totalGrowthDays)
+                        {
+                            // Check if crop can be harvested with tool selected
+                            if (cropDetails.CanUseToolToHarvestCrop(itemDetails.itemCode))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }  
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return false;
             default:
                 return false;
         }
