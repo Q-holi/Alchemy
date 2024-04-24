@@ -53,7 +53,7 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
         // Start fading to black and wait for it to finish before continuing.
         yield return StartCoroutine(Fade(1f));
 
-        // Store scene data
+        // 현재 씬 정보 저장
         SaveLoadManager.Instance.StoreCurrentSceneData();
 
         // Set player position
@@ -74,6 +74,12 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
 
         // Restore new scene data
         SaveLoadManager.Instance.RestoreCurrentSceneData();
+
+        // 플레이어 위치 지정
+        if(EventHandler.CallSetSpawnPointEvent() != Vector3.zero)
+            Player.Instance.gameObject.transform.position = EventHandler.CallSetSpawnPointEvent();
+        else
+            Player.Instance.gameObject.transform.position = spawnPosition;
 
         // Start fading back in and wait for it to finish before exiting the function.
         yield return StartCoroutine(Fade(0f));
@@ -129,5 +135,17 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
     {
         if (!isFading)
             StartCoroutine(FadeAndSwitchScenes(sceneName, spawnPosition));
+    }
+
+    public IEnumerator MiniGameSceneLoad()
+    {
+        yield return SceneManager.LoadSceneAsync("MiniGameScene", LoadSceneMode.Additive);
+    }
+
+    public IEnumerator MiniGameSceneUnLoad()
+    {
+        Player.Instance.PlayerInputIsDisabled = false;
+        Player.Instance.PlayerToolUseDisabled = false;
+        yield return SceneManager.UnloadSceneAsync("MiniGameScene");
     }
 }

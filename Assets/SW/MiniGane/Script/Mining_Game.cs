@@ -28,6 +28,8 @@ public class Mining_Game : MonoBehaviour
     [SerializeField] private TextMeshProUGUI remainDigCounter;
     [SerializeField] private TextMeshProUGUI remainTileCounter;
 
+    private bool allowInput = false;
+
     private bool IsValid(int x, int y) { return x >= 0 && x < width && y >= 0 && y < height; }
 
     private void Awake()
@@ -51,6 +53,7 @@ public class Mining_Game : MonoBehaviour
     private void Start()
     {
         NewGame();
+        Invoke("UnBlockInput", 0.5f);
     }
 
     public void NewGame()
@@ -72,14 +75,17 @@ public class Mining_Game : MonoBehaviour
         GenerateCells();//--게임에 필요한 셀 생성
         GenerateCenter();
         GenerateStartRoot();
-        Camera.main.transform.position = new Vector3(width / 2f, height / 2f, -10.0f);
 
-        underBoard.CountCellsType(underState, out emptyCount, out plantCount);
+        underBoard.CountCellsType(underState, out plantCount);
+        surfaceBoard.CountCellsType(surfaceState, out plantCount);
 
         if (testCheck)
             NewGame();
         else
         {
+            surfaceBoard.SetGridPos(width, height);
+            underBoard.SetGridPos(width, height);
+
             surfaceBoard.Draw(surfaceState);//--타입에 맞게 각 셀 tile 설정
             underBoard.Draw(underState);
         }
@@ -87,21 +93,38 @@ public class Mining_Game : MonoBehaviour
 
     private void Update()
     {
+        if(allowInput)
         if (Input.GetMouseButtonDown(1))    // 좌클릭 깊게 파기
+        {
             ShallowDig();
+            underBoard.CountCellsType(underState, out plantCount);
+            surfaceBoard.CountCellsType(surfaceState, out emptyCount);
+            remainDigCounter.text = "남은 채굴 횟수 : " + shallowDigCount.ToString();
+            remainTileCounter.text = "남은 흙 타일 : " + emptyCount.ToString() + "\n" + "남은 뿌리 타일 : " + plantCount.ToString();
+        }
         else if (Input.GetMouseButtonUp(0)) // 우클릭 얕게 파기
+        { 
             DeepDig();
-
-
+            underBoard.CountCellsType(underState, out plantCount);
+            surfaceBoard.CountCellsType(surfaceState, out emptyCount);
+            remainDigCounter.text = "남은 채굴 횟수 : " + shallowDigCount.ToString();
+            remainTileCounter.text = "남은 흙 타일 : " + emptyCount.ToString() + "\n" + "남은 뿌리 타일 : " + plantCount.ToString();
+        }
+            
         if (Input.GetKeyDown(KeyCode.R))
         {
             NewGame();
         }
+
+        if (emptyCount == plantCount || Input.GetKeyDown(KeyCode.E))
+        {
+            EndGame();
+        }
     }
 
-    private Cell GetCell(int x, int y)
+    private Cell GetCell(int x, int y, Cell[,] boardState)
     {
-        if (IsValid(x, y)) return surfaceState[x, y];
+        if (IsValid(x, y)) return boardState[x, y];
         else return new Cell();
     }
 
@@ -116,14 +139,26 @@ public class Mining_Game : MonoBehaviour
          */
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
-        Cell cell = GetCell(cellPosition.x, cellPosition.y);
+        Cell cell = GetCell(cellPosition.x, cellPosition.y, surfaceState);
 
         if (cell.isRevealed)
+        {
+            cell = GetCell(cellPosition.x, cellPosition.y, underState);
+            if(cell.isRevealed)
+            { return; }
+        }
+
+        if (cell.type == Cell.Type.Center)
             return;
 
         if (cell.type == Cell.Type.Invalid || cell.type == Cell.Type.Empty)
         {
             shallowDigCount--;
+            cell.isRevealed = true;
+            surfaceState[cellPosition.x, cellPosition.y] = cell;
+            underState[cellPosition.x, cellPosition.y].isRevealed = true;
+            surfaceBoard.Draw(surfaceState);
+            underBoard.Draw(underState);
             return;
         }
 
@@ -132,7 +167,11 @@ public class Mining_Game : MonoBehaviour
             shallowDigCount--;
             cell.isRevealed = true;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
+            cell.type = Cell.Type.CUT;
+            underState[cellPosition.x, cellPosition.y] = cell;
+            Debug.LogError("뿌리 짤림");
             surfaceBoard.Draw(surfaceState);
+            underBoard.Draw(underState);
         }
     }
 
@@ -152,13 +191,22 @@ public class Mining_Game : MonoBehaviour
 
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = surfaceBoard.tilemap.WorldToCell(mouseWorldPosition);
-        Cell cell = GetCell(cellPosition.x, cellPosition.y);
+        if (!IsValid(cellPosition.x, cellPosition.y))
+        {
+            Debug.Log("Out of Index Range");
+            return;
+        }
+
+        Cell cell = GetCell(cellPosition.x, cellPosition.y, underState);
+
+        if (cell.type == Cell.Type.Center)
+            return;
 
         if (cell.type == Cell.Type.Plant || cell.type == Cell.Type.StartPlant || cell.type == Cell.Type.Number)
         {
             cell.isRevealed = true;
-            cell.type = Cell.Type.CUT;
             surfaceState[cellPosition.x, cellPosition.y] = cell;
+            cell.type = Cell.Type.CUT;
             underState[cellPosition.x, cellPosition.y] = cell;
             Debug.LogError("뿌리 짤림");
         }
@@ -175,7 +223,7 @@ public class Mining_Game : MonoBehaviour
             int xOffset = directions[i, 0];
             int yOffset = directions[i, 1];
 
-            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset);
+            cell = GetCell(cellPosition.x + xOffset, cellPosition.y + yOffset, underState);
             if (cell.type == Cell.Type.Empty || cell.isRevealed)
             {
                 cell.isRevealed = true;
@@ -184,6 +232,7 @@ public class Mining_Game : MonoBehaviour
             }
         }
         surfaceBoard.Draw(surfaceState);
+        underBoard.Draw(underState);
     }
 
     private void GenerateCells()
@@ -383,6 +432,11 @@ public class Mining_Game : MonoBehaviour
 
     private void EndGame()
     {
+        StartCoroutine(SceneControllerManager.Instance.MiniGameSceneUnLoad());
+    }
 
+    private void UnBlockInput()
+    {
+        allowInput = true;
     }
 }

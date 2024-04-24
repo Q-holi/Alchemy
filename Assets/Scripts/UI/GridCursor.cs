@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GridCursor : MonoBehaviour
@@ -29,10 +30,13 @@ public class GridCursor : MonoBehaviour
     private void OnDisable()
     {
         EventHandler.AfterSceneLoadEvent -= SceneLoaded;
+        EventHandler.SetMiniGameScreen -= SetGridPositionForCursor;
     }
     private void OnEnable()
     {
         EventHandler.AfterSceneLoadEvent += SceneLoaded;
+        EventHandler.SetMiniGameScreen += SetGridPositionForCursor;
+        DisableCursor();
     }
     private void SceneLoaded()
     {
@@ -50,6 +54,7 @@ public class GridCursor : MonoBehaviour
         if (CursorIsEnabled)
             DisplayCursor();
     }
+
     private Vector3Int DisplayCursor()
     {
         if (grid != null)
@@ -75,6 +80,13 @@ public class GridCursor : MonoBehaviour
     private void SetCursorValidity(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)
     {
         SetCursorToValid();
+
+        // 현재 활성화된 씬이 Forest면
+        if (SceneManager.GetActiveScene().name == "Forest")
+        {
+            SetCursorToValid();
+            return;
+        }
 
         // Check item use radius is valid
         if (Mathf.Abs(cursorGridPosition.x - playerGridPosition.x) > ItemUseGridRadius
@@ -249,7 +261,6 @@ public class GridCursor : MonoBehaviour
         CursorPositionIsValid = true;
     }
 
-
     public void DisableCursor()
     {
         cursorImage.color = Color.clear;
@@ -266,15 +277,21 @@ public class GridCursor : MonoBehaviour
         return grid.WorldToCell(worldPosition);
     }
 
+    public Vector3Int SetGridPositionForCursor()
+    {
+        Vector3 worldPosition = mainCamera.transform.position;
+        return grid.WorldToCell(worldPosition);
+    }
+
     public Vector3Int GetGridPositionForPlayer()
     {
         return grid.WorldToCell(Player.Instance.transform.position);
     }
+
     private Vector3 GetRectTransformPositionForCursor(Vector3Int gridPosition)
     {
         Vector3 gridWorldPosition = grid.CellToWorld(gridPosition);
         Vector2 gridScreenPosition = mainCamera.WorldToScreenPoint(gridWorldPosition);
         return RectTransformUtility.PixelAdjustPoint(gridScreenPosition, cursorRectTransform, canvas);
     }
-
 }

@@ -5,6 +5,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public enum TileType
 { 
@@ -44,7 +45,6 @@ public class MapGenerator : MonoBehaviour
     // 지형의 랜덤률(?) 결정
     [Range(0, 100)]
     [SerializeField] private int randomRoomRange;
-
     // 바닥의 랜덤률 결정
     [Range(0, 100)]
     [SerializeField] private int randomGrassRange;
@@ -59,7 +59,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float LegendObj;
 
     private int[,] map;
-    [SerializeField] private GameObject tempobj;    // 스폰지점 표시하는 오브젝트
+    [SerializeField] private GameObject spawnobj;    // 스폰지점 표시하는 오브젝트
+    [SerializeField] private GameObject exitObj;     // 숲에서 나가는 오브젝트
+
     public Vector3 spawnPoint;
     private bool isMaking;
 
@@ -76,16 +78,20 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void OnEnable()
     {
-        GenerateMap();
+        EventHandler.AfterSceneLoadEvent += GenerateMap;
+        EventHandler.GetSpawnPointEvent += GetSpawnPoint;
+        EventHandler.GetTileType += GetGridCell;
+        Player.Instance.PlayerCollectDisabled = false;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        // 클릭할때마다 새로운 맵으로 변경
-        if (Input.GetMouseButtonDown(0) && !isMaking)
-            GenerateMap();
+        EventHandler.AfterSceneLoadEvent -= GenerateMap;
+        EventHandler.GetSpawnPointEvent -= GetSpawnPoint;
+        EventHandler.GetTileType -= GetGridCell;
+        Player.Instance.PlayerCollectDisabled = true;
     }
 
     /// <summary>
@@ -114,7 +120,6 @@ public class MapGenerator : MonoBehaviour
         RandomSpawnCollecter(epicObj, TileType.EPIC_COLLECT);
         RandomSpawnCollecter(LegendObj, TileType.LEGEND_COLLECT);
         SetSpawnPoint();
-
         isMaking = false;
     }
 
@@ -438,11 +443,18 @@ public class MapGenerator : MonoBehaviour
         {
             int randomWidth = UnityEngine.Random.Range(0, width);
             int randomHeight = UnityEngine.Random.Range(0, height);
-            if (map[randomWidth, randomHeight] == 0)    // 해당 타일이 바닥일경우 멈추기
+            if (map[randomWidth, randomHeight] == 0)
             { 
                 spawnPoint = new Vector3((-width / 2 + randomWidth + .5f), (-height / 2 + randomHeight) + .5f, -0.2f);
-                tempobj.transform.position = spawnPoint;
-                EventHandler.SetSpawnPointEvent += GetSpawnPoint;
+                spawnobj.transform.position = spawnPoint;
+            }
+
+            randomWidth = UnityEngine.Random.Range(0, width);
+            randomHeight = UnityEngine.Random.Range(0, height);
+            if (map[randomWidth, randomHeight] == 0)    // 해당 타일이 바닥일경우 멈추기
+            {
+                Vector3 exitPoint = new Vector3((-width / 2 + randomWidth + .5f), (-height / 2 + randomHeight) + .5f, -0.2f);
+                exitObj.transform.position = exitPoint;
                 break;
             }
         }
@@ -451,5 +463,16 @@ public class MapGenerator : MonoBehaviour
     public Vector3 GetSpawnPoint()
     {
         return spawnPoint;
+    }
+
+    public TileType GetGridCell()
+    {
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int cell =  collectableItemTileMap.WorldToCell(mouseWorldPosition);
+
+        cell.x += (width / 2);
+        cell.y += (height / 2);
+
+        return (TileType)map[cell.x, cell.y];
     }
 }

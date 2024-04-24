@@ -14,12 +14,20 @@ public class Under : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(gameObject.name);
     }
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
+    }
+
+    public void SetGridPos(int width, int height)
+    {
+        //Vector3 gridPos = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().transform.position;
+        Vector3 gridPos = EventHandler.CallSetMiniGameScreen();
+        gridPos.z = 0.0f;
+        gridPos.x -= width / 2f;
+        gridPos.y -= height / 2f - 1.0f;
+        gameObject.transform.position = gridPos;
     }
 
     public void Draw(Cell[,] state)
@@ -36,19 +44,17 @@ public class Under : MonoBehaviour
         }
     }
 
-    public void CountCellsType(in Cell[,] state, out int empty, out int plant)
+    public void CountCellsType(in Cell[,] state, out int plant)
     {
-        empty = 0;
         plant = 0;
 
         for (int i = 0; i < state.GetLength(0); i++)
         {
             for (int j = 0; j < state.GetLength(1); j++)
             {
-                if (state[i, j].type == Cell.Type.Empty || state[i, j].type == Cell.Type.Invalid)
-                    empty++;
-                else if (state[i, j].type == Cell.Type.StartPlant || state[i, j].type == Cell.Type.Number)
-                    plant++;
+                if (state[i, j].type == Cell.Type.StartPlant || state[i, j].type == Cell.Type.Number)
+                    if (!state[i,j].isRevealed)
+                        plant++;
             }
         }
     }

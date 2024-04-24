@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Player : Singleton<Player>
 {
@@ -23,7 +24,10 @@ public class Player : Singleton<Player>
     private WaitForSeconds pickAnimationPause;
 
     private bool playerToolUseDisabled = false;
+    public bool PlayerToolUseDisabled { get => playerToolUseDisabled; set => playerToolUseDisabled = value; }
 
+    private bool playerCollectDisabled = true; // 플레이어의 채집가능 여부
+    public bool PlayerCollectDisabled { get => playerCollectDisabled; set => playerCollectDisabled = value; }
 
     #region Player Animation Parameter Variables
     private float xInput;
@@ -199,7 +203,7 @@ public class Player : Singleton<Player>
         isIdle = false;
         movementSpeed = Settings.runSpeed;
 
-        // ??????怨룹꽑 ??????꾩렮維싧젆?
+        // 플레이어가 바라보는 방향
         if (xInput < 0)
             playerDirection = Direction.LEFT;
         else if (xInput > 0)
@@ -256,6 +260,7 @@ public class Player : Singleton<Player>
                     break;
                 case ItemType.Watering_tool:
                 case ItemType.Hoeing_tool:
+                case ItemType.Reaping_tool:
                 case ItemType.Collecting_tool:
                     ProcessPlayerClickInputTool(gridPropertyDetails, itemDetails, playerDirection);
                     break;
@@ -283,6 +288,12 @@ public class Player : Singleton<Player>
                 if (gridCursor.CursorPositionIsValid)
                 {
                     WaterGroundAtCursor(gridPropertyDetails, playerDirection);
+                }
+                break;
+            case ItemType.Reaping_tool:
+                if (gridCursor.CursorPositionIsValid)
+                {
+                    CollectPlant();
                 }
                 break;
             case ItemType.Collecting_tool:
@@ -405,6 +416,30 @@ public class Player : Singleton<Player>
     private void CollectInPlayerDirection(GridPropertyDetails gridPropertyDetails, ItemDetails equippedItemDetails, Vector3Int playerDirection)
     {
         StartCoroutine(CollectInPlayerDirectionRoutine(gridPropertyDetails, equippedItemDetails, playerDirection));
+    }
+
+    private void CollectPlant()
+    {
+        if (playerCollectDisabled)
+            return;
+
+        Cell temp = new Cell();
+
+        switch (EventHandler.CallGetTileType())
+        {
+            case TileType.FLOOR:
+            case TileType.GRASS:
+            case TileType.WALL:
+                return;
+            case TileType.NORMAL_COLLECT:
+            case TileType.RARE_COLLECT:
+            case TileType.EPIC_COLLECT:
+            case TileType.LEGEND_COLLECT:
+                PlayerInputIsDisabled = true;
+                playerToolUseDisabled = true;
+                StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
+                break;
+        }
     }
 
     private IEnumerator CollectInPlayerDirectionRoutine(GridPropertyDetails gridPropertyDetails, ItemDetails equippedItemDetails, Vector3Int playerDirection)
