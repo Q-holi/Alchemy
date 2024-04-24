@@ -12,6 +12,16 @@ public delegate void MovementDelegate(float inputX, float inputY, bool isWalking
 
 public static class EventHandler
 {
+    public static event Func<TileType> GetTileType;
+    public static TileType CallGetTileType()
+    {
+        if (GetTileType != null)
+            return GetTileType();
+        else
+            return TileType.FLOOR;
+    }
+
+
     public static event Func<Vector3Int> SetMiniGameScreen;
     public static Vector3 CallSetMiniGameScreen()
     {

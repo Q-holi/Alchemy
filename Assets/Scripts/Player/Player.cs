@@ -387,9 +387,23 @@ public class Player : Singleton<Player>
         if (playerCollectDisabled)
             return;
 
-        PlayerInputIsDisabled = true;
-        playerToolUseDisabled = true;
-        StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
+        Cell temp = new Cell();
+
+        switch (EventHandler.CallGetTileType())
+        {
+            case TileType.FLOOR:
+            case TileType.GRASS:
+            case TileType.WALL:
+                return;
+            case TileType.NORMAL_COLLECT:
+            case TileType.RARE_COLLECT:
+            case TileType.EPIC_COLLECT:
+            case TileType.LEGEND_COLLECT:
+                PlayerInputIsDisabled = true;
+                playerToolUseDisabled = true;
+                StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
+                break;
+        }
     }
 
     private Vector3Int GetPlayerClickDirection(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)

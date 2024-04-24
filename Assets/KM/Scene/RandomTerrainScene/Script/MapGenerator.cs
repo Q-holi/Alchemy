@@ -5,6 +5,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public enum TileType
 { 
@@ -81,6 +82,7 @@ public class MapGenerator : MonoBehaviour
     {
         EventHandler.AfterSceneLoadEvent += GenerateMap;
         EventHandler.GetSpawnPointEvent += GetSpawnPoint;
+        EventHandler.GetTileType += GetGridCell;
         Player.Instance.PlayerCollectDisabled = false;
     }
 
@@ -88,6 +90,7 @@ public class MapGenerator : MonoBehaviour
     {
         EventHandler.AfterSceneLoadEvent -= GenerateMap;
         EventHandler.GetSpawnPointEvent -= GetSpawnPoint;
+        EventHandler.GetTileType -= GetGridCell;
         Player.Instance.PlayerCollectDisabled = true;
     }
 
@@ -460,5 +463,16 @@ public class MapGenerator : MonoBehaviour
     public Vector3 GetSpawnPoint()
     {
         return spawnPoint;
+    }
+
+    public TileType GetGridCell()
+    {
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int cell =  collectableItemTileMap.WorldToCell(mouseWorldPosition);
+
+        cell.x += (width / 2);
+        cell.y += (height / 2);
+
+        return (TileType)map[cell.x, cell.y];
     }
 }
