@@ -81,12 +81,14 @@ public class MapGenerator : MonoBehaviour
     {
         EventHandler.AfterSceneLoadEvent += GenerateMap;
         EventHandler.GetSpawnPointEvent += GetSpawnPoint;
+        Player.Instance.PlayerCollectDisabled = false;
     }
 
     private void OnDisable()
     {
         EventHandler.AfterSceneLoadEvent -= GenerateMap;
         EventHandler.GetSpawnPointEvent -= GetSpawnPoint;
+        Player.Instance.PlayerCollectDisabled = true;
     }
 
     /// <summary>
@@ -115,7 +117,6 @@ public class MapGenerator : MonoBehaviour
         RandomSpawnCollecter(epicObj, TileType.EPIC_COLLECT);
         RandomSpawnCollecter(LegendObj, TileType.LEGEND_COLLECT);
         SetSpawnPoint();
-
         isMaking = false;
     }
 

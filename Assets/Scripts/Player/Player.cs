@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Player : Singleton<Player>
 {
@@ -19,6 +20,9 @@ public class Player : Singleton<Player>
     private WaitForSeconds liftToolAnimationPause;
     private bool playerToolUseDisabled = false;
     public bool PlayerToolUseDisabled { get => playerToolUseDisabled; set => playerToolUseDisabled = value; }
+
+    private bool playerCollectDisabled = true; // 플레이어의 채집가능 여부
+    public bool PlayerCollectDisabled { get => playerCollectDisabled; set => playerCollectDisabled = value; }
 
     #region Player Animation Parameter Variables
     private float xInput;
@@ -264,7 +268,6 @@ public class Player : Singleton<Player>
             case ItemType.Reaping_tool:
                 if (gridCursor.CursorPositionIsValid)
                 {
-                    StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
                     CollectPlant();
                 }
                 break;
@@ -381,8 +384,12 @@ public class Player : Singleton<Player>
 
     private void CollectPlant()
     {
+        if (playerCollectDisabled)
+            return;
+
         PlayerInputIsDisabled = true;
         playerToolUseDisabled = true;
+        StartCoroutine(SceneControllerManager.Instance.MiniGameSceneLoad());
     }
 
     private Vector3Int GetPlayerClickDirection(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)

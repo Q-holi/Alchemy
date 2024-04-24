@@ -53,7 +53,7 @@ public class Mining_Game : MonoBehaviour
     private void Start()
     {
         NewGame();
-        Invoke("UnBlockInput", 0.1f);
+        Invoke("UnBlockInput", 0.5f);
     }
 
     public void NewGame()
