@@ -18,7 +18,7 @@ public class Player : Singleton<Player>
     private WaitForSeconds afterLiftToolAnimationPause;
     private WaitForSeconds liftToolAnimationPause;
     private bool playerToolUseDisabled = false;
-
+    public bool PlayerToolUseDisabled { get => playerToolUseDisabled; set => playerToolUseDisabled = value; }
 
     #region Player Animation Parameter Variables
     private float xInput;
@@ -64,7 +64,6 @@ public class Player : Singleton<Player>
         // Initialise character attribute list
         characterAttributeCustomisationList = new List<CharacterAttribute>();
         camera = Camera.main;
-
     }
 
     private void Start()

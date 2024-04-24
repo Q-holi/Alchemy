@@ -137,4 +137,11 @@ public class SceneControllerManager : Singleton<SceneControllerManager>
     {
         yield return SceneManager.LoadSceneAsync("MiniGameScene", LoadSceneMode.Additive);
     }
+
+    public IEnumerator MiniGameSceneUnLoad()
+    {
+        Player.Instance.PlayerInputIsDisabled = false;
+        Player.Instance.PlayerToolUseDisabled = false;
+        yield return SceneManager.UnloadSceneAsync("MiniGameScene");
+    }
 }

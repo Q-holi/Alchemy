@@ -44,19 +44,16 @@ public class Surface : MonoBehaviour
         }
     }
 
-    public void CountCellsType(in Cell[,] state, out int empty, out int plant)
+    public void CountCellsType(in Cell[,] state, out int empty)
     {
         empty = 0;
-        plant = 0;
 
         for (int i = 0; i < state.GetLength(0); i++)
         {
             for (int j = 0; j < state.GetLength(1); j++)
             {
-                if (state[i, j].type == Cell.Type.Empty || state[i, j].type == Cell.Type.Invalid)
+                if (!state[i,j].isRevealed)
                     empty++;
-                else if (state[i, j].type == Cell.Type.StartPlant || state[i, j].type == Cell.Type.Number)
-                    plant++;
             }
         }
     }

@@ -29,12 +29,12 @@ public class GridCursor : MonoBehaviour
     private void OnDisable()
     {
         EventHandler.AfterSceneLoadEvent -= SceneLoaded;
-        EventHandler.SetMiniGameScreen -= GetGridPositionForCursor;
+        EventHandler.SetMiniGameScreen -= SetGridPositionForCursor;
     }
     private void OnEnable()
     {
         EventHandler.AfterSceneLoadEvent += SceneLoaded;
-        EventHandler.SetMiniGameScreen += GetGridPositionForCursor;
+        EventHandler.SetMiniGameScreen += SetGridPositionForCursor;
         DisableCursor();
     }
     private void SceneLoaded()
@@ -241,6 +241,12 @@ public class GridCursor : MonoBehaviour
     public Vector3Int GetGridPositionForCursor()
     {
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -mainCamera.transform.position.z));
+        return grid.WorldToCell(worldPosition);
+    }
+
+    public Vector3Int SetGridPositionForCursor()
+    {
+        Vector3 worldPosition = mainCamera.transform.position;
         return grid.WorldToCell(worldPosition);
     }
 
