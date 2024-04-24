@@ -11,7 +11,6 @@ public class InventoryManager : Singleton<InventoryManager>
     //--Assets/Scriptable Object Assets/Item/so_ItemList.asset 에 있는 스크립터블 오브젝트
     [SerializeField] private SO_ItemList itemList = null;
     private Dictionary<int, ItemDetails> itemDetailsDictionary;
-
     [HideInInspector] public int[] inventoryListCapacityIntArray;
 
     private int[] selectInventoryItem;
@@ -26,7 +25,6 @@ public class InventoryManager : Singleton<InventoryManager>
         CreateInventoryLists();
         //--아이템 딕셔너리 생성
         CreateItemDetailsDictionary();
-        TemporaryItemAdd();
 
         selectInventoryItem = new int[(int)InventoryLocation.count];
         for (int i = 0; i < selectInventoryItem.Length; i++)
@@ -38,7 +36,6 @@ public class InventoryManager : Singleton<InventoryManager>
     /// inventoryListCapacityIntArray[player] 와 inventoryListCapacityIntArray[chest]로 생성
     ///  inventoryListCapacityIntArray[player] =  Settings.playerInventoryCapacity; -> 24
     /// </summary>
-
     #region Custom Methods
     private void CreateInventoryLists()
     {
@@ -46,6 +43,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         for (int i = 0; i < (int)InventoryLocation.count; i++)
             inventoryLists[i] = new List<InventoryItem>();
+
 
         inventoryListCapacityIntArray = new int[(int)InventoryLocation.count];
 
@@ -63,18 +61,8 @@ public class InventoryManager : Singleton<InventoryManager>
             itemDetailsDictionary.Add(itemDetails.itemCode, itemDetails);
     }
 
-    private void TemporaryItemAdd()
-    {
-        foreach (ItemDetails itemData in itemDetailsDictionary.Values)
-        {
-            InventoryItem tempitem = new InventoryItem();
-            tempitem.itemCode = itemData.itemCode;
-            tempitem.itemQuantity = 10;
-            inventoryLists[1].Add(tempitem);
-        }
-    }
-
     /// <summary>
+    /// 필드에서 플레이어가 아이템과 충돌해서 인벤토리에 아이템을 PickUp
     /// 플레이어의 PickUP 기능에서 가져온 GameObject gameObjectToDelete는 월드에서 아이템을 파괴시키기 위해 가져온것이다.
     /// Item item은 자신의 itemcode만 가지고 있다.  class Item -> [SerializeField] private int _itemCode;
     /// </summary>
@@ -86,6 +74,7 @@ public class InventoryManager : Singleton<InventoryManager>
         AddItem(inventoryLocation, item);
         Destroy(gameObjectToDelete);
     }
+
     /// <summary>
     ///  List<InventoryItem> inventoryList = inventoryLists[(int)inventoryLocation];이 코드는 inventoryLocation가 player 또는 chest면
     ///  inventoryList에는 inventoryLists[player]에 대한 내용이 전달된다. 
@@ -107,6 +96,26 @@ public class InventoryManager : Singleton<InventoryManager>
             AddItemAtPosition(inventoryList, itemCode);
 
         EventHandler.CallInventoryUpdatedEvent(inventoryLocation, inventoryLists[(int)inventoryLocation]);
+
+    }
+    /// <summary>
+    /// ItemCode로(Int) 해당 인벤토리[플레이어 인벤토리, 창고] 에 아이템을 추가 
+    /// </summary>
+    /// <param name="inventoryLocation"></param>
+    /// <param name="itemCode"></param>
+    public void AddItem(InventoryLocation inventoryLocation, int itemCode)
+    {
+        List<InventoryItem> inventoryList = inventoryLists[(int)inventoryLocation];
+
+        int itemPosition = FindItemInInventory(inventoryLocation, itemCode);
+
+        if (itemPosition != -1)
+            AddItemAtPosition(inventoryList, itemCode, itemPosition);
+        else
+            AddItemAtPosition(inventoryList, itemCode);
+
+        EventHandler.CallInventoryUpdatedEvent(inventoryLocation, inventoryLists[(int)inventoryLocation]);
+
     }
     /// <summary>
     /// 해당하는 인벤토리에 아이템이 없을 시 해당 인벤토리에 itemCode와 수량 =1을 List.add 를 진행한다. 

@@ -296,6 +296,7 @@ MonoBehaviour:
   cursorRectTransform: {fileID: 1709709569}
   greenCursorSprite: {fileID: 21300000, guid: 2e92a61802edadc4495e4d901e3a97cb, type: 3}
   redCursorSprite: {fileID: 21300000, guid: a605f55636af56b47b309a2177079511, type: 3}
+  SO_cropDetailsList: {fileID: 11400000, guid: 04e4718272bbaf748a0fa6238dd96e34, type: 2}
 --- !u!225 &54594124
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &54594125
 MonoBehaviour:
@@ -2460,7 +2461,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.276169
+  orthographic size: 8.4375
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2894,7 +2895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
-  so_CropDetailsList: {fileID: 0}
+  so_CropDetailsList: {fileID: 11400000, guid: 04e4718272bbaf748a0fa6238dd96e34, type: 2}
   so_gridPropertiesArray:
   - {fileID: 11400000, guid: b23b2d061036b4e42be93fbaacea199a, type: 2}
   - {fileID: 11400000, guid: 6ac0d58a81c5ec3469db108afb9e1559, type: 2}
@@ -3176,7 +3177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3837,6 +3838,52 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097258944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2122895739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2122895741}
+  - component: {fileID: 2122895740}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2122895740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122895739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd1a9155ada51e64d96b28639b0fc273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pool: []
+  objectPoolTransform: {fileID: 2122895741}
+--- !u!4 &2122895741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122895739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -5021,3 +5068,4 @@ SceneRoots:
   - {fileID: 1278548940}
   - {fileID: 2131179379}
   - {fileID: 1510788946}
+  - {fileID: 2122895741}

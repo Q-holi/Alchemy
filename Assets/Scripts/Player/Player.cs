@@ -15,8 +15,13 @@ public class Player : Singleton<Player>
     private GridCursor gridCursor;
     private WaitForSeconds afterUseToolAnimationPause;
     private WaitForSeconds useToolAnimationPause;
+
     private WaitForSeconds afterLiftToolAnimationPause;
     private WaitForSeconds liftToolAnimationPause;
+
+    private WaitForSeconds afterPickAnimationPause;
+    private WaitForSeconds pickAnimationPause;
+
     private bool playerToolUseDisabled = false;
 
 
@@ -65,14 +70,17 @@ public class Player : Singleton<Player>
         characterAttributeCustomisationList = new List<CharacterAttribute>();
         camera = Camera.main;
     }
-
     private void Start()
     {
         gridCursor = FindObjectOfType<GridCursor>();
+
         useToolAnimationPause = new WaitForSeconds(Settings.useToolAnimationPause);
         liftToolAnimationPause = new WaitForSeconds(Settings.liftToolAnimationPause);
+        pickAnimationPause = new WaitForSeconds(Settings.pickAnimationPause);
+
         afterUseToolAnimationPause = new WaitForSeconds(Settings.afterUseToolAnimationPause);
         afterLiftToolAnimationPause = new WaitForSeconds(Settings.afterLiftToolAnimationPause);
+        afterPickAnimationPause = new WaitForSeconds(Settings.afterPickAnimationPause);
     }
 
     private void Update()
@@ -84,6 +92,8 @@ public class Player : Singleton<Player>
             PlayerMovementInput();//--InputData
             PlayerClickEvent();
 
+            PlayerTestInput();
+
             EventHandler.CallMovementEvent(xInput, yInput, isWalking, isRunning, isIdle, isCarrying, toolEffect,
             isUsingToolRight, isUsingToolLeft, isUsingToolUp, isUsingToolDown,
             isLiftingToolRight, isLiftingToolLeft, isLiftingToolUp, isLiftingToolDown,
@@ -92,6 +102,20 @@ public class Player : Singleton<Player>
             false, false, false, false);
         }
         #endregion
+
+    }
+
+    private void PlayerTestInput()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TimeManager.Instance.TestAdvanceGameMinute();
+
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            TimeManager.Instance.TestAdvanceGameDay();
+        }
     }
 
     private void FixedUpdate()
@@ -175,7 +199,7 @@ public class Player : Singleton<Player>
         isIdle = false;
         movementSpeed = Settings.runSpeed;
 
-        // 플레이어가 바라보는 방향
+        // ??????怨룹꽑 ??????꾩렮維싧젆?
         if (xInput < 0)
             playerDirection = Direction.LEFT;
         else if (xInput > 0)
@@ -223,7 +247,7 @@ public class Player : Singleton<Player>
             {
                 case ItemType.Seed:
                     if (Input.GetMouseButtonDown(0))
-                        ProcessPlayerClickInputSeed(itemDetails);
+                        ProcessPlayerClickInputSeed(gridPropertyDetails, itemDetails);
                     break;
 
                 case ItemType.Commodity:
@@ -232,6 +256,7 @@ public class Player : Singleton<Player>
                     break;
                 case ItemType.Watering_tool:
                 case ItemType.Hoeing_tool:
+                case ItemType.Collecting_tool:
                     ProcessPlayerClickInputTool(gridPropertyDetails, itemDetails, playerDirection);
                     break;
                 case ItemType.none:
@@ -258,6 +283,12 @@ public class Player : Singleton<Player>
                 if (gridCursor.CursorPositionIsValid)
                 {
                     WaterGroundAtCursor(gridPropertyDetails, playerDirection);
+                }
+                break;
+            case ItemType.Collecting_tool:
+                if (gridCursor.CursorPositionIsValid)
+                {
+                    CollectInPlayerDirection(gridPropertyDetails, itemDetails, playerDirection);
                 }
                 break;
             default:
@@ -319,7 +350,6 @@ public class Player : Singleton<Player>
         StartCoroutine(WaterGroundAtCursorRoutine(playerDirection, gridPropertyDetails));
     }
 
-
     private IEnumerator WaterGroundAtCursorRoutine(Vector3Int playerDirection, GridPropertyDetails gridPropertyDetails)
     {
         PlayerInputIsDisabled = true;
@@ -372,6 +402,27 @@ public class Player : Singleton<Player>
         playerToolUseDisabled = false;
     }
 
+    private void CollectInPlayerDirection(GridPropertyDetails gridPropertyDetails, ItemDetails equippedItemDetails, Vector3Int playerDirection)
+    {
+        StartCoroutine(CollectInPlayerDirectionRoutine(gridPropertyDetails, equippedItemDetails, playerDirection));
+    }
+
+    private IEnumerator CollectInPlayerDirectionRoutine(GridPropertyDetails gridPropertyDetails, ItemDetails equippedItemDetails, Vector3Int playerDirection)
+    {
+        PlayerInputIsDisabled = true;
+        playerToolUseDisabled = true;
+
+        ProcessCropWithEquippedItemInPlayerDirection(gridPropertyDetails, equippedItemDetails, playerDirection);
+
+        yield return pickAnimationPause;
+
+        // After animation pause
+        yield return afterPickAnimationPause;
+
+        PlayerInputIsDisabled = false;
+        playerToolUseDisabled = false;
+    }
+
     private Vector3Int GetPlayerClickDirection(Vector3Int cursorGridPosition, Vector3Int playerGridPosition)
     {
         if (cursorGridPosition.x > playerGridPosition.x)
@@ -390,11 +441,61 @@ public class Player : Singleton<Player>
             EventHandler.CallDropSelectedItemEvent();
     }
 
-    private void ProcessPlayerClickInputSeed(ItemDetails itemDetails)
+    private void ProcessPlayerClickInputSeed(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails)
     {
-        if (itemDetails.canBeDropped && gridCursor.CursorPositionIsValid)
+        if (itemDetails.canBeDropped && gridCursor.CursorPositionIsValid && gridPropertyDetails.daysSinceDug > -1 && gridPropertyDetails.seedItemCode == -1)
+            PlantSeedAtCursor(gridPropertyDetails, itemDetails);
+        else if (itemDetails.canBeDropped && gridCursor.CursorPositionIsValid)
             EventHandler.CallDropSelectedItemEvent();
+    }
 
+    private void ProcessCropWithEquippedItemInPlayerDirection(GridPropertyDetails gridPropertyDetails, ItemDetails equippedItemDetails, Vector3Int playerDirection)
+    {
+        switch (equippedItemDetails.itemType)
+        {
+            case ItemType.Collecting_tool:
+                if (playerDirection == Vector3Int.right)
+                    isPickingRight = true;
+                else if (playerDirection == Vector3Int.left)
+                    isPickingLeft = true;
+                else if (playerDirection == Vector3Int.up)
+                    isPickingUp = true;
+                else if (playerDirection == Vector3Int.down)
+                    isPickingDown = true;
+
+                break;
+
+            case ItemType.none:
+                break;
+        }
+
+        // Get crop at cursor grid location
+        Crop crop = GridPropertiesManager.Instance.GetCropObjectAtGridLocation(gridPropertyDetails);
+
+        // Execute Process Tool Action For crop
+        if (crop != null)
+        {
+            switch (equippedItemDetails.itemType)
+            {
+                case ItemType.Collecting_tool:
+                    crop.ProcessToolAction(equippedItemDetails);
+                    break;
+            }
+        }
+    }
+
+    private void PlantSeedAtCursor(GridPropertyDetails gridPropertyDetails, ItemDetails itemDetails)
+    {
+        //--해당 grid 위치에 정보중 씨앗 코드에 해당 아이템 코드를 업데이트 
+        gridPropertyDetails.seedItemCode = itemDetails.itemCode;
+        //--처음 씨앗을 심었기에 grid 속성 중 성장 일수를 0으로 카운트 시작 (초기값 -1)
+        gridPropertyDetails.growthDays = 0;
+
+
+        // 씨앗을 심은 화면 출력
+        GridPropertiesManager.Instance.DisplayPlantedCrop(gridPropertyDetails);
+
+        EventHandler.CallRemoveSelectedItemFromInventoryEvent();
     }
 
     private void ResetMovement()

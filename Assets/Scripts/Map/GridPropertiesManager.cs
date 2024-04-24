@@ -110,7 +110,7 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
         }
     }
 
-    private void DisplayPlantedCrop(GridPropertyDetails gridPropertyDetails)
+    public void DisplayPlantedCrop(GridPropertyDetails gridPropertyDetails)
     {
         if(gridPropertyDetails.seedItemCode > -1)
         {
@@ -121,14 +121,14 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
             GameObject cropPrefab;
             
             int growthStages = cropDetails.growthDays.Length;//-- 성장에 필요한 일수의 배열길이를 가져오기 (각 배열 안에 다음 단계로 성장에 필요한 일수가 들어있다.)
+            int daysCounter = cropDetails.totalGrowthDays;
 
             int currentGrowthStage = 0;
-            int daysCounter = cropDetails.totalGrowthDays;//--성장에 필요한 총 일수를 가져온다.
             for (int i = growthStages - 1; i >= 0; i--)
             {
                 if (gridPropertyDetails.growthDays >= daysCounter)
                 {
-                    currentGrowthStage = i;
+                    currentGrowthStage = i;//--현재 작물의 성장 단계 저장 (Prefab 및 Sprite이미지 인덱스 접근 위함)
                     break;
                 }
                 daysCounter = daysCounter - cropDetails.growthDays[i];
@@ -144,8 +144,8 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
 
             GameObject cropInstance = Instantiate(cropPrefab, worldPosition, Quaternion.identity);
 
-            cropInstance.GetComponentInChildren<SpriteRenderer>().sprite = growthSprite;
-            cropInstance.transform.SetParent(cropParentTransform);
+            cropInstance.GetComponentInChildren<SpriteRenderer>().sprite = growthSprite; // 성장에 맞는 Sprite 이미지를 설정한다. 
+            cropInstance.transform.SetParent(cropParentTransform);//--cropParentTransform자식으로 설정 
             cropInstance.GetComponent<Crop>().cropGridPosition = new Vector2Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY);
 
         }
@@ -243,7 +243,39 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
         throw new System.NotImplementedException();
     }
     /// <summary>
-    /// Get the grid property details for the tile at (gridX,gridY). If no grid property details exist null is returned and can assume that all grid property details values are null or false
+    /// found was crop no if null or position gridY gridx, the at object Crop theReturns
+    /// </summary>
+    /// <param name="gridPropertyDetails"></param>
+    /// <returns></returns>
+    public Crop GetCropObjectAtGridLocation(GridPropertyDetails gridPropertyDetails)
+    {
+        Vector3 worldPosition = grid.GetCellCenterWorld(new Vector3Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY, 0));
+        Collider2D[] collider2DArray = Physics2D.OverlapPointAll(worldPosition);
+
+        // Loop through colliders to get crop game object
+        Crop crop = null;
+        for (int i = 0; i < collider2DArray.Length; i++)
+        {
+            crop = collider2DArray[i].gameObject.GetComponentInParent<Crop>();
+            if (crop != null && crop.cropGridPosition == new Vector2Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY))
+                break;
+            crop = collider2DArray[i].gameObject.GetComponentInChildren<Crop>();
+            if (crop != null && crop.cropGridPosition == new Vector2Int(gridPropertyDetails.gridX, gridPropertyDetails.gridY))
+                break;
+        }
+        return crop;
+    }
+    /// <summary>
+    /// 씨앗 스크립터블 오브젝트에서 정보 가져오기 
+    /// </summary>
+    /// <param name="seedItemCode"></param>
+    /// <returns></returns>
+    public CropDetails GetCropDetails(int seedItemCode)
+    {
+        return so_CropDetailsList.GetCropDetails(seedItemCode);
+    }
+    /// <summary>
+    /// 좌표 x,y 정보로 해당 좌표의 정보를 가져오기
     /// </summary>
     public GridPropertyDetails GetGridPropertyDetails(int gridx, int gridY)
     {
@@ -640,6 +672,11 @@ public class GridPropertiesManager : Singleton<GridPropertiesManager>, ISaveable
                         GridPropertyDetails gridPropertyDetails = item.Value;
 
                         #region Update all grid properties to reflect the advance in the day
+                        if(gridPropertyDetails.growthDays > -1)
+                        {
+                            gridPropertyDetails.growthDays += 1;
+                        }
+
                         // If ground is watered, then clear water
                         if (gridPropertyDetails.daysSinceWatered > -1)
                         {
