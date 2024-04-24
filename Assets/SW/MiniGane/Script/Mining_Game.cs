@@ -28,6 +28,8 @@ public class Mining_Game : MonoBehaviour
     [SerializeField] private TextMeshProUGUI remainDigCounter;
     [SerializeField] private TextMeshProUGUI remainTileCounter;
 
+    private bool allowInput = false;
+
     private bool IsValid(int x, int y) { return x >= 0 && x < width && y >= 0 && y < height; }
 
     private void Awake()
@@ -51,6 +53,7 @@ public class Mining_Game : MonoBehaviour
     private void Start()
     {
         NewGame();
+        Invoke("UnBlockInput", 0.1f);
     }
 
     public void NewGame()
@@ -90,6 +93,7 @@ public class Mining_Game : MonoBehaviour
 
     private void Update()
     {
+        if(allowInput)
         if (Input.GetMouseButtonDown(1))    // 좌클릭 깊게 파기
         {
             ShallowDig();
@@ -429,5 +433,10 @@ public class Mining_Game : MonoBehaviour
     private void EndGame()
     {
         StartCoroutine(SceneControllerManager.Instance.MiniGameSceneUnLoad());
+    }
+
+    private void UnBlockInput()
+    {
+        allowInput = true;
     }
 }
